@@ -4,42 +4,66 @@
     "href": "course/chapter5_ex1_3.html#big-question",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "Big Question",
-    "text": "Big Question\nHow did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?"
+    "text": "Big Question\nHow did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter5_ex1_3.html#what-you-will-do",
     "href": "course/chapter5_ex1_3.html#what-you-will-do",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "What You Will Do",
-    "text": "What You Will Do\nYou will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.\nThen, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic."
+    "text": "What You Will Do\nYou will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.\nThen, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter5_ex1_3.html#why-this-matters",
     "href": "course/chapter5_ex1_3.html#why-this-matters",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "Why This Matters",
-    "text": "Why This Matters\nSediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation."
+    "text": "Why This Matters\nSediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter5_ex1_3.html#your-tasks",
     "href": "course/chapter5_ex1_3.html#your-tasks",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "Your Tasks",
-    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).\n1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.\n1.3. Compute basin attributes: drainage area, relief, mean temperature.\n1.4. Apply BQART to estimate sediment flux at each outlet.\n1.5. Visualize sediment flux on a global map.\nCompare Two Worlds\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare sediment flux patterns and discuss differences.\nDeep-Time Trends\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of global sediment flux and interpret major trends."
+    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).\n1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.\n1.3. Compute basin attributes: drainage area, relief, mean temperature.\n1.4. Apply BQART to estimate sediment flux at each outlet.\n1.5. Visualize sediment flux on a global map.\nCompare Two Worlds\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare sediment flux patterns and discuss differences.\nDeep-Time Trends\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of global sediment flux and interpret major trends.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter5_ex1_3.html#skills-you-will-gain",
     "href": "course/chapter5_ex1_3.html#skills-you-will-gain",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "Skills You Will Gain",
-    "text": "Skills You Will Gain\n\nAdvanced raster analysis and hydrological modeling in Python.\nBasin delineation and outlet detection using flow direction and accumulation.\nApplying empirical models (BQART) to paleodata.\nVisualizing spatial patterns and temporal trends."
+    "text": "Skills You Will Gain\n\nAdvanced raster analysis and hydrological modeling in Python.\nBasin delineation and outlet detection using flow direction and accumulation.\nApplying empirical models (BQART) to paleodata.\nVisualizing spatial patterns and temporal trends.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter5_ex1_3.html#points-for-discussion",
     "href": "course/chapter5_ex1_3.html#points-for-discussion",
     "title": "Chapter V: Exercise 1 - Part 3",
     "section": "Points for Discussion",
-    "text": "Points for Discussion\nWhich factors (area, relief, temperature) most strongly influence sediment flux?\nHow does paleogeography control sediment routing?\nWhat assumptions did you make about outlet selection and basin delineation?\nHow do tectonic and climate changes explain sediment flux trends?"
+    "text": "Points for Discussion\nWhich factors (area, relief, temperature) most strongly influence sediment flux?\nHow does paleogeography control sediment routing?\nWhat assumptions did you make about outlet selection and basin delineation?\nHow do tectonic and climate changes explain sediment flux trends?",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
   },
   {
     "objectID": "course/chapter3_ex1_1.html",
@@ -68,42 +92,66 @@
     "href": "course/chapter4_ex1_2.html#big-question",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "Big Question",
-    "text": "Big Question\nDid faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?"
+    "text": "Big Question\nDid faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#what-you-will-do",
     "href": "course/chapter4_ex1_2.html#what-you-will-do",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "What You Will Do",
-    "text": "What You Will Do\nYou will test a geodynamic hypothesis using multiple paleogeographic and structural datasets from the Palaeo Data Cube. Starting with one time slice, you will:\n\nMap seafloor age, crustal thickness, and lithospheric thickness.\nCompute global averages and distributions.\nCompare two time slices to see if patterns change.\nFinally, you will extend your analysis to the entire Phanerozoic and visualize trends."
+    "text": "What You Will Do\nYou will test a geodynamic hypothesis using multiple paleogeographic and structural datasets from the Palaeo Data Cube. Starting with one time slice, you will:\n\nMap seafloor age, crustal thickness, and lithospheric thickness.\nCompute global averages and distributions.\nCompare two time slices to see if patterns change.\nFinally, you will extend your analysis to the entire Phanerozoic and visualize trends.",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#why-it-matters",
     "href": "course/chapter4_ex1_2.html#why-it-matters",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "Why It Matters",
-    "text": "Why It Matters\nThe age and thickness of Earth’s oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation."
+    "text": "Why It Matters\nThe age and thickness of Earth’s oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation.",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#your-tasks",
     "href": "course/chapter4_ex1_2.html#your-tasks",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "Your Tasks",
-    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice (e.g., 100 Ma).\n1.2. Compute mean values and visualize maps.\n1.3. Plot histograms of seafloor age distribution.\nCompare Two Worlds:\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare averages and distributions.\n2.3. Discuss whether the data supports faster spreading at one time.\nDeep-Time Trends:\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness.\n3.3. Interpret major trends and link them to tectonic events."
+    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice (e.g., 100 Ma).\n1.2. Compute mean values and visualize maps.\n1.3. Plot histograms of seafloor age distribution.\nCompare Two Worlds:\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare averages and distributions.\n2.3. Discuss whether the data supports faster spreading at one time.\nDeep-Time Trends:\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness.\n3.3. Interpret major trends and link them to tectonic events.",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#skills-you-will-gain",
     "href": "course/chapter4_ex1_2.html#skills-you-will-gain",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "Skills You Will Gain",
-    "text": "Skills You Will Gain\n\nHandling multiple raster datasets in Python.\nComputing global and zonal statistics.\nVisualizing maps, histograms, and time-series plots.\nTesting hypotheses with real geoscience data."
+    "text": "Skills You Will Gain\n\nHandling multiple raster datasets in Python.\nComputing global and zonal statistics.\nVisualizing maps, histograms, and time-series plots.\nTesting hypotheses with real geoscience data.",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#points-for-discussion",
     "href": "course/chapter4_ex1_2.html#points-for-discussion",
     "title": "Chapter III: Exercise 1 - Part 2",
     "section": "Points for Discussion",
-    "text": "Points for Discussion\nDoes the data support the idea that faster spreading rates lead to younger seafloor?\nHow do crustal and lithospheric thickness trends relate to supercontinent cycles?\nWhat assumptions did you make about data interpretation and resolution?\nWhat uncertainties exist in these reconstructions?"
+    "text": "Points for Discussion\nDoes the data support the idea that faster spreading rates lead to younger seafloor?\nHow do crustal and lithospheric thickness trends relate to supercontinent cycles?\nWhat assumptions did you make about data interpretation and resolution?\nWhat uncertainties exist in these reconstructions?",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 2"
+    ]
   },
   {
     "objectID": "index.html",
