@@ -18,3 +18,5 @@ website:
         - course/chapter1_intro.qmd
         - course/chapter2_setup.qmd
         - course/chapter3_ex1_1.qmd
+        - course/chapter4_ex1_2.qmd
+        - course/chapter5_ex1_3.qmd
