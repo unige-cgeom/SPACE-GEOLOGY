@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter II: Setting up your environment – SPACE GEOLOGY</title>
+<title>Chapter III: Exercise 1 - Part 1 – SPACE GEOLOGY</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter2_setup.html">Chapter II: Setting up your environment</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter3_ex1_1.html">Chapter III: Exercise 1 - Part 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -128,13 +128,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link active">
+  <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter II: Setting up your environment</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/chapter3_ex1_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../course/chapter3_ex1_1.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Chapter III: Exercise 1 - Part 1</span></a>
   </div>
 </li>
@@ -149,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter II: Setting up your environment</h1>
+<h1 class="title">Chapter III: Exercise 1 - Part 1</h1>
 </div>
 
 
@@ -166,9 +166,52 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter will help you get started with Python and set your environment up.</p>
+<section id="reconstructing-earths-past-from-a-snapshot-to-deep-time" class="level2">
+<h2 class="anchored" data-anchor-id="reconstructing-earths-past-from-a-snapshot-to-deep-time">Reconstructing Earth’s Past – From a Snapshot to Deep Time</h2>
+<section id="big-question" class="level3">
+<h3 class="anchored" data-anchor-id="big-question">Big Question</h3>
+<p><em>How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?</em></p>
+</section>
+<section id="what-you-will-do" class="level3">
+<h3 class="anchored" data-anchor-id="what-you-will-do">What You Will Do</h3>
+<p>In this module, you will: 1. Start simple: Explore a single paleogeographic map and visualize Earth at 100 Ma. 2. Compare worlds: Compute and interpret differences in land and ocean distribution between two time slices. 3. Go deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.</p>
+</section>
+<section id="why-this-matters" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h3>
+<p>Earth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.</p>
+</section>
+<section id="your-tasks" class="level3">
+<h3 class="anchored" data-anchor-id="your-tasks">Your Tasks</h3>
+<ol type="1">
+<li><p><strong>Find the data:</strong> Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.</p></li>
+<li><p><strong>Load and inspect:</strong> Read raster data in Python, check metadata, and understand its structure.</p></li>
+<li><p><strong>Compute basic stats:</strong></p>
+<p>3.1. Land vs.&nbsp;ocean fraction for a chosen time slice.</p>
+<p>3.2. Differences between two slices.</p>
+<p>3.3. A time series of land fraction across the Phanerozoic.</p></li>
+<li><p><strong>Visualize:</strong></p>
+<p>4.1 Global maps using matplotlib and cartopy.</p>
+<p>4.2. A trend plot showing how land/ocean distribution evolved.</p></li>
+</ol>
+</section>
+<section id="skills-you-will-gain" class="level3">
+<h3 class="anchored" data-anchor-id="skills-you-will-gain">Skills You Will Gain</h3>
+<ol type="1">
+<li>Working with GeoTIFFs in Python (rasterio, numpy).</li>
+<li>Performing basic geospatial analysis (masking, counting, area-aware calculations).</li>
+<li>Creating global maps and time-series plots.</li>
+<li>Automating workflows for multi-step analysis.</li>
+</ol>
+</section>
+<section id="points-for-discussion" class="level3">
+<h3 class="anchored" data-anchor-id="points-for-discussion">Points for Discussion</h3>
+<p><em>What assumptions did you make when defining land vs.&nbsp;ocean?</em></p>
+<p><em>How does using pixel counts vs.&nbsp;area-aware calculations affect your results?</em></p>
+<p><em>What patterns do you see in land fraction across the Phanerozoic? Any surprises?</em></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
