@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 1: Introduction – SPACE GEOLOGY</title>
+<title>Chapter V: Exercise 1 - Part 3 – SPACE GEOLOGY</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed fullcontent quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -94,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../course/chapter1_intro.html" aria-current="page"> 
+    <a class="nav-link" href="../course/chapter1_intro.html"> 
 <span class="menu-text">Course</span></a>
   </li>  
 </ul>
@@ -103,39 +103,10 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter1_intro.html">Chapter 1: Introduction</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter1_intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter 1: Introduction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter 2: Setting up your environment</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
@@ -143,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 1: Introduction</h1>
+<h1 class="title">Chapter V: Exercise 1 - Part 3</h1>
 </div>
 
 
@@ -160,9 +131,54 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>This is an introduction to the course objectives, schedule, lectures and exercises.</p>
+<section id="sediment-flux-modelling" class="level2">
+<h2 class="anchored" data-anchor-id="sediment-flux-modelling">Sediment Flux Modelling</h2>
+</section>
+<section id="big-question" class="level2">
+<h2 class="anchored" data-anchor-id="big-question">Big Question</h2>
+<p><em>How did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?</em></p>
+</section>
+<section id="what-you-will-do" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-will-do">What You Will Do</h2>
+<p>You will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.</p>
+<p>Then, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.</p>
+</section>
+<section id="why-this-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
+<p>Sediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.</p>
+</section>
+<section id="your-tasks" class="level2">
+<h2 class="anchored" data-anchor-id="your-tasks">Your Tasks</h2>
+<ol type="1">
+<li><p><strong>Single Snapshot Analysis:</strong></p>
+<p>1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).</p>
+<p>1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.</p>
+<p>1.3. Compute basin attributes: drainage area, relief, mean temperature.</p>
+<p>1.4. Apply BQART to estimate sediment flux at each outlet.</p>
+<p>1.5. Visualize sediment flux on a global map.</p></li>
+<li><p>Compare Two Worlds</p>
+<p>2.1. Repeat for another time slice (e.g., 250 Ma).</p>
+<p>2.2. Compare sediment flux patterns and discuss differences.</p></li>
+<li><p>Deep-Time Trends</p>
+<p>3.1. Automate your workflow for all Phanerozoic slices.</p>
+<p>3.2. Plot time series of global sediment flux and interpret major trends.</p></li>
+</ol>
+</section>
+<section id="skills-you-will-gain" class="level2">
+<h2 class="anchored" data-anchor-id="skills-you-will-gain">Skills You Will Gain</h2>
+<ol type="1">
+<li>Advanced raster analysis and hydrological modeling in Python.</li>
+<li>Basin delineation and outlet detection using flow direction and accumulation.</li>
+<li>Applying empirical models (BQART) to paleodata.</li>
+<li>Visualizing spatial patterns and temporal trends.</li>
+</ol>
+</section>
+<section id="points-for-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="points-for-discussion">Points for Discussion</h2>
+<p><em>Which factors (area, relief, temperature) most strongly influence sediment flux?</em></p>
+<p><em>How does paleogeography control sediment routing?</em></p>
+<p><em>What assumptions did you make about outlet selection and basin delineation?</em></p>
+<p><em>How do tectonic and climate changes explain sediment flux trends?</em></p>
 
 
 </section>
