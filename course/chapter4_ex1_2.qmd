@@ -1,0 +1,67 @@
+---
+title: "Chapter III: Exercise 1 - Part 2 "
+---
+
+## How Fast Was Earth’s Engine Running?
+
+## Big Question
+
+*Did faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?*
+
+## What You Will Do
+You will test a geodynamic hypothesis using multiple paleogeographic and structural datasets from the Palaeo Data Cube. Starting with one time slice, you will:
+
+1. Map seafloor age, crustal thickness, and lithospheric thickness.
+2. Compute global averages and distributions.
+3. Compare two time slices to see if patterns change.
+4. Finally, you will extend your analysis to the entire Phanerozoic and visualize trends.
+
+## Why It Matters
+
+The age and thickness of Earth’s oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation.
+
+## Your Tasks
+
+1. **Single Snapshot Analysis:** 
+
+    1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice (e.g., 100 Ma).
+
+    1.2. Compute mean values and visualize maps.
+
+    1.3. Plot histograms of seafloor age distribution.
+
+2. **Compare Two Worlds:**
+    
+    2.1. Repeat for another time slice (e.g., 250 Ma).
+    
+    2.2. Compare averages and distributions.
+
+    2.3. Discuss whether the data supports faster spreading at one time.
+
+3. **Deep-Time Trends:**
+
+    3.1. Automate your workflow for all Phanerozoic slices.
+    
+    3.2. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness.
+    
+    3.3. Interpret major trends and link them to tectonic events.
+
+
+## Skills You Will Gain
+
+1. Handling multiple raster datasets in Python.
+2. Computing global and zonal statistics.
+3. Visualizing maps, histograms, and time-series plots.
+4. Testing hypotheses with real geoscience data.
+
+## Points for Discussion
+
+*Does the data support the idea that faster spreading rates lead to younger seafloor?*
+
+*How do crustal and lithospheric thickness trends relate to supercontinent cycles?*
+
+*What assumptions did you make about data interpretation and resolution?*
+
+*What uncertainties exist in these reconstructions?*
+
+

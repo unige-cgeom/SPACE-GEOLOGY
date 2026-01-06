@@ -1,0 +1,67 @@
+---
+title: "Chapter V: Exercise 1 - Part 3"
+---
+
+## Sediment Flux Modelling
+
+## Big Question
+
+*How did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?*
+
+## What You Will Do
+
+You will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will:
+1. Identify major river outlets near ancient coastlines.
+2. Compute basin attributes (area, relief, temperature).
+3. Apply the BQART equation to estimate sediment flux. 
+
+Then, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.
+
+
+## Why This Matters
+
+Sediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.
+
+## Your Tasks
+
+1.	**Single Snapshot Analysis:**
+
+    1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).
+
+    1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.
+
+    1.3. Compute basin attributes: drainage area, relief, mean temperature.
+
+    1.4. Apply BQART to estimate sediment flux at each outlet.
+    
+    1.5. Visualize sediment flux on a global map.
+
+2.	Compare Two Worlds
+
+    2.1. Repeat for another time slice (e.g., 250 Ma).
+    
+    2.2. Compare sediment flux patterns and discuss differences.
+3.	Deep-Time Trends
+    
+    3.1. Automate your workflow for all Phanerozoic slices.
+    
+    3.2. Plot time series of global sediment flux and interpret major trends.
+
+
+## Skills You Will Gain
+
+1. Advanced raster analysis and hydrological modeling in Python.
+2. Basin delineation and outlet detection using flow direction and accumulation.
+3. Applying empirical models (BQART) to paleodata.
+4. Visualizing spatial patterns and temporal trends.
+
+
+## Points for Discussion
+
+*Which factors (area, relief, temperature) most strongly influence sediment flux?*
+
+*How does paleogeography control sediment routing?*
+
+*What assumptions did you make about outlet selection and basin delineation?*
+
+*How do tectonic and climate changes explain sediment flux trends?*

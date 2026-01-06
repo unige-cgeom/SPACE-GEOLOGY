@@ -1,0 +1,58 @@
+---
+title: "Chapter III: Exercise 1 - Part 1 "
+---
+
+## Reconstructing Earth’s Past – From a Snapshot to Deep Time
+
+
+### Big Question
+*How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?*
+
+### What You Will Do
+
+In this module, you will:
+
+1.	Start simple: Explore a single paleogeographic map and visualize Earth at 100 Ma.
+
+2.	Compare worlds: Compute and interpret differences in land and ocean distribution between two time slices.
+
+3.	Go deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.
+
+### Why This Matters
+
+Earth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.
+
+### Your Tasks
+
+1. **Find the data:** Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.
+2. **Load and inspect:** Read raster data in Python, check metadata, and understand its structure.
+3. **Compute basic stats:**
+
+    3.1. Land vs. ocean fraction for a chosen time slice.
+
+    3.2. Differences between two slices.
+
+    3.3. A time series of land fraction across the Phanerozoic.
+
+4. **Visualize:** 
+
+   4.1 Global maps using matplotlib and cartopy.
+
+    4.2. A trend plot showing how land/ocean distribution evolved.
+
+### Skills You Will Gain
+
+1. Working with GeoTIFFs in Python (rasterio, numpy).
+2. Performing basic geospatial analysis (masking, counting, area-aware calculations).
+3. Creating global maps and time-series plots.
+4. Automating workflows for multi-step analysis.
+
+
+### Points for Discussion
+
+*What assumptions did you make when defining land vs. ocean?*
+
+*How does using pixel counts vs. area-aware calculations affect your results?*
+
+*What patterns do you see in land fraction across the Phanerozoic? Any surprises?*
+
