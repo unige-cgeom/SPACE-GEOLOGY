@@ -1,0 +1,35 @@
+---
+title: "SPACE-GEOLOGY"
+subtitle: "Methods for multiscale Earth science modelling"
+date: last-modified
+author: 
+  - name: "Florian Franziskakis"
+    orcid: 0000-0001-6855-0269
+    affiliation:
+      - name: "Institute for Environmental Sciences, University of Geneva"
+        city: "Geneva"
+  - name: "Grégory Giuliani"
+    orcid: 0000-0002-1825-8865
+    affiliation:
+      - name: "Institute for Environmental Sciences, University of Geneva"
+        city: "Geneva"
+  - name: "Sébastien Biasse"
+    orcid: 0000-0002-1919-9473
+    affiliation:
+      - name: "Department of Earth Sciences, University of Geneva"
+        city: "Geneva"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+---
+
+Welcome to the SPACE GEOLOGY course!
+
+## About this Course
+
+This course introduces methods for multiscale Earth science modelling.
+
+## Course Structure
+
+Navigate to the course chapters using the menu above.

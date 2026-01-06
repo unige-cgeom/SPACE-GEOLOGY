@@ -1,0 +1,19 @@
+project:
+  type: website
+
+execute:
+  freeze: auto
+
+website:
+  title: "SPACE GEOLOGY"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Course"
+        href: course/chapter1_intro.qmd
+  sidebar:
+    - title: "Course Chapters"
+      contents:
+        - course/chapter1_intro.qmd
+        - course/chapter2_setup.qmd

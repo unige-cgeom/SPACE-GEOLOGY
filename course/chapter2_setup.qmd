@@ -1,0 +1,7 @@
+---
+title: "Chapter 2: Setting up your environment"
+---
+
+# Setting up your environment
+
+This chapter will help you get started with Python and set your environment up.

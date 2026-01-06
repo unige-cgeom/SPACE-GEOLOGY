@@ -1,0 +1,7 @@
+---
+title: "Chapter 1: Introduction"
+---
+
+# Introduction
+
+This is an introduction to the course objectives, schedule, lectures and exercises.
