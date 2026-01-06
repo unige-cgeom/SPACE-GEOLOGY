@@ -1,0 +1,45 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SPACE-GEOLOGY",
+    "section": "",
+    "text": "Welcome to the SPACE GEOLOGY course!"
+  },
+  {
+    "objectID": "index.html#about-this-course",
+    "href": "index.html#about-this-course",
+    "title": "SPACE-GEOLOGY",
+    "section": "About this Course",
+    "text": "About this Course\nThis course introduces methods for multiscale Earth science modelling."
+  },
+  {
+    "objectID": "index.html#course-structure",
+    "href": "index.html#course-structure",
+    "title": "SPACE-GEOLOGY",
+    "section": "Course Structure",
+    "text": "Course Structure\nNavigate to the course chapters using the menu above."
+  },
+  {
+    "objectID": "course/chapter1_intro.html",
+    "href": "course/chapter1_intro.html",
+    "title": "Chapter 1: Introduction",
+    "section": "",
+    "text": "Introduction\nThis is an introduction to the course objectives, schedule, lectures and exercises.",
+    "crumbs": [
+      "Course",
+      "Chapter 1: Introduction"
+    ]
+  },
+  {
+    "objectID": "course/chapter2_setup.html",
+    "href": "course/chapter2_setup.html",
+    "title": "Chapter 2: Setting up your environment",
+    "section": "",
+    "text": "Setting up your environment\nThis chapter will help you get started with Python and set your environment up.",
+    "crumbs": [
+      "Course",
+      "Chapter 2: Setting up your environment"
+    ]
+  }
+]
