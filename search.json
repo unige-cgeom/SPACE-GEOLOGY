@@ -90,67 +90,67 @@
   {
     "objectID": "course/chapter4_ex1_2.html#big-question",
     "href": "course/chapter4_ex1_2.html#big-question",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "Big Question",
     "text": "Big Question\nDid faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#what-you-will-do",
     "href": "course/chapter4_ex1_2.html#what-you-will-do",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "What You Will Do",
     "text": "What You Will Do\nYou will test a geodynamic hypothesis using multiple paleogeographic and structural datasets from the Palaeo Data Cube. Starting with one time slice, you will:\n\nMap seafloor age, crustal thickness, and lithospheric thickness.\nCompute global averages and distributions.\nCompare two time slices to see if patterns change.\nFinally, you will extend your analysis to the entire Phanerozoic and visualize trends.",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#why-it-matters",
     "href": "course/chapter4_ex1_2.html#why-it-matters",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "Why It Matters",
     "text": "Why It Matters\nThe age and thickness of Earth’s oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation.",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#your-tasks",
     "href": "course/chapter4_ex1_2.html#your-tasks",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "Your Tasks",
     "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice (e.g., 100 Ma).\n1.2. Compute mean values and visualize maps.\n1.3. Plot histograms of seafloor age distribution.\nCompare Two Worlds:\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare averages and distributions.\n2.3. Discuss whether the data supports faster spreading at one time.\nDeep-Time Trends:\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness.\n3.3. Interpret major trends and link them to tectonic events.",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#skills-you-will-gain",
     "href": "course/chapter4_ex1_2.html#skills-you-will-gain",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "Skills You Will Gain",
     "text": "Skills You Will Gain\n\nHandling multiple raster datasets in Python.\nComputing global and zonal statistics.\nVisualizing maps, histograms, and time-series plots.\nTesting hypotheses with real geoscience data.",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
     "objectID": "course/chapter4_ex1_2.html#points-for-discussion",
     "href": "course/chapter4_ex1_2.html#points-for-discussion",
-    "title": "Chapter III: Exercise 1 - Part 2",
+    "title": "Chapter IV: Exercise 1 - Part 2",
     "section": "Points for Discussion",
     "text": "Points for Discussion\nDoes the data support the idea that faster spreading rates lead to younger seafloor?\nHow do crustal and lithospheric thickness trends relate to supercontinent cycles?\nWhat assumptions did you make about data interpretation and resolution?\nWhat uncertainties exist in these reconstructions?",
     "crumbs": [
       "Course",
-      "Chapter III: Exercise 1 - Part 2"
+      "Chapter IV: Exercise 1 - Part 2"
     ]
   },
   {
@@ -177,23 +177,23 @@
   {
     "objectID": "course/chapter1_intro.html",
     "href": "course/chapter1_intro.html",
-    "title": "Chapter 1: Introduction",
+    "title": "Chapter I: GIS in Earth Sciences",
     "section": "",
-    "text": "Introduction\nThis is an introduction to the course objectives, schedule, lectures and exercises.",
+    "text": "This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences",
     "crumbs": [
       "Course",
-      "Chapter 1: Introduction"
+      "Chapter I: GIS in Earth Sciences"
     ]
   },
   {
     "objectID": "course/chapter2_setup.html",
     "href": "course/chapter2_setup.html",
-    "title": "Chapter 2: Setting up your environment",
+    "title": "Chapter II: Setting up your environment",
     "section": "",
-    "text": "Setting up your environment\nThis chapter will help you get started with Python and set your environment up.",
+    "text": "This chapter will help you get started with Python and set your environment up.",
     "crumbs": [
       "Course",
-      "Chapter 2: Setting up your environment"
+      "Chapter II: Setting up your environment"
     ]
   }
 ]
