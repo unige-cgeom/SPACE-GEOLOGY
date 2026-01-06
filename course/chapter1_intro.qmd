@@ -1,7 +1,5 @@
 ---
-title: "Chapter 1: Introduction"
+title: "Chapter I: GIS in Earth Sciences "
 ---
 
-# Introduction
-
-This is an introduction to the course objectives, schedule, lectures and exercises.
+This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences
