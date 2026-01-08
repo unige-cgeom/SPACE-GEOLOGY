@@ -1,91 +1,38 @@
 [
   {
-    "objectID": "course/chapter5_ex1_3.html#big-question",
-    "href": "course/chapter5_ex1_3.html#big-question",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Big Question",
-    "text": "Big Question\nHow did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter5_ex1_3.html#what-you-will-do",
-    "href": "course/chapter5_ex1_3.html#what-you-will-do",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "What You Will Do",
-    "text": "What You Will Do\nYou will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.\nThen, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter5_ex1_3.html#why-this-matters",
-    "href": "course/chapter5_ex1_3.html#why-this-matters",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Why This Matters",
-    "text": "Why This Matters\nSediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter5_ex1_3.html#your-tasks",
-    "href": "course/chapter5_ex1_3.html#your-tasks",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Your Tasks",
-    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).\n1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.\n1.3. Compute basin attributes: drainage area, relief, mean temperature.\n1.4. Apply BQART to estimate sediment flux at each outlet.\n1.5. Visualize sediment flux on a global map.\nCompare Two Worlds\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare sediment flux patterns and discuss differences.\nDeep-Time Trends\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of global sediment flux and interpret major trends.",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter5_ex1_3.html#skills-you-will-gain",
-    "href": "course/chapter5_ex1_3.html#skills-you-will-gain",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Skills You Will Gain",
-    "text": "Skills You Will Gain\n\nAdvanced raster analysis and hydrological modeling in Python.\nBasin delineation and outlet detection using flow direction and accumulation.\nApplying empirical models (BQART) to paleodata.\nVisualizing spatial patterns and temporal trends.",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter5_ex1_3.html#points-for-discussion",
-    "href": "course/chapter5_ex1_3.html#points-for-discussion",
-    "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Points for Discussion",
-    "text": "Points for Discussion\nWhich factors (area, relief, temperature) most strongly influence sediment flux?\nHow does paleogeography control sediment routing?\nWhat assumptions did you make about outlet selection and basin delineation?\nHow do tectonic and climate changes explain sediment flux trends?",
-    "crumbs": [
-      "Course",
-      "Chapter V: Exercise 1 - Part 3"
-    ]
-  },
-  {
-    "objectID": "course/chapter3_ex1_1.html",
-    "href": "course/chapter3_ex1_1.html",
-    "title": "Chapter III: Exercise 1 - Part 1",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "SPACE-GEOLOGY",
     "section": "",
-    "text": "How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?\n\n\n\nIn this module, you will:\n\nStart simple: Explore a single paleogeographic map and visualize Earth at 100 Ma.\nCompare worlds: Compute and interpret differences in land and ocean distribution between two time slices.\nGo deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.\n\n\n\n\nEarth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.\n\n\n\n\nFind the data: Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.\nLoad and inspect: Read raster data in Python, check metadata, and understand its structure.\nCompute basic stats:\n3.1. Land vs. ocean fraction for a chosen time slice.\n3.2. Differences between two slices.\n3.3. A time series of land fraction across the Phanerozoic.\nVisualize:\n4.1 Global maps using matplotlib and cartopy.\n4.2. A trend plot showing how land/ocean distribution evolved.\n\n\n\n\n\nWorking with GeoTIFFs in Python (rasterio, numpy).\nPerforming basic geospatial analysis (masking, counting, area-aware calculations).\nCreating global maps and time-series plots.\nAutomating workflows for multi-step analysis.\n\n\n\n\nWhat assumptions did you make when defining land vs. ocean?\nHow does using pixel counts vs. area-aware calculations affect your results?\nWhat patterns do you see in land fraction across the Phanerozoic? Any surprises?",
-    "crumbs": [
-      "Course",
-      "Chapter III: Exercise 1 - Part 1"
-    ]
+    "text": "This is a practical course that explores what cutting-edge computing and Earth observation tools can bring to the modern scientist’s toolbox. Through concrete applications at the global scale (for example, reconstructing geology, climate, and landscapes over hundreds of millions of years) and at the local scale (for example, mapping risks and vulnerability in an alpine context), the course illustrates how the use of interactive coding notebooks, a dedicated software library, and open-access datasets can be integrated to study the Earth."
   },
   {
-    "objectID": "course/chapter3_ex1_1.html#reconstructing-earths-past-from-a-snapshot-to-deep-time",
-    "href": "course/chapter3_ex1_1.html#reconstructing-earths-past-from-a-snapshot-to-deep-time",
-    "title": "Chapter III: Exercise 1 - Part 1",
+    "objectID": "index.html#welcome-to-the-space-geology-course",
+    "href": "index.html#welcome-to-the-space-geology-course",
+    "title": "SPACE-GEOLOGY",
     "section": "",
-    "text": "How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?\n\n\n\nIn this module, you will:\n\nStart simple: Explore a single paleogeographic map and visualize Earth at 100 Ma.\nCompare worlds: Compute and interpret differences in land and ocean distribution between two time slices.\nGo deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.\n\n\n\n\nEarth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.\n\n\n\n\nFind the data: Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.\nLoad and inspect: Read raster data in Python, check metadata, and understand its structure.\nCompute basic stats:\n3.1. Land vs. ocean fraction for a chosen time slice.\n3.2. Differences between two slices.\n3.3. A time series of land fraction across the Phanerozoic.\nVisualize:\n4.1 Global maps using matplotlib and cartopy.\n4.2. A trend plot showing how land/ocean distribution evolved.\n\n\n\n\n\nWorking with GeoTIFFs in Python (rasterio, numpy).\nPerforming basic geospatial analysis (masking, counting, area-aware calculations).\nCreating global maps and time-series plots.\nAutomating workflows for multi-step analysis.\n\n\n\n\nWhat assumptions did you make when defining land vs. ocean?\nHow does using pixel counts vs. area-aware calculations affect your results?\nWhat patterns do you see in land fraction across the Phanerozoic? Any surprises?",
-    "crumbs": [
-      "Course",
-      "Chapter III: Exercise 1 - Part 1"
-    ]
+    "text": "This is a practical course that explores what cutting-edge computing and Earth observation tools can bring to the modern scientist’s toolbox. Through concrete applications at the global scale (for example, reconstructing geology, climate, and landscapes over hundreds of millions of years) and at the local scale (for example, mapping risks and vulnerability in an alpine context), the course illustrates how the use of interactive coding notebooks, a dedicated software library, and open-access datasets can be integrated to study the Earth."
+  },
+  {
+    "objectID": "index.html#learning-objective",
+    "href": "index.html#learning-objective",
+    "title": "SPACE-GEOLOGY",
+    "section": "Learning Objective",
+    "text": "Learning Objective\nThis course enables students to learn new ways to explore, process, analyze, and visualize geological and environmental geospatial data."
+  },
+  {
+    "objectID": "index.html#course-structure",
+    "href": "index.html#course-structure",
+    "title": "SPACE-GEOLOGY",
+    "section": "Course Structure",
+    "text": "Course Structure\n\n\n\n\n\n\n\n\n\n\n\nDay\nMonday March 23\nTuesday March 24\nWednesday March 25\nThursday March 26\nFriday March 27\n\n\n\n\nAM\nCourse\nExercise 1\nExercise 1\nExercise 2\nExercise 2\n\n\nPM\n\n\n\n\nReport\n\n\n\n\nExercise 1: Evolution of the Earth in deep-time\nThis exercise introduces students to geological modelling in GIS through a progressive, research-style exploration of Earth’s deep-time evolution using the Palaeo Data Cube. Starting with paleogeographic reconstructions, students analyze how land–ocean distribution changed from 100 Ma to the entire Phanerozoic by loading GeoTIFF rasters, computing global statistics, and visualizing maps and time series in Python. The course then expands to test geodynamic hypotheses by integrating seafloor age, crustal thickness, and lithospheric thickness datasets to examine how spreading rates and crustal architecture evolved through time. Finally, students model sediment delivery to ancient coastlines by combining paleogeography, hydrology, and climate data to identify river outlets, compute basin properties, and estimate sediment flux using the BQART framework. Across all exercises, students develop core GIS and coding skills, learn to automate multi-dataset workflows, and interpret how tectonics, climate, and surface processes interact to shape Earth systems over hundreds of millions of years.\n\n\nExercise 2: Landslide risk assessement in an Alpine context\nThe second exercise focuses on a regional-scale application in the Swiss Alps, where students assess landslide susceptibility using GIS-based spatial analysis. By integrating high-resolution digital elevation models with geological maps and other relevant spatial layers, students evaluate how topography and geological conditions control slope instability. The exercise emphasizes practical risk assessment methods, including terrain analysis and multi-layer overlay, to identify areas most prone to landslides in an Alpine environment."
+  },
+  {
+    "objectID": "index.html#more-information",
+    "href": "index.html#more-information",
+    "title": "SPACE-GEOLOGY",
+    "section": "More information",
+    "text": "More information\nSPACE-GEOLOGY is a 3 ECTS course given by the University of Geneva, as part of the Complementary Certificate of Geomatics, the Master in Environmental Sciences, and the Master in Earth Sciences.\nThis course is being updated and made fully open thanks to support from UNIGE’s Open Research Data call for projects, as part of the Palaeo Data Cube project.\nFor questions, please write to florian.franziskakis@unige.ch"
   },
   {
     "objectID": "course/chapter4_ex1_2.html#big-question",
@@ -154,25 +101,15 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "SPACE-GEOLOGY",
+    "objectID": "course/chapter2_setup.html",
+    "href": "course/chapter2_setup.html",
+    "title": "Chapter II: Setting up your environment",
     "section": "",
-    "text": "Welcome to the SPACE GEOLOGY course!"
-  },
-  {
-    "objectID": "index.html#about-this-course",
-    "href": "index.html#about-this-course",
-    "title": "SPACE-GEOLOGY",
-    "section": "About this Course",
-    "text": "About this Course\nThis course introduces methods for multiscale Earth science modelling."
-  },
-  {
-    "objectID": "index.html#course-structure",
-    "href": "index.html#course-structure",
-    "title": "SPACE-GEOLOGY",
-    "section": "Course Structure",
-    "text": "Course Structure\nNavigate to the course chapters using the menu above."
+    "text": "This chapter will help you get started with Python and set your environment up.",
+    "crumbs": [
+      "Course",
+      "Chapter II: Setting up your environment"
+    ]
   },
   {
     "objectID": "course/chapter1_intro.html",
@@ -186,14 +123,91 @@
     ]
   },
   {
-    "objectID": "course/chapter2_setup.html",
-    "href": "course/chapter2_setup.html",
-    "title": "Chapter II: Setting up your environment",
+    "objectID": "course/chapter3_ex1_1.html",
+    "href": "course/chapter3_ex1_1.html",
+    "title": "Chapter III: Exercise 1 - Part 1",
     "section": "",
-    "text": "This chapter will help you get started with Python and set your environment up.",
+    "text": "How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?\n\n\n\nIn this module, you will:\n\nStart simple: Explore a single paleogeographic map and visualize Earth at 100 Ma.\nCompare worlds: Compute and interpret differences in land and ocean distribution between two time slices.\nGo deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.\n\n\n\n\nEarth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.\n\n\n\n\nFind the data: Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.\nLoad and inspect: Read raster data in Python, check metadata, and understand its structure.\nCompute basic stats:\n3.1. Land vs. ocean fraction for a chosen time slice.\n3.2. Differences between two slices.\n3.3. A time series of land fraction across the Phanerozoic.\nVisualize:\n4.1 Global maps using matplotlib and cartopy.\n4.2. A trend plot showing how land/ocean distribution evolved.\n\n\n\n\n\nWorking with GeoTIFFs in Python (rasterio, numpy).\nPerforming basic geospatial analysis (masking, counting, area-aware calculations).\nCreating global maps and time-series plots.\nAutomating workflows for multi-step analysis.\n\n\n\n\nWhat assumptions did you make when defining land vs. ocean?\nHow does using pixel counts vs. area-aware calculations affect your results?\nWhat patterns do you see in land fraction across the Phanerozoic? Any surprises?",
     "crumbs": [
       "Course",
-      "Chapter II: Setting up your environment"
+      "Chapter III: Exercise 1 - Part 1"
+    ]
+  },
+  {
+    "objectID": "course/chapter3_ex1_1.html#reconstructing-earths-past-from-a-snapshot-to-deep-time",
+    "href": "course/chapter3_ex1_1.html#reconstructing-earths-past-from-a-snapshot-to-deep-time",
+    "title": "Chapter III: Exercise 1 - Part 1",
+    "section": "",
+    "text": "How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?\n\n\n\nIn this module, you will:\n\nStart simple: Explore a single paleogeographic map and visualize Earth at 100 Ma.\nCompare worlds: Compute and interpret differences in land and ocean distribution between two time slices.\nGo deep time: Extend your analysis to the entire Phanerozoic (last 540 million years) and identify major trends.\n\n\n\n\nEarth’s geography controls climate, ocean circulation, and biodiversity. By reconstructing these changes, you’ll learn how scientists use data and coding to answer fundamental questions about our planet’s history.\n\n\n\n\nFind the data: Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.\nLoad and inspect: Read raster data in Python, check metadata, and understand its structure.\nCompute basic stats:\n3.1. Land vs. ocean fraction for a chosen time slice.\n3.2. Differences between two slices.\n3.3. A time series of land fraction across the Phanerozoic.\nVisualize:\n4.1 Global maps using matplotlib and cartopy.\n4.2. A trend plot showing how land/ocean distribution evolved.\n\n\n\n\n\nWorking with GeoTIFFs in Python (rasterio, numpy).\nPerforming basic geospatial analysis (masking, counting, area-aware calculations).\nCreating global maps and time-series plots.\nAutomating workflows for multi-step analysis.\n\n\n\n\nWhat assumptions did you make when defining land vs. ocean?\nHow does using pixel counts vs. area-aware calculations affect your results?\nWhat patterns do you see in land fraction across the Phanerozoic? Any surprises?",
+    "crumbs": [
+      "Course",
+      "Chapter III: Exercise 1 - Part 1"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#big-question",
+    "href": "course/chapter5_ex1_3.html#big-question",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "Big Question",
+    "text": "Big Question\nHow did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#what-you-will-do",
+    "href": "course/chapter5_ex1_3.html#what-you-will-do",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "What You Will Do",
+    "text": "What You Will Do\nYou will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.\nThen, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#why-this-matters",
+    "href": "course/chapter5_ex1_3.html#why-this-matters",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nSediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#your-tasks",
+    "href": "course/chapter5_ex1_3.html#your-tasks",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "Your Tasks",
+    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).\n1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.\n1.3. Compute basin attributes: drainage area, relief, mean temperature.\n1.4. Apply BQART to estimate sediment flux at each outlet.\n1.5. Visualize sediment flux on a global map.\nCompare Two Worlds\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare sediment flux patterns and discuss differences.\nDeep-Time Trends\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of global sediment flux and interpret major trends.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#skills-you-will-gain",
+    "href": "course/chapter5_ex1_3.html#skills-you-will-gain",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "Skills You Will Gain",
+    "text": "Skills You Will Gain\n\nAdvanced raster analysis and hydrological modeling in Python.\nBasin delineation and outlet detection using flow direction and accumulation.\nApplying empirical models (BQART) to paleodata.\nVisualizing spatial patterns and temporal trends.",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
+    "objectID": "course/chapter5_ex1_3.html#points-for-discussion",
+    "href": "course/chapter5_ex1_3.html#points-for-discussion",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "Points for Discussion",
+    "text": "Points for Discussion\nWhich factors (area, relief, temperature) most strongly influence sediment flux?\nHow does paleogeography control sediment routing?\nWhat assumptions did you make about outlet selection and basin delineation?\nHow do tectonic and climate changes explain sediment flux trends?",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
     ]
   }
 ]
