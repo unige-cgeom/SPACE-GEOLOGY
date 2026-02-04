@@ -8,15 +8,15 @@ author:
     affiliation:
       - name: "Institute for Environmental Sciences, University of Geneva"
         city: "Geneva"
-  - name: "Grégory Giuliani"
-    orcid: 0000-0002-1825-8865
-    affiliation:
-      - name: "Institute for Environmental Sciences, University of Geneva"
-        city: "Geneva"
   - name: "Sébastien Biasse"
     orcid: 0000-0002-1919-9473
     affiliation:
       - name: "Department of Earth Sciences, University of Geneva"
+        city: "Geneva"
+  - name: "Grégory Giuliani"
+    orcid: 0000-0002-1825-8865
+    affiliation:
+      - name: "Institute for Environmental Sciences, University of Geneva"
         city: "Geneva"
 format:
   html:
@@ -24,12 +24,88 @@ format:
     toc-depth: 4
 ---
 
-Welcome to the SPACE GEOLOGY course!
+## Welcome to the SPACE GEOLOGY course!
 
-## About this Course
+This is a practical course that explores what cutting-edge computing and Earth observation tools can bring to the modern scientist’s toolbox. Through concrete applications at the global scale (for example, reconstructing geology, climate, and landscapes over hundreds of millions of years) and at the local scale (for example, mapping risks and vulnerability in an alpine context), the course illustrates how the use of interactive coding notebooks, a dedicated software library, and open-access datasets can be integrated to study the Earth.
 
-This course introduces methods for multiscale Earth science modelling.
+## Learning Objective
+
+This course enables students to learn new ways to explore, process, analyze, and visualize geological and environmental geospatial data.
+
 
 ## Course Structure
 
-Navigate to the course chapters using the menu above.
+::: {.callout-note icon=false}
+### Monday March 23
+**09:00 - 09:15** Intro to SPACE-GEOLOGY
+
+**09:15 - 10:00** Lecture: GIS & Remote Sensing in Earth Sciences (G. Giuliani)
+
+**10:00 - 12:30** Python Environment Setup
+
+**12:30 - 13:30** Lunch
+
+**13:30 - 17:00** Exercise 1.1: Reconstructing Earth’s Past – From a Snapshot to Deep Time
+:::
+
+::: {.callout-note icon=false}
+### Tuesday March 24
+**09:00 - 09:30** Feedback from Day 1
+
+**09:30 - 10:30** Lecture: Reconstructing the Earth in Deep-time using Plate Tectonic Models (C. Vérard)
+
+**10:30 - 12:30** Exercise 1.2: How Fast Was Earth’s Engine Running?
+
+**12:30 - 13:30** Lunch
+
+**13:30 - 17:00** Exercise 1.2 (continued)
+:::
+
+::: {.callout-note icon=false}
+### Wednesday March 25
+**9:00 - 10:00** Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)
+
+**10:00 - 12:30** Exercise 1.3: Sediment Flux Modelling
+
+**12:30 - 13:30** Lunch
+
+**13:30 - 17:00** Exercise 1.3 (continued)
+:::
+
+::: {.callout-note icon=false}
+### Thursday March 26
+**9:00 - 10:00** Lecture (TBA)
+
+**10:00 - 12:30** Exercise 2: Landslide Susceptibility Assessment
+
+**12:30 - 13:30** Lunch
+
+**13:30 - 17:00** Exercise 2 (continued)
+:::
+
+::: {.callout-note icon=false}
+### Friday March 27
+**9:00 - 12:30** Exercise 2 (continued)
+
+**12:30 - 13:30** Lunch
+
+**13:30 - 17:00** Wrap-up & Report Writing
+:::
+
+
+### Exercise 1: Evolution of the Earth in deep-time
+
+This exercise introduces students to geological modelling in GIS through a progressive, research-style exploration of Earth’s deep-time evolution using the Palaeo Data Cube. Starting with paleogeographic reconstructions, students analyze how land–ocean distribution changed from 100 Ma to the entire Phanerozoic by loading GeoTIFF rasters, computing global statistics, and visualizing maps and time series in Python. The course then expands to test geodynamic hypotheses by integrating seafloor age, crustal thickness, and lithospheric thickness datasets to examine how spreading rates and crustal architecture evolved through time. Finally, students model sediment delivery to ancient coastlines by combining paleogeography, hydrology, and climate data to identify river outlets, compute basin properties, and estimate sediment flux using the BQART framework. Across all exercises, students develop core GIS and coding skills, learn to automate multi-dataset workflows, and interpret how tectonics, climate, and surface processes interact to shape Earth systems over hundreds of millions of years.
+
+### Exercise 2: Landslide risk assessement in an Alpine context
+
+The second exercise focuses on a regional-scale application in the Swiss Alps, where students assess landslide susceptibility using GIS-based spatial analysis. By integrating high-resolution digital elevation models with geological maps and other relevant spatial layers, students evaluate how topography and geological conditions control slope instability. The exercise emphasizes practical risk assessment methods, including terrain analysis and multi-layer overlay, to identify areas most prone to landslides in an Alpine environment.
+
+## More information
+
+SPACE-GEOLOGY is a 3 ECTS course given by the University of Geneva, as part of the [Complementary Certificate of Geomatics](https://www.unige.ch/cgeom/), the [Master in Environmental Sciences](https://www.unige.ch/muse/en), and the [Master in Earth Sciences](https://www.unige.ch/sciences/en/enseignements/formations/masters/earth). 
+
+This course is being updated and made fully open thanks to support from UNIGE’s [Open Research Data call for projects](https://www.unige.ch/researchdata/en/presentation/news/call-ord-2025-funded-projects), as part of the [Palaeo Data Cube](https://github.com/florianfranz/palaeo-data-cube) project. 
+
+For questions, please write to [florian.franziskakis@unige.ch](mailto:florian.franziskakis@unige.ch)
+
