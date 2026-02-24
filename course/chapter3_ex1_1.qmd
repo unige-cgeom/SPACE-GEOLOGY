@@ -2,7 +2,6 @@
 title: "Chapter III: Exercise 1 - Part 1 "
 format:
   html: default
-  pdf: default
 ---
 # Reconstructing Earth’s Past – From a Snapshot to Deep Time
 ::: {.callout-note collapse="true"}
