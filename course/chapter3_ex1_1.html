@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -178,8 +213,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="reconstructing-earths-past-from-a-snapshot-to-deep-time" class="level2">
-<h2 class="anchored" data-anchor-id="reconstructing-earths-past-from-a-snapshot-to-deep-time">Reconstructing Earth’s Past – From a Snapshot to Deep Time</h2>
+<section id="reconstructing-earths-past-from-a-snapshot-to-deep-time" class="level1">
+<h1>Reconstructing Earth’s Past – From a Snapshot to Deep Time</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>This exercise in brief
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <section id="big-question" class="level3">
 <h3 class="anchored" data-anchor-id="big-question">Big Question</h3>
 <p><em>How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?</em></p>
@@ -200,7 +247,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="your-tasks" class="level3">
 <h3 class="anchored" data-anchor-id="your-tasks">Your Tasks</h3>
 <ol type="1">
-<li><p><strong>Find the data:</strong> Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.</p></li>
+<li><p><strong>Find the data:</strong> Search on the web for maps of the Earth’s past.</p></li>
 <li><p><strong>Load and inspect:</strong> Read raster data in Python, check metadata, and understand its structure.</p></li>
 <li><p><strong>Compute basic stats:</strong></p>
 <p>3.1. Land vs.&nbsp;ocean fraction for a chosen time slice.</p>
@@ -225,9 +272,197 @@ ul.task-list li input[type="checkbox"] {
 <p><em>What assumptions did you make when defining land vs.&nbsp;ocean?</em></p>
 <p><em>How does using pixel counts vs.&nbsp;area-aware calculations affect your results?</em></p>
 <p><em>What patterns do you see in land fraction across the Phanerozoic? Any surprises?</em></p>
-
-
 </section>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Step-by-step instructions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Find the data</li>
+</ol>
+<p>You want to learn what the Earth looked like 100 millions of years ago. Where do you look for such kind of data ?</p>
+<p>Using a search engine, results will typically yield something like:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/search_maps.png" class="img-fluid figure-img"></p>
+<figcaption>Example of Google Searcn results with the Earth’s geography 100 millions of years ago</figcaption>
+</figure>
+</div>
+<p>→ Have a look at the various results, how many are actual maps (e.g.&nbsp;with formats that are compatible with geographic information systems (GIS) software ?</p>
+<p>Do some maps look similar ? Do they share a common course ? Or, on the contrary, do they look drastically different ?</p>
+<p>In our exercise, we are particularly interested in having maps of the entire Earth, and we we will see further, not only one (unique) map but a series of maps showing us the evolution of the Earth for hundreds of millions of years.</p>
+<p>Among the most well known sources of data, you have a dataset created by C. Scotese &amp; N. Wright</p>
+<p>“Scotese, C. R., &amp; Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic [Data set]. Zenodo. https://doi.org/10.5281/zenodo.5460860”</p>
+<p>This dataset contains 88 maps showing the palaeo Digital Elevation Model (palaeo-DEM) over the Phanerozoic (from 541 Ma to present-day).</p>
+<p>For 100Ma, the map would look like (with map resolution at 1x1°):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/100Ma_Scotese_Wright.png" class="img-fluid figure-img"></p>
+<figcaption>100Ma map from Scotese &amp; Wright (2018) at 1x1° resolution</figcaption>
+</figure>
+</div>
+<p>→ Try and display the same map in your Desktop GIS. <br></p>
+<p>It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the original record. A color ramp is provided in the supplementary material section (ADD LINK HERE).</p>
+<p>→ Explore the map. Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?</p>
+<p>We found our first example very useful to get a sense of how the Earth looked like 100 millions of years ago. However, we noticed some limitations. We also want to benefit from the experience we have at the University of Geneva in this domain.</p>
+<p>We are going to use the PANALESIS plate tectonic model and its derived palaeogeographic maps, that were developed at UNIGE.</p>
+<p>The data is available at:</p>
+<p>Franziskakis, F., Vérard, C., Castelltort, S., &amp; Giuliani, G. (2025). Global Quantified Palaeogeographic Maps and Associated Sea-level Variations for the Phanerozoic using the PANALESIS Model [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15396265</p>
+<p>→ Load the 100Ma map and compare it to the Scotese &amp; Wright nmap. The PANALESIS map should look something like:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/100Ma_PANALESIS.png" class="img-fluid figure-img"></p>
+<figcaption>100Ma map from PANALESIS (2026) at 0.1x0.1° resolution</figcaption>
+</figure>
+</div>
+<ol start="2" type="1">
+<li>Load and inspect</li>
+</ol>
+<p>In the two examples above, we manually downloaded maps from an open data archive, and opened a single one with a dekstop GIS software. This may be useful to have a first look at some data, yet, if we want to get a deeper understanding of what our data can reveal, we need a simpler (more direct) way to access and most importantly, to analyze our data.</p>
+<p>Fortunately for us, there are some easy ways to serve geospatial data directly to users via the web, to avoid downloading data on your local machine each time you need it. To do this, we will have a look at the Open Geospatial Consortium (OGC) web services, that include the Web Map Servives (WMS), or the Web Coverage Services (WCS). These two types of services are used on raster data. For vector data, the dedicated service is the Web Feature Services (WFS).</p>
+<p>We will use the OGC web services to get data that is stored in a server dedicated to serve geospatial data (GeoServer). The common way to get data is through a request using an URL that contains all elements required by the web services. In our case, we will need to specify some information on the following elements:</p>
+<ul>
+<li>The base URL where the server is hosted</li>
+<li>The name of the data store inside the server that contains the data</li>
+<li>The name of the layer we want to access</li>
+<li>The coordinate reference system (CRS) of the layer</li>
+<li>The desired bounding box (spatial extent) of the layer</li>
+<li>The resolution of the map</li>
+<li>The time step that we want to access (optionnal)</li>
+<li>The output format we want (e.g.&nbsp;GeoTIFF).</li>
+</ul>
+<p>We are going to retrieve the data from the PANALESIS server, which is hosted at the following URL: https://geoserver.panalesis.org/geoserver/web/?2</p>
+<p>If you open this link in your browser, and click on “Layer Preview”, you will see all available layers. We will try and explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.</p>
+<p>Typically, in our example, a correct URL for a web coverage service (WCS), which will return a full map will look like:</p>
+<div id="f4375027" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>service_version <span class="op">=</span> <span class="st">"1.0.0"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>request_type <span class="op">=</span> <span class="st">"GetCoverage"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"palaeogeography_4326"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> <span class="st">"EPSG:4326"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-180,-90,180,90"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>resx <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>resy <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2100-01-01T00:00:00.000Z"</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> <span class="op">=</span> <span class="st">"GEOTIFF"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (<span class="vs">rf"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="vs">/</span><span class="sc">{</span>service_type<span class="sc">.</span>lower()<span class="sc">}</span><span class="op">?</span><span class="vs">service=</span><span class="sc">{</span>service_type<span class="sc">}</span><span class="vs">&amp;version=</span><span class="sc">{</span>service_version<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"request=</span><span class="sc">{</span>request_type<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="vs">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"format=</span><span class="sc">{</span><span class="bu">format</span><span class="sc">}</span><span class="vs">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wcs_url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>https://geoserver.panalesis.org/geoserver/panalesis_atlas_epsg_4326/wcs?service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;coverage=panalesis_atlas_epsg_4326:palaeogeography_4326&amp;crs=EPSG:4326&amp;bbox=-180,-90,180,90&amp;resx=0.1&amp;resy=0.1&amp;time=2100-01-01T00:00:00.000Z&amp;format=GEOTIFF</code></pre>
+</div>
+</div>
+<p>Test what happens when you copy and paste this link in your browser.</p>
+<p>Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and simply visualize it. The complete code now looks like:</p>
+<div id="ef369128" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>service_version <span class="op">=</span> <span class="st">"1.0.0"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>request_type <span class="op">=</span> <span class="st">"GetCoverage"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"palaeogeography_4326"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>coverage <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> <span class="st">"EPSG:4326"</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-180,-90,180,90"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>resx <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>resy <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2100-01-01T00:00:00.000Z"</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> <span class="op">=</span> <span class="st">"GEOTIFF"</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (<span class="vs">rf"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="vs">/</span><span class="sc">{</span>service_type<span class="sc">.</span>lower()<span class="sc">}</span><span class="op">?</span><span class="vs">service=</span><span class="sc">{</span>service_type<span class="sc">}</span><span class="vs">&amp;version=</span><span class="sc">{</span>service_version<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"request=</span><span class="sc">{</span>request_type<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="vs">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"format=</span><span class="sc">{</span><span class="bu">format</span><span class="sc">}</span><span class="vs">"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wcs_url)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        plt.imshow(dataset.read(<span class="dv">1</span>), cmap<span class="op">=</span><span class="st">'terrain'</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        plt.colorbar()</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>https://geoserver.panalesis.org/geoserver/panalesis_atlas_epsg_4326/wcs?service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;coverage=panalesis_atlas_epsg_4326:palaeogeography_4326&amp;crs=EPSG:4326&amp;bbox=-180,-90,180,90&amp;resx=0.1&amp;resy=0.1&amp;time=2100-01-01T00:00:00.000Z&amp;format=GEOTIFF</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter3_ex1_1_files/figure-html/cell-3-output-2.png" width="578" height="389" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Habba Babba !</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Links to useful libraries and tools
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<section id="geospatial-tools" class="level3 callout-body-container callout-body">
+<h3 class="anchored" data-anchor-id="geospatial-tools">Geospatial tools</h3>
+<p>Web Map Services (WMS vs WCS) ### Python libraries requests xml.etree import ElementTree as ET tempfile rasterio numpy</p>
+</section>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
