@@ -17,6 +17,24 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          # Use a stable version supported by most scientific wheels
+          python-version: '3.11'
+          cache: 'pip'
+
+      # If you keep a requirements.txt in the repo (recommended)
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            python3 -m pip install -r requirements.txt
+          else
+            # Fallback if no requirements.txt is present
+            python3 -m pip install jupyter nbformat ipykernel numpy matplotlib pandas rasterio
+          fi
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:

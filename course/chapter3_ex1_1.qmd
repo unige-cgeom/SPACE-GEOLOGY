@@ -1,9 +1,12 @@
 ---
 title: "Chapter III: Exercise 1 - Part 1 "
+format:
+  html: default
+  pdf: default
 ---
-
-## Reconstructing Earth’s Past – From a Snapshot to Deep Time
-
+# Reconstructing Earth’s Past – From a Snapshot to Deep Time
+::: {.callout-note collapse="true"}
+# This exercise in brief
 
 ### Big Question
 *How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?*
@@ -24,7 +27,7 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
 ### Your Tasks
 
-1. **Find the data:** Locate paleogeographic GeoTIFF files in the Palaeo Data Cube repository.
+1. **Find the data:** Search on the web for maps of the Earth's past.
 2. **Load and inspect:** Read raster data in Python, check metadata, and understand its structure.
 3. **Compute basic stats:**
 
@@ -34,7 +37,7 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
     3.3. A time series of land fraction across the Phanerozoic.
 
-4. **Visualize:** 
+4. **Visualize:**
 
    4.1 Global maps using matplotlib and cartopy.
 
@@ -56,3 +59,181 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
 *What patterns do you see in land fraction across the Phanerozoic? Any surprises?*
 
+:::
+
+::: {.callout-note collapse="true" appearance="minimal"}
+# Step-by-step instructions
+
+1. Find the data
+
+You want to learn what the Earth looked like 100 millions of years ago. Where do you look for such kind of data ?
+
+Using a search engine, results will typically yield something like:
+
+![Example of Google Searcn results with the Earth's geography 100 millions of years ago](images/search_maps.png)
+
+&rarr; Have a look at the various results, how many are actual maps (e.g. with formats that are compatible with geographic
+information systems (GIS) software ?
+
+Do some maps look similar ? Do they share a common course ? Or, on the contrary, do they look drastically different ?
+
+In our exercise, we are particularly interested in having maps of the entire Earth, and we we will see further, not only
+one (unique) map but a series of maps showing us the evolution of the Earth for hundreds of millions of years.
+
+Among the most well known sources of data, you have a dataset created by C. Scotese & N. Wright
+
+"Scotese, C. R., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic [Data set]. Zenodo. https://doi.org/10.5281/zenodo.5460860"
+
+This dataset contains 88 maps showing the palaeo Digital Elevation Model (palaeo-DEM) over the Phanerozoic (from 541 Ma to present-day).
+
+For 100Ma, the map would look like (with map resolution at 1x1°):
+
+![100Ma map from Scotese & Wright (2018) at 1x1° resolution](images/100Ma_Scotese_Wright.png)
+
+
+&rarr; Try and display the same map in your Desktop GIS. <br>
+
+It is easier to get the maps at 1x1° resolution from the EarthByte
+webpage listed in the original record. A color ramp is provided in the supplementary material section (ADD LINK HERE).
+
+&rarr; Explore the map.
+Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?
+
+We found our first example very useful to get a sense of how the Earth looked like 100 millions of years ago. However,
+we noticed some limitations. We also want to benefit from the experience we have at the University of Geneva in this domain.
+
+We are going to use the PANALESIS plate tectonic model and its derived palaeogeographic maps, that were developed at UNIGE.
+
+The data is available at:
+
+Franziskakis, F., Vérard, C., Castelltort, S., & Giuliani, G. (2025). Global Quantified Palaeogeographic Maps and Associated Sea-level Variations for the Phanerozoic using the PANALESIS Model [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15396265
+
+&rarr; Load the 100Ma map and compare it to the Scotese & Wright nmap. The PANALESIS map should look something like:
+
+![100Ma map from PANALESIS (2026) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
+
+
+2. Load and inspect
+
+In the two examples above, we manually downloaded maps from an open data archive, and opened a single one with a dekstop
+GIS software. This may be useful to have a first look at some data, yet, if we want to get a deeper understanding of what
+our data can reveal, we need a simpler (more direct) way to access and most importantly, to analyze our data.
+
+Fortunately for us, there are some easy ways to serve geospatial data directly to users via the web, to avoid downloading
+data on your local machine each time you need it. To do this, we will have a look at the Open Geospatial Consortium (OGC)
+web services, that include the Web Map Servives (WMS), or the Web Coverage Services (WCS). These two types of services
+are used on raster data. For vector data, the dedicated service is the Web Feature Services (WFS).
+
+We will use the OGC web services to get data that is stored in a server dedicated to serve geospatial data (GeoServer).
+The common way to get data is through a request using an URL that contains all elements required by the web services. In
+our case, we will need to specify some information on the following elements:
+
++ The base URL where the server is hosted
++ The name of the data store inside the server that contains the data
++ The name of the layer we want to access
++ The coordinate reference system (CRS) of the layer
++ The desired bounding box (spatial extent) of the layer
++ The resolution of the map
++ The time step that we want to access (optionnal)
++ The output format we want (e.g. GeoTIFF).
+
+We are going to retrieve the data from the PANALESIS server, which is hosted at the following URL:
+https://geoserver.panalesis.org/geoserver/web/?2
+
+If you open this link in your browser, and click on "Layer Preview", you will see all available layers. We will try and
+explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.
+
+Typically, in our example, a correct URL for a web coverage service (WCS), which will return a full map will look like:
+
+```{python}
+base_url = "https://geoserver.panalesis.org/geoserver/"
+workspace = "panalesis_atlas_epsg_4326"
+service_type = "WCS"
+service_version = "1.0.0"
+request_type = "GetCoverage"
+layer_name = "palaeogeography_4326"
+crs = "EPSG:4326"
+bbox = "-180,-90,180,90"
+resx = "0.1"
+resy = "0.1"
+time = "2100-01-01T00:00:00.000Z"
+format = "GEOTIFF"
+
+wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+                       rf"request={request_type}&"
+                       fr"coverage={workspace}:{layer_name}&"
+                       fr"crs={crs}&"
+                       rf"bbox={bbox}&"
+                       rf"resx={resx}&"
+                       rf"resy={resy}&"
+                       rf"time={time}&"
+                       rf"format={format}")
+print(wcs_url)
+
+```
+
+Test what happens when you copy and paste this link in your browser.
+
+Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and simply visualize it.
+The complete code now looks like:
+
+```{python}
+import requests
+import matplotlib.pyplot as plt
+from rasterio.io import MemoryFile
+
+base_url = "https://geoserver.panalesis.org/geoserver/"
+workspace = "panalesis_atlas_epsg_4326"
+service_type = "WCS"
+service_version = "1.0.0"
+request_type = "GetCoverage"
+layer_name = "palaeogeography_4326"
+coverage = f"{workspace}:{layer_name}"
+crs = "EPSG:4326"
+bbox = "-180,-90,180,90"
+resx = "0.1"
+resy = "0.1"
+time = "2100-01-01T00:00:00.000Z"
+format = "GEOTIFF"
+
+wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+                       rf"request={request_type}&"
+                       fr"coverage={workspace}:{layer_name}&"
+                       fr"crs={crs}&"
+                       rf"bbox={bbox}&"
+                       rf"resx={resx}&"
+                       rf"resy={resy}&"
+                       rf"time={time}&"
+                       rf"format={format}")
+print(wcs_url)
+
+data = requests.get(wcs_url).content
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        plt.imshow(dataset.read(1), cmap='terrain')
+        plt.colorbar()
+        plt.show()
+```
+
+
+3.
+:::
+
+::: {.callout-note collapse="true" appearance="minimal"}
+# Solutions
+
+Habba Babba !
+:::
+
+::: {.callout-tip collapse="true"}
+# Links to useful libraries and tools
+
+### Geospatial tools
+Web Map Services (WMS vs WCS)
+### Python libraries
+requests
+xml.etree import ElementTree as ET
+tempfile
+rasterio
+numpy
+:::
