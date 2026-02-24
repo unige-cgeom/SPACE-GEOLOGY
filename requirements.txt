@@ -1,1 +1,7 @@
+jupyter
+pyyaml
+ipykernel
+numpy
+matplotlib
+pandas
 rasterio
