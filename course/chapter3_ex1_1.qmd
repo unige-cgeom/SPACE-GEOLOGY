@@ -63,7 +63,7 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 ::: {.callout-note collapse="true" appearance="minimal"}
 # Step-by-step instructions
 
-1. Find the data
+**1. Find the data**
 
 You want to learn what the Earth looked like 100 millions of years ago. Where do you look for such kind of data ?
 
@@ -112,7 +112,7 @@ Franziskakis, F., Vérard, C., Castelltort, S., & Giuliani, G. (2025). Global Qu
 ![100Ma map from PANALESIS (2026) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
 
 
-2. Load and inspect
+**2. Load and inspect**
 
 In the two examples above, we manually downloaded maps from an open data archive, and opened a single one with a dekstop
 GIS software. This may be useful to have a first look at some data, yet, if we want to get a deeper understanding of what
@@ -171,7 +171,7 @@ print(wcs_url)
 
 ```
 
-Test what happens when you copy and paste this link in your browser.
+&rarr; Test what happens when you copy and paste this link in your browser.
 
 Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and
 visualize it.
@@ -190,25 +190,262 @@ with MemoryFile(data) as memfile:
         plt.show()
 ```
 
+You can now recognize the same kind of map as shown above, with two major differences. What are they ?
 
-3.
-:::
+We are going to resolve this by adding a correct color ramp and setting the axes to reflect longitude and latitude
+instead of pixel index.
 
-::: {.callout-note collapse="true" appearance="minimal"}
-# Solutions
+```{python}
+import matplotlib.colors as mcolors
+import numpy as np
+
+colormap_entries = [
+    (9000, "#ffffff", "9000"),
+    (7000, "#cecece", "7000"),
+    (5000, "#a1a1a1", "5000"),
+    (3000, "#821e1e", "3000"),
+    (2000, "#a34400", "2000"),
+    (1000, "#e8d67d", "1000"),
+    (200, "#107b30", "200"),
+    (0, "#006147", "0"),
+    (-100, "#b0e2ff", "-100"),
+    (-500, "#87cefa", "-500"),
+    (-2000, "#188ccd", "-2000"),
+    (-4000, "#136ca0", "-4000"),
+    (-7000, "#003266", "-7000"),
+    (-9000, "#001e64", "-9000"),
+    (-11000, "#000050", "-11000"),
+]
+
+colormap_entries_sorted = sorted(colormap_entries, key=lambda x: x[0])
+elevations = [e[0] for e in colormap_entries_sorted]
+colors = [e[1] for e in colormap_entries_sorted]
+
+vmin, vmax = elevations[0], elevations[-1]
+norm_values = [(e - vmin) / (vmax - vmin) for e in elevations]
+cmap = mcolors.LinearSegmentedColormap.from_list("palaeogeography", list(zip(norm_values, colors)))
+norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+
+data = requests.get(wcs_url).content
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        raster = dataset.read(1).astype(float)
+
+        nodata = dataset.nodata
+        if nodata is not None:
+            raster[raster == nodata] = np.nan
+
+        bounds = dataset.bounds
+        extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
+
+        fig, ax = plt.subplots()
+        img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+        cbar = plt.colorbar(img, ax=ax)
+        cbar.set_label("Elevation (m)")
+        ax.set_xlabel("Longitude (°)")
+        ax.set_ylabel("Latitude (°)")
+        plt.show()
+```
+
+We now have the same result as the one above, and all elements making it a comprehensive map are present (realistic colors,
+legend, axes labels). However, we can go further and read some basic metadata from the WCS request itself.
 
 
+```{python}
+data = requests.get(wcs_url).content
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        print(dataset.meta)
+        print(dataset.bounds)
+        print(dataset.crs)
+        print(dataset.transform)
+```
+
+These few lines will give you useful information to understand the nature of the data you are dealing with. the result
+will inform you about the full list of attributes, including the data format, type, how no-data value pixels
+ are represented, the raster dimensions, the coordinate reference system, and the "transform" which is the affine
+ transformation matrix to match the pixel position (x and y) in the original file with their corresponding longitude and
+ latitude.
+
+&rarr; Before going to the next part, write a quick summary about the data we just discuss:
+
++ Where does it come from ?
++ What does it represent ?
++ From a GIS perspective, what are the key properties of the dataset ?
++ Finally, from a geological point of view, what do you observe in the map, compared to our present-day Earth ?
+
+**3. Compute basic statistics**
+
+As you might have observed, we can immediately spot differences between the world at 100Ma compared to the world we know
+today. We however need a way to quantify these differences objectively. Fortunately for us, this ca be performed quite
+easily with a few functions that we will explore now.
+
+Before diving into the analysis of our map, we however need to recognize a limit with its dimensions. As noted before,
+the current CRS are the "traditional" EPSG:4326 (WGS 1984), with units expressed in decimal degrees. This is not useful
+if we want to compute areas. For this reason, we will switch to the same map that are represented using an equal area
+projection. In our case, we will use an equal area projection.
+
+The new WCS url is defined as follows:
+
+```{python}
+base_url = "https://geoserver.panalesis.org/geoserver/"
+workspace = "panalesis_atlas"
+service_type = "WCS"
+service_version = "1.0.0"
+request_type = "GetCoverage"
+layer_name = "palaeogeography"
+crs = "EPSG:54034"
+bbox = "-20037508.34,-6363885.33,20037508.34,6363885.33"
+resx = "10000"
+resy = "10000"
+time = "2100-01-01T00:00:00.000Z"
+format = "GEOTIFF"
+
+wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+                       rf"request={request_type}&"
+                       fr"coverage={workspace}:{layer_name}&"
+                       fr"crs={crs}&"
+                       rf"bbox={bbox}&"
+                       rf"resx={resx}&"
+                       rf"resy={resy}&"
+                       rf"time={time}&"
+                       rf"format={format}")
+data = requests.get(wcs_url).content
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        raster = dataset.read(1).astype(float)
+
+        nodata = dataset.nodata
+        if nodata is not None:
+            raster[raster == nodata] = np.nan
+
+        bounds = dataset.bounds
+        extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
+
+        fig, ax = plt.subplots()
+        img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+        cbar = plt.colorbar(img, ax=ax)
+        cbar.set_label("Elevation (m)")
+        ax.set_xlabel("Longitude (m)")
+        ax.set_ylabel("Latitude (m)")
+        plt.show()
+```
+
+Notice how the bounds value changed: everything is not expressed in meters, which are much better units than decimal
+degrees when calculating areas. In our example, we will have a quick look at the land and oceanic area, which are simply
+defined as the count of pixels respectively above, and below or equal to 0m of elevation, multiplied by the area of
+pixels.
+
+This can be implemented using a very simple function:
+
+```{python}
+
+
+def get_land_ocean_area(data, transform, extent, plot=False):
+    pixel_area = abs(transform[0] * transform[4])
+
+    # Masks
+    land_mask = data >= 0
+    ocean_mask = data < 0
+
+    if plot:
+        fig, ax = plt.subplots()
+        img = ax.imshow(
+            land_mask,
+            cmap="Greys",
+            interpolation="none",
+            extent=extent,
+            origin="upper"
+        )
+
+        # no colorbar for a mask
+        ax.set_xlabel("Longitude (m)")
+        ax.set_ylabel("Latitude (m)")
+        plt.tight_layout()
+        plt.show()
+
+    land_area = np.sum(land_mask) * pixel_area
+    ocean_area = np.sum(ocean_mask) * pixel_area
+
+    return land_area, ocean_area
+
+
+```
+
+This function will take the input raster data and simply look for pixels above sea-level to define them as land, and do
+the same with pixels at or below sea-level and define in the ocean mask. Then, it will calculate the respective areas by
+multiplying them by the pixel area.
+
+You can call this function on the raster we previously loaded:
+
+```{python}
+
+land_area, ocean_area = get_land_ocean_area(raster,dataset.transform,extent, plot=True)
+print("Land area =", land_area, "m²")
+print("Ocean area =", ocean_area, "m²")
+
+```
+&rarr; What do these number mean ? Are they realistic ?
+
+We want to compare this value to the present-day world. Now, we know how to do it, we simply need to change the data
+source and set it to the present-day reconstruction. You might have observed how the time dimension was defined in the
+previous requests.
+For instance, the 100Ma map was obtained using `time = "2100-01-01T00:00:00.000Z"`. This is a trick
+to follow the ISO 8601 standard. We simply add the geological age (in millions of years) to the year 2000. For the 100Ma
+map, the code is therefore 2**100**-01-01T00:00:00.000Z.
+
+To obtain the map at present-day, we can create a new WCS request with an updated `time` value and calculate the same
+statistics as we did for 100Ma:
+
+```{python}
+
+time = "2000-01-01T00:00:00.000Z"
+
+wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+                       rf"request={request_type}&"
+                       fr"coverage={workspace}:{layer_name}&"
+                       fr"crs={crs}&"
+                       rf"bbox={bbox}&"
+                       rf"resx={resx}&"
+                       rf"resy={resy}&"
+                       rf"time={time}&"
+                       rf"format={format}")
+
+data = requests.get(wcs_url).content
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        raster = dataset.read(1).astype(float)
+
+land_area, ocean_area = get_land_ocean_area(raster,dataset.transform,extent, plot=True)
+print("Land area =", land_area, "m²")
+print("Ocean area =", ocean_area, "m²")
+
+```
+
+&rarr; Are these number realistic ? Search for the actual land and ocean areas and compare them with your results.
 :::
 
 ::: {.callout-tip collapse="true"}
 # Links to useful libraries and tools
 
+
 ### Geospatial tools
-Web Map Services (WMS vs WCS)
+
+- [`Web Map Service (WMS)`](https://www.ogc.org/standards/wms/) — An OGC standard protocol for requesting georeferenced map images (e.g., PNG, JPEG) from remote servers.
+
+- [`Web Coverage Service (WCS)`](https://www.ogc.org/standards/wcs/) — An OGC standard for accessing raw raster datasets (“coverages”) such as elevation models, climate grids, and satellite imagery, preserving full numeric values.
+
+
 ### Python libraries
-requests
-xml.etree import ElementTree as ET
-tempfile
-rasterio
-numpy
+
+### Python libraries
+
+- [`matplotlib`](https://matplotlib.org/) — A comprehensive plotting library for creating static, animated, and interactive visualizations in Python.
+
+- [`numpy`](https://numpy.org/) — The fundamental package for efficient numerical computing in Python, providing fast arrays and mathematical operations.
+
+- [`rasterio`](https://rasterio.readthedocs.io/) — A Python library for reading, writing, and manipulating geospatial raster data using GDAL under the hood.
+
+- [`requests`](https://requests.readthedocs.io/) — A simple and elegant HTTP library for sending web requests and interacting with APIs.
+
 :::
