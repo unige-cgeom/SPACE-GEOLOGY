@@ -173,38 +173,14 @@ print(wcs_url)
 
 Test what happens when you copy and paste this link in your browser.
 
-Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and simply visualize it.
-The complete code now looks like:
+Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and
+visualize it.
+
 
 ```{python}
 import requests
 import matplotlib.pyplot as plt
 from rasterio.io import MemoryFile
-
-base_url = "https://geoserver.panalesis.org/geoserver/"
-workspace = "panalesis_atlas_epsg_4326"
-service_type = "WCS"
-service_version = "1.0.0"
-request_type = "GetCoverage"
-layer_name = "palaeogeography_4326"
-coverage = f"{workspace}:{layer_name}"
-crs = "EPSG:4326"
-bbox = "-180,-90,180,90"
-resx = "0.1"
-resy = "0.1"
-time = "2100-01-01T00:00:00.000Z"
-format = "GEOTIFF"
-
-wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-                       rf"request={request_type}&"
-                       fr"coverage={workspace}:{layer_name}&"
-                       fr"crs={crs}&"
-                       rf"bbox={bbox}&"
-                       rf"resx={resx}&"
-                       rf"resy={resy}&"
-                       rf"time={time}&"
-                       rf"format={format}")
-print(wcs_url)
 
 data = requests.get(wcs_url).content
 with MemoryFile(data) as memfile:
@@ -221,7 +197,7 @@ with MemoryFile(data) as memfile:
 ::: {.callout-note collapse="true" appearance="minimal"}
 # Solutions
 
-Habba Babba !
+
 :::
 
 ::: {.callout-tip collapse="true"}
