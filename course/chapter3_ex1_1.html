@@ -345,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We are going to retrieve the data from the PANALESIS server, which is hosted at the following URL: https://geoserver.panalesis.org/geoserver/web/?2</p>
 <p>If you open this link in your browser, and click on “Layer Preview”, you will see all available layers. We will try and explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.</p>
 <p>Typically, in our example, a correct URL for a web coverage service (WCS), which will return a full map will look like:</p>
-<div id="f4375027" class="cell" data-execution_count="1">
+<div id="a898d851" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -374,50 +374,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Test what happens when you copy and paste this link in your browser.</p>
-<p>Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and simply visualize it. The complete code now looks like:</p>
-<div id="ef369128" class="cell" data-execution_count="2">
+<p>Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and visualize it.</p>
+<div id="2ea60c38" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>service_version <span class="op">=</span> <span class="st">"1.0.0"</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>request_type <span class="op">=</span> <span class="st">"GetCoverage"</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"palaeogeography_4326"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>coverage <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> <span class="st">"EPSG:4326"</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-180,-90,180,90"</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>resx <span class="op">=</span> <span class="st">"0.1"</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>resy <span class="op">=</span> <span class="st">"0.1"</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2100-01-01T00:00:00.000Z"</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">format</span> <span class="op">=</span> <span class="st">"GEOTIFF"</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (<span class="vs">rf"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="vs">/</span><span class="sc">{</span>service_type<span class="sc">.</span>lower()<span class="sc">}</span><span class="op">?</span><span class="vs">service=</span><span class="sc">{</span>service_type<span class="sc">}</span><span class="vs">&amp;version=</span><span class="sc">{</span>service_version<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"request=</span><span class="sc">{</span>request_type<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="vs">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">fr"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="vs">&amp;"</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                       <span class="vs">rf"format=</span><span class="sc">{</span><span class="bu">format</span><span class="sc">}</span><span class="vs">"</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(wcs_url)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        plt.imshow(dataset.read(<span class="dv">1</span>), cmap<span class="op">=</span><span class="st">'terrain'</span>)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        plt.colorbar()</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>https://geoserver.panalesis.org/geoserver/panalesis_atlas_epsg_4326/wcs?service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;coverage=panalesis_atlas_epsg_4326:palaeogeography_4326&amp;crs=EPSG:4326&amp;bbox=-180,-90,180,90&amp;resx=0.1&amp;resy=0.1&amp;time=2100-01-01T00:00:00.000Z&amp;format=GEOTIFF</code></pre>
-</div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        plt.imshow(dataset.read(<span class="dv">1</span>), cmap<span class="op">=</span><span class="st">'terrain'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        plt.colorbar()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter3_ex1_1_files/figure-html/cell-3-output-2.png" width="578" height="389" class="figure-img"></p>
+<p><img src="chapter3_ex1_1_files/figure-html/cell-3-output-1.png" width="578" height="389" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -428,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout callout-style-simple callout-note no-icon callout-empty-content callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -440,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Habba Babba !</p>
+
 </div>
 </div>
 </div>
