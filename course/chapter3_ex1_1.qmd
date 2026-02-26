@@ -423,6 +423,115 @@ print("Ocean area =", ocean_area, "m²")
 ```
 
 &rarr; Are these number realistic ? Search for the actual land and ocean areas and compare them with your results.
+
+Finally, we are going to extend this analysis to all our available maps. For this, we will simply create a loop that
+iterates through all time steps and extract the values for land and ocean areas. First, we can define a function that
+lists all available reconstructions:
+
+
+```{python}
+from xml.etree import ElementTree as ET
+
+def get_available_times(base_url, workspace, service_type, service_version, layer_name):
+    describe_url = (
+        f"{base_url}{workspace}/{service_type.lower()}"
+        f"?service={service_type}&version={service_version}"
+        f"&request=DescribeCoverage&coverage={workspace}:{layer_name}"
+    )
+
+    response = requests.get(describe_url)
+    root = ET.fromstring(response.content)
+
+    times = sorted(set(el.text for el in root.iter() if el.tag.endswith('timePosition') and el.text))
+    return sorted(times)
+
+```
+
+The response from the request we send to the server comes back as XML, a nested syntax with tags that is very useful for machines
+to read text, but not so much for us. In our case, we sent a `DescribeCoverage` for a given layer, which yields back
+information about spatial and temporal coverage of the layer. We are only interested in the `time` property so this is
+why we filter out only values inserted inside the `timePosition` tag.
+
+If we call the function:
+
+```{python}
+
+times = get_available_times(base_url, workspace, service_type, service_version, layer_name)
+print(times)
+
+```
+You can see that we have the times displayed here in the same format as we have used before (tweaked time values, not
+the geological age in millions of years). Now that we have a list with all available ages, it is possible to iterate
+through this list and analyze the map associated with every time step.
+
+In the code snippet below, we create a `for` loop that will use each value in the times list, extract the geological
+age value, create a WCS request and get the data, calculate its land and ocean area, and store them in a dictionary.
+
+```{python}
+results = {}
+for time in times:
+    geological_age = int(time[:4]) - 2000
+    wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+               rf"request={request_type}&"
+               fr"coverage={workspace}:{layer_name}&"
+               fr"crs={crs}&"
+               rf"bbox={bbox}&"
+               rf"resx={resx}&"
+               rf"resy={resy}&"
+               rf"time={time}&"
+               rf"format={format}")
+
+    data = requests.get(wcs_url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster[raster == nodata] = np.nan
+
+            bounds = dataset.bounds
+            extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
+    land_area, ocean_area = get_land_ocean_area(raster, dataset.transform, False)
+    results[geological_age] = {'land_area': float(land_area), 'ocean_area': float(ocean_area)}
+    del raster, data
+
+print(results)
+
+```
+
+Finally, we can plot the evolution of these two variables through time. In the example below, we create two separate
+plots, one for land, another for oceans with a reversed x-axis value (0Ma = present-day is on the right-side).
+
+
+```{python}
+ages = list(results.keys())
+land_areas = [results[age]['land_area'] for age in ages]
+ocean_areas = [results[age]['ocean_area'] for age in ages]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 3.5))
+
+ax1.plot(ages, land_areas, color='darkgreen', marker='o', markersize=4)
+ax1.set_xlabel('Age (Ma)')
+ax1.set_ylabel('Land area (m²)')
+ax1.invert_xaxis()
+ax1.set_box_aspect(1)
+
+ax2.plot(ages, ocean_areas, color='darkblue', marker='o', markersize=4)
+ax2.set_xlabel('Age (Ma)')
+ax2.set_ylabel('Ocean area (m²)')
+ax2.invert_xaxis()
+ax2.set_box_aspect(1)
+
+plt.tight_layout()
+plt.show()
+
+```
+&rarr; What do you observe ?
+
+&rarr; You have seen what we can do with simple masks representing land and ocean. Do you have any ideas about other
+statistics we could easily plot ? Try it !
+
 :::
 
 ::: {.callout-tip collapse="true"}
