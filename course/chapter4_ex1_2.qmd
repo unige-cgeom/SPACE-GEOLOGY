@@ -1,8 +1,16 @@
 ---
 title: "Chapter IV: Exercise 1 - Part 2 "
+format:
+  html: default
+jupyter: python3
+
+
 ---
 
-## How Fast Was Earth’s Engine Running?
+# How Fast Was Earth’s Engine Running?
+
+::: {.callout-note collapse="true"}
+# This exercise in brief
 
 ## Big Question
 
@@ -63,5 +71,210 @@ The age and thickness of Earth’s oceanic crust and lithosphere reflect plate t
 *What assumptions did you make about data interpretation and resolution?*
 
 *What uncertainties exist in these reconstructions?*
+:::
 
+# Step-by-step instructions
+
+In the first part of this exercise, we focused on palaeogeography, and learned basic tools to:
+
++ Construct a Web Coverage Servive (WCS) request through a simple URL using the `requests` library
++ Access the data using the `rasterio` library avoiding going through a manual download
++ Plot the map using the `matplotlib` library
++ Understand the metadata associated with the data we accessed
++ Extract simple statistics from a single map (land & ocean areas)
++ Generalize this analysis on all available time steps
+
+In this second part, we will follow a similar path, but we will look other maps from the same source. The idea is to
+have a look at other aspects of the Earth system that informs us about processes taking place in its inner layers.
+
+We will particularly have a look at three layers that are available through the same WCS requests which are (i) seafloor
+ages, (ii) crustal thickness, and (iii) lithospheric thickness.
+
+As we did before, we will use the `panalesis_atlas` data sore on GeoServer, which serves data in world cylindrical equal
+area (WCEA), using the ESRI:54034 projection. This is done to ensure proper area calculations, as opposed to data in more
+common CRS such as EPSG:4326, which use degrees units.
+
+**1. Single Snapshot Analysis**
+We will first load the three layers for one single age, similar to what we did in the previous part (100 Ma). You have
+noticed that we used the WCS url request format quite a few times. Instead of repeating the entire code every time, we
+can define a quick function that we can call with the correct parameters.
+
+```{python}
+def construct_wcs_url(layer_name,
+                      time,
+                      base_url= "https://geoserver.panalesis.org/geoserver/",
+                      workspace = "panalesis_atlas",
+                      service_type="WCS",
+                      service_version="1.0.0",
+                      request_type = "GetCoverage",
+                      crs = "EPSG:54034",
+                      bbox="-20037508.34,-6363885.33,20037508.34,6363885.33",
+                      resx = "10000",
+                      resy = "10000",
+                      format = "GEOTIFF"):
+
+    url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
+               rf"request={request_type}&"
+               fr"coverage={workspace}:{layer_name}&"
+               fr"crs={crs}&"
+               rf"bbox={bbox}&"
+               rf"resx={resx}&"
+               rf"resy={resy}&"
+               rf"time={time}&"
+               rf"format={format}")
+
+    return url
+```
+
+The idea is to simplify the next steps where we will handle multiple layers at the same time, for a given age.
+
+&rarr; Notice the function parameters order and syntax, what do you observe ?
+
+We will use this function on our layers of interest, and see if we can plot them easily. For this, we can also create a
+function to load and plot the maps with a proper color ramp, using the URL, the defined color ramp and a title.
+
+```{python}
+import requests
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap, BoundaryNorm
+from rasterio.io import MemoryFile
+
+
+def plot_map(wcs_url,colormap,title):
+    data = requests.get(wcs_url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster = np.ma.masked_equal(raster, nodata)
+            else:
+                raster = np.ma.masked_invalid(raster)
+            bounds = [entry[0] for entry in colormap]
+            colors = [entry[1] for entry in colormap[:-1]]
+            cmap = ListedColormap(colors)
+            norm = BoundaryNorm(bounds, ncolors=len(colors))
+            cmap.set_bad(color='white')
+            bounds = dataset.bounds
+            extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
+
+            fig, ax = plt.subplots()
+            img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+            cbar = plt.colorbar(img, ax=ax)
+            cbar.set_label(title)
+            ax.set_xlabel("Longitude (m)")
+            ax.set_ylabel("Latitude (m)")
+            plt.show()
+            return raster
+```
+
+Once these two functions are defined (url constructor + plotter), it becomes very easy to call them. Just define a color
+ramp of your choosing and call it. Let's focus on seafloor ages:
+
+```{python}
+# Seafloor ages
+seafloor_ages_url = construct_wcs_url(layer_name="seafloor_ages", time="2100-01-01T00:00:00.000Z")
+print(seafloor_ages_url)
+sf_colormap_entries = [(0, "#30123b", "0"),(30, "#4040a2", "30"),(60, "#4680f6", "60"),(90, "#25c0e7", "90"),
+                       (120, "#1ad2d2", "120"),(150, "#96fe44", "150"),(180, "#e9d539", "180"),(210, "#fe9029", "210"),
+                       (240, "#e2430a", "240"),(270, "#c52603", "270")]
+raster = plot_map(seafloor_ages_url,sf_colormap_entries, "Seafloor Age (Myr)")
+
+```
+
+Now that we have retrieved the data related to seafloor ages, we are going to take a look at how the ages are distributed.
+In other words, we are going to investigate if, for our 100 Ma reconstruction, the oceanic crust is rather young, old,
+intermediate or if the distribution of ages is more complex.
+
+A simple method to do this is to create an histogram that will show the pixel counts for a given number of fixed
+intervals (bins). Fortunately for us, the `rasterio` library has an in-built function that directly creates an histogram
+from a raster. we can simply call it like this:
+
+```{python}
+import rasterio
+from rasterio.plot import show_hist
+rasterio.plot.show_hist(raster, bins=30, masked=True, title="Seafloor Age Histogram", label="100 Ma")
+```
+
+&rarr; What do you observe on the histogram ? How are the ages distributed ?
+
+&rarr;Given your knowledge about the present-day world, can you guess what the distribution will be if we do a querry
+at 0Ma ? Try it !
+
+Another very quick insights we can get is to calculate the mean value for a given age, by simply calling:
+
+
+```{python}
+mean_age = raster.mean()
+print(f"Mean seafloor age is {mean_age}")
+```
+
+We are now going to check this for the entire Phanerozoic, as we did for the land and ocean areas. Again, we will simply
+create a loop that will calculate the mean value of every available raster. Let us use the same function as before, with
+an update for default parameters that are (for our demo) not going to change
+
+```{python}
+from xml.etree import ElementTree as ET
+
+def get_available_times(layer_name,base_url="https://geoserver.panalesis.org/geoserver/", workspace= "panalesis_atlas", service_type = "WCS", service_version="1.0.0"):
+    describe_url = (
+        f"{base_url}{workspace}/{service_type.lower()}"
+        f"?service={service_type}&version={service_version}"
+        f"&request=DescribeCoverage&coverage={workspace}:{layer_name}"
+    )
+
+    response = requests.get(describe_url)
+    root = ET.fromstring(response.content)
+
+    times = sorted(set(el.text for el in root.iter() if el.tag.endswith('timePosition') and el.text))
+    return sorted(times)
+
+```
+Which we can now use to retrieve all available time steps, and retrieve each map, calculate its mean age value, and
+finally plot a timeseries chart of the mean age evolution:
+
+```{python}
+
+layer_name = "seafloor_ages"
+times = get_available_times(layer_name=layer_name)
+
+
+results = {}
+for time in times:
+    geological_age = int(time[:4]) - 2000
+    wcs_url = construct_wcs_url(layer_name=layer_name, time=time)
+    data = requests.get(wcs_url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster = np.ma.masked_equal(raster, nodata)
+            else:
+                raster = np.ma.masked_invalid(raster)
+            mean_age = raster.mean()
+            results[geological_age] = {'sf_mean_age': float(mean_age)}
+            del data, raster
+
+ages = list(results.keys())
+seafloor_ages = [results[age]['sf_mean_age'] for age in ages]
+
+plt.figure(figsize=(4, 3.5))
+
+plt.plot(ages, seafloor_ages, color='red', marker='o', markersize=4)
+plt.xlabel('Age (Ma)')
+plt.ylabel('Mean Seafloor Age (Myr)')
+plt.gca().invert_xaxis()
+plt.gca().set_box_aspect(1)
+
+plt.tight_layout()
+plt.show()
+```
+&rarr; What do you observe ?
+
+::: {.callout-tip collapse="true" jupyter="false"}
+# Links to useful libraries and tools
+
+:::
 
