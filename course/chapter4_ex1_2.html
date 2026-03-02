@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -178,9 +213,20 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="how-fast-was-earths-engine-running" class="level2">
-<h2 class="anchored" data-anchor-id="how-fast-was-earths-engine-running">How Fast Was Earth’s Engine Running?</h2>
-</section>
+<section id="how-fast-was-earths-engine-running" class="level1">
+<h1>How Fast Was Earth’s Engine Running?</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>This exercise in brief
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <section id="big-question" class="level2">
 <h2 class="anchored" data-anchor-id="big-question">Big Question</h2>
 <p><em>Did faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?</em></p>
@@ -231,6 +277,212 @@ ul.task-list li input[type="checkbox"] {
 <p><em>How do crustal and lithospheric thickness trends relate to supercontinent cycles?</em></p>
 <p><em>What assumptions did you make about data interpretation and resolution?</em></p>
 <p><em>What uncertainties exist in these reconstructions?</em></p>
+</section>
+</div>
+</div>
+</div>
+</section>
+<section id="step-by-step-instructions" class="level1">
+<h1>Step-by-step instructions</h1>
+<p>In the first part of this exercise, we focused on palaeogeography, and learned basic tools to:</p>
+<ul>
+<li>Construct a Web Coverage Servive (WCS) request through a simple URL using the <code>requests</code> library</li>
+<li>Access the data using the <code>rasterio</code> library avoiding going through a manual download</li>
+<li>Plot the map using the <code>matplotlib</code> library</li>
+<li>Understand the metadata associated with the data we accessed</li>
+<li>Extract simple statistics from a single map (land &amp; ocean areas)</li>
+<li>Generalize this analysis on all available time steps</li>
+</ul>
+<p>In this second part, we will follow a similar path, but we will look other maps from the same source. The idea is to have a look at other aspects of the Earth system that informs us about processes taking place in its inner layers.</p>
+<p>We will particularly have a look at three layers that are available through the same WCS requests which are (i) seafloor ages, (ii) crustal thickness, and (iii) lithospheric thickness.</p>
+<p>As we did before, we will use the <code>panalesis_atlas</code> data sore on GeoServer, which serves data in world cylindrical equal area (WCEA), using the ESRI:54034 projection. This is done to ensure proper area calculations, as opposed to data in more common CRS such as EPSG:4326, which use degrees units.</p>
+<p><strong>1. Single Snapshot Analysis</strong> We will first load the three layers for one single age, similar to what we did in the previous part (100 Ma). You have noticed that we used the WCS url request format quite a few times. Instead of repeating the entire code every time, we can define a quick function that we can call with the correct parameters.</p>
+<div id="d8bd8ffe" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> construct_wcs_url(layer_name,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      time,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      base_url<span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                      workspace <span class="op">=</span> <span class="st">"panalesis_atlas"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                      service_type<span class="op">=</span><span class="st">"WCS"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                      service_version<span class="op">=</span><span class="st">"1.0.0"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                      request_type <span class="op">=</span> <span class="st">"GetCoverage"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                      crs <span class="op">=</span> <span class="st">"EPSG:54034"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                      bbox<span class="op">=</span><span class="st">"-20037508.34,-6363885.33,20037508.34,6363885.33"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                      resx <span class="op">=</span> <span class="st">"10000"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                      resy <span class="op">=</span> <span class="st">"10000"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                      <span class="bu">format</span> <span class="op">=</span> <span class="st">"GEOTIFF"</span>):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> (<span class="vs">rf"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="vs">/</span><span class="sc">{</span>service_type<span class="sc">.</span>lower()<span class="sc">}</span><span class="op">?</span><span class="vs">service=</span><span class="sc">{</span>service_type<span class="sc">}</span><span class="vs">&amp;version=</span><span class="sc">{</span>service_version<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"request=</span><span class="sc">{</span>request_type<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>               <span class="vs">fr"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="vs">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>               <span class="vs">fr"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="vs">&amp;"</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>               <span class="vs">rf"format=</span><span class="sc">{</span><span class="bu">format</span><span class="sc">}</span><span class="vs">"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> url</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The idea is to simplify the next steps where we will handle multiple layers at the same time, for a given age.</p>
+<p>→ Notice the function parameters order and syntax, what do you observe ?</p>
+<p>We will use this function on our layers of interest, and see if we can plot them easily. For this, we can also create a function to load and plot the maps with a proper color ramp, using the URL, the defined color ramp and a title.</p>
+<div id="6e555d6f" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap, BoundaryNorm</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_map(wcs_url,colormap,title):</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> requests.get(wcs_url).content</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            raster <span class="op">=</span> dataset.read(<span class="dv">1</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            nodata <span class="op">=</span> dataset.nodata</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> nodata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                raster <span class="op">=</span> np.ma.masked_equal(raster, nodata)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                raster <span class="op">=</span> np.ma.masked_invalid(raster)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            bounds <span class="op">=</span> [entry[<span class="dv">0</span>] <span class="cf">for</span> entry <span class="kw">in</span> colormap]</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            colors <span class="op">=</span> [entry[<span class="dv">1</span>] <span class="cf">for</span> entry <span class="kw">in</span> colormap[:<span class="op">-</span><span class="dv">1</span>]]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            cmap <span class="op">=</span> ListedColormap(colors)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            norm <span class="op">=</span> BoundaryNorm(bounds, ncolors<span class="op">=</span><span class="bu">len</span>(colors))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            cmap.set_bad(color<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            bounds <span class="op">=</span> dataset.bounds</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            extent <span class="op">=</span> [bounds.left, bounds.right, bounds.bottom, bounds.top]</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            img <span class="op">=</span> ax.imshow(raster, cmap<span class="op">=</span>cmap, norm<span class="op">=</span>norm, extent<span class="op">=</span>extent, origin<span class="op">=</span><span class="st">"upper"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            cbar <span class="op">=</span> plt.colorbar(img, ax<span class="op">=</span>ax)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            cbar.set_label(title)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            ax.set_xlabel(<span class="st">"Longitude (m)"</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            ax.set_ylabel(<span class="st">"Latitude (m)"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            plt.show()</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> raster</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once these two functions are defined (url constructor + plotter), it becomes very easy to call them. Just define a color ramp of your choosing and call it. Let’s focus on seafloor ages:</p>
+<div id="b981ca05" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seafloor ages</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seafloor_ages_url <span class="op">=</span> construct_wcs_url(layer_name<span class="op">=</span><span class="st">"seafloor_ages"</span>, time<span class="op">=</span><span class="st">"2100-01-01T00:00:00.000Z"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(seafloor_ages_url)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sf_colormap_entries <span class="op">=</span> [(<span class="dv">0</span>, <span class="st">"#30123b"</span>, <span class="st">"0"</span>),(<span class="dv">30</span>, <span class="st">"#4040a2"</span>, <span class="st">"30"</span>),(<span class="dv">60</span>, <span class="st">"#4680f6"</span>, <span class="st">"60"</span>),(<span class="dv">90</span>, <span class="st">"#25c0e7"</span>, <span class="st">"90"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">120</span>, <span class="st">"#1ad2d2"</span>, <span class="st">"120"</span>),(<span class="dv">150</span>, <span class="st">"#96fe44"</span>, <span class="st">"150"</span>),(<span class="dv">180</span>, <span class="st">"#e9d539"</span>, <span class="st">"180"</span>),(<span class="dv">210</span>, <span class="st">"#fe9029"</span>, <span class="st">"210"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                       (<span class="dv">240</span>, <span class="st">"#e2430a"</span>, <span class="st">"240"</span>),(<span class="dv">270</span>, <span class="st">"#c52603"</span>, <span class="st">"270"</span>)]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>raster <span class="op">=</span> plot_map(seafloor_ages_url,sf_colormap_entries, <span class="st">"Seafloor Age (Myr)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>https://geoserver.panalesis.org/geoserver/panalesis_atlas/wcs?service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;coverage=panalesis_atlas:seafloor_ages&amp;crs=EPSG:54034&amp;bbox=-20037508.34,-6363885.33,20037508.34,6363885.33&amp;resx=10000&amp;resy=10000&amp;time=2100-01-01T00:00:00.000Z&amp;format=GEOTIFF</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_ex1_2_files/figure-html/cell-4-output-2.png" width="581" height="402" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now that we have retrieved the data related to seafloor ages, we are going to take a look at how the ages are distributed. In other words, we are going to investigate if, for our 100 Ma reconstruction, the oceanic crust is rather young, old, intermediate or if the distribution of ages is more complex.</p>
+<p>A simple method to do this is to create an histogram that will show the pixel counts for a given number of fixed intervals (bins). Fortunately for us, the <code>rasterio</code> library has an in-built function that directly creates an histogram from a raster. we can simply call it like this:</p>
+<div id="b2506ca2" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.plot <span class="im">import</span> show_hist</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rasterio.plot.show_hist(raster, bins<span class="op">=</span><span class="dv">30</span>, masked<span class="op">=</span><span class="va">True</span>, title<span class="op">=</span><span class="st">"Seafloor Age Histogram"</span>, label<span class="op">=</span><span class="st">"100 Ma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_ex1_2_files/figure-html/cell-5-output-1.png" width="627" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>→ What do you observe on the histogram ? How are the ages distributed ?</p>
+<p>→Given your knowledge about the present-day world, can you guess what the distribution will be if we do a querry at 0Ma ? Try it !</p>
+<p>Another very quick insights we can get is to calculate the mean value for a given age, by simply calling:</p>
+<div id="6449ccb7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_age <span class="op">=</span> raster.mean()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean seafloor age is </span><span class="sc">{</span>mean_age<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mean seafloor age is 40.754735497973286</code></pre>
+</div>
+</div>
+<p>We are now going to check this for the entire Phanerozoic, as we did for the land and ocean areas. Again, we will simply create a loop that will calculate the mean value of every available raster. Let us use the same function as before, with an update for default parameters that are (for our demo) not going to change</p>
+<div id="8ae723a1" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xml.etree <span class="im">import</span> ElementTree <span class="im">as</span> ET</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_available_times(layer_name,base_url<span class="op">=</span><span class="st">"https://geoserver.panalesis.org/geoserver/"</span>, workspace<span class="op">=</span> <span class="st">"panalesis_atlas"</span>, service_type <span class="op">=</span> <span class="st">"WCS"</span>, service_version<span class="op">=</span><span class="st">"1.0.0"</span>):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    describe_url <span class="op">=</span> (</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>service_type<span class="sc">.</span>lower()<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"?service=</span><span class="sc">{</span>service_type<span class="sc">}</span><span class="ss">&amp;version=</span><span class="sc">{</span>service_version<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"&amp;request=DescribeCoverage&amp;coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(describe_url)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    root <span class="op">=</span> ET.fromstring(response.content)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">set</span>(el.text <span class="cf">for</span> el <span class="kw">in</span> root.<span class="bu">iter</span>() <span class="cf">if</span> el.tag.endswith(<span class="st">'timePosition'</span>) <span class="kw">and</span> el.text))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Which we can now use to retrieve all available time steps, and retrieve each map, calculate its mean age value, and finally plot a timeseries chart of the mean age evolution:</p>
+<div id="ad58d46e" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"seafloor_ages"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> get_available_times(layer_name<span class="op">=</span>layer_name)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> time <span class="kw">in</span> times:</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    geological_age <span class="op">=</span> <span class="bu">int</span>(time[:<span class="dv">4</span>]) <span class="op">-</span> <span class="dv">2000</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    wcs_url <span class="op">=</span> construct_wcs_url(layer_name<span class="op">=</span>layer_name, time<span class="op">=</span>time)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> requests.get(wcs_url).content</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            raster <span class="op">=</span> dataset.read(<span class="dv">1</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            nodata <span class="op">=</span> dataset.nodata</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> nodata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                raster <span class="op">=</span> np.ma.masked_equal(raster, nodata)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                raster <span class="op">=</span> np.ma.masked_invalid(raster)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>            mean_age <span class="op">=</span> raster.mean()</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            results[geological_age] <span class="op">=</span> {<span class="st">'sf_mean_age'</span>: <span class="bu">float</span>(mean_age)}</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="kw">del</span> data, raster</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> <span class="bu">list</span>(results.keys())</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>seafloor_ages <span class="op">=</span> [results[age][<span class="st">'sf_mean_age'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">3.5</span>))</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>plt.plot(ages, seafloor_ages, color<span class="op">=</span><span class="st">'red'</span>, marker<span class="op">=</span><span class="st">'o'</span>, markersize<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age (Ma)'</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Mean Seafloor Age (Myr)'</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>plt.gca().invert_xaxis()</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>plt.gca().set_box_aspect(<span class="dv">1</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_ex1_2_files/figure-html/cell-8-output-1.png" width="330" height="326" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>→ What do you observe ?</p>
+<div class="callout callout-style-default callout-tip callout-empty-content callout-titled" data-jupyter="false">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Links to useful libraries and tools
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+</div>
 
 
 </section>
