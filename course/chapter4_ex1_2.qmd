@@ -271,10 +271,136 @@ plt.gca().set_box_aspect(1)
 plt.tight_layout()
 plt.show()
 ```
-&rarr; What do you observe ?
+&rarr; What do you observe ? Can you guess the reason for these variations ?
+
+In the last two time-series we plotted (land/ocean area , seafloor ages), we only considered one input map at a time with
+the `rasterio` library. This is good, but what if we want to "pack" different sources together and derive insights from
+several layers ?
+
+For this, we are going to use `xarray`, a Python library that deals with multidimensional arrays. An array is a data
+structure that stores a collection of elements of the same type, organized in a grid-like structure where each
+element can be retrieved using its position. In our case, as our maps share the same resolution and extent, the elements
+inside our array are the map pixels.
+
+Organizing our data in arrays will prove very useful for combined analysis of several variables. Below is a function that
+creates an array from a WCS URL:
+
+```{python}
+import xarray as xr
+import rioxarray
+
+def load_raster_as_dataarray(layer_name, time, name):
+    url = construct_wcs_url(layer_name=layer_name, time=time)
+    data = requests.get(url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster[raster == nodata] = np.nan
+            raster[~np.isfinite(raster)] = np.nan
+            da = xr.DataArray(
+                raster,
+                dims=["y", "x"],
+                name=name
+            )
+    return da
+
+```
+
+This function opens a raster from a WCS URL as we did before, but then creates an `xr.DataArray` class object to create
+a multidimensional array: two spatial dimensions (x and y, according to the pixel index) desrcibing the position (index)
+of each pixel.
+
+We can then create three data arrays (one for each layer), for a given time:
+
+```{python}
+
+time = "2100-01-01T00:00:00.000Z"
+
+sf_age = load_raster_as_dataarray("seafloor_ages", time, "seafloor_age")
+crustal = load_raster_as_dataarray("crustal_thickness", time, "crustal_thickness")
+litho = load_raster_as_dataarray("lithospheric_thickness", time, "lithospheric_thickness")
+
+```
+
+As they share the same dimensions, these 3 arrays can be combined in a single `xr.Dataset`:
+
+```{python}
+
+ds = xr.Dataset({
+    "seafloor_age": sf_age,
+    "crustal_thickness": crustal,
+    "lithospheric_thickness": litho
+})
+```
+
+The idea behind this construction is simply to get a dataset that has consistent coordinates and various pixel
+properties. The structure of our dataset will look something like:
+
+```
+Dataset
+├── seafloor_age          (y: 1273, x: 4018)
+├── crustal_thickness     (y: 1273, x: 4018)
+└── lithospheric_thickness (y: 1273, x: 4018)
+coordinates: x, y (shared)
+```
+
+Taking advantage of this simple structure, it is now easier to have a glance at all variables with one simple call:
+
+```{python}
+for var in ds.data_vars:
+    print(f"\n{var}:")
+    print(f"  mean : {float(ds[var].mean()):.2f}")
+    print(f"  std  : {float(ds[var].std()):.2f}")
+    print(f"  min  : {float(ds[var].min()):.2f}")
+    print(f"  max  : {float(ds[var].max()):.2f}")
+```
+
+Now, we will have a look at the relationship between the seafloor age and the thickness of the lithosphere. Let's
+do a simple plot that will show this relationship. We first need to do some pre-filtering of our data. The code below
+will (i) "flatten" our multidimensional array into a single dimensional one, (ii) discard non oceanic pixels, and (iii)
+discard any invalid pixels:
+
+
+```{python}
+age_flat = ds["seafloor_age"].values.flatten()
+litho_flat = ds["lithospheric_thickness"].values.flatten()
+
+ocean_mask = np.isfinite(age_flat) & (age_flat > 0)
+age_valid = age_flat[ocean_mask]
+litho_valid = litho_flat[ocean_mask]
+
+both_valid = np.isfinite(age_valid) & np.isfinite(litho_valid)
+age_valid = age_valid[both_valid]
+litho_valid = litho_valid[both_valid]
+```
+
+Once this filtering is done, we can plot our two variables:
+
+```{python}
+plt.figure(figsize=(5, 5))
+plt.scatter(age_valid, litho_valid, s=0.5, alpha=0.3, color="steelblue")
+plt.xlabel("Seafloor Age (Myr)")
+plt.ylabel("Lithospheric Thickness (km)")
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+&rarr; What do you observe ? Is the relationship coherent with what you would expect from your knowledge ?
+
+&rarr; Can you find a mathematical function that describes this trend? Try using `numpy.polyfit` to fit a curve to the data.
+
 
 ::: {.callout-tip collapse="true" jupyter="false"}
 # Links to useful libraries and tools
+
+### Python libraries
+
+- [`xarray`](https://docs.xarray.dev/) — A Python library for working with labeled multi-dimensional arrays, providing a Dataset structure that combines multiple variables sharing the same coordinate system.
+
+- [`rioxarray`](https://corteva.github.io/rioxarray/) — An extension of xarray that adds geospatial capabilities, enabling CRS-aware operations on raster datasets directly within the xarray framework.
 
 :::
 

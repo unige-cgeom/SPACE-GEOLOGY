@@ -547,8 +547,6 @@ statistics we could easily plot ? Try it !
 
 ### Python libraries
 
-### Python libraries
-
 - [`matplotlib`](https://matplotlib.org/) — A comprehensive plotting library for creating static, animated, and interactive visualizations in Python.
 
 - [`numpy`](https://numpy.org/) — The fundamental package for efficient numerical computing in Python, providing fast arrays and mathematical operations.
