@@ -383,8 +383,6 @@ plt.figure(figsize=(5, 5))
 plt.scatter(age_valid, litho_valid, s=0.5, alpha=0.3, color="steelblue")
 plt.xlabel("Seafloor Age (Myr)")
 plt.ylabel("Lithospheric Thickness (km)")
-plt.legend()
-plt.tight_layout()
 plt.show()
 ```
 
