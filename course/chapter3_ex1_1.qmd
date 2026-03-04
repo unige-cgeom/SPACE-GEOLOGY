@@ -2,6 +2,7 @@
 title: "Chapter III: Exercise 1 - Part 1 "
 format:
   html: default
+  pdf: default
 ---
 # Reconstructing Earth’s Past – From a Snapshot to Deep Time
 ::: {.callout-note collapse="true"}
@@ -60,7 +61,6 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
 :::
 
-::: {.callout-note collapse="true" appearance="minimal"}
 # Step-by-step instructions
 
 **1. Find the data**
@@ -532,7 +532,6 @@ plt.show()
 &rarr; You have seen what we can do with simple masks representing land and ocean. Do you have any ideas about other
 statistics we could easily plot ? Try it !
 
-:::
 
 ::: {.callout-tip collapse="true"}
 # Links to useful libraries and tools
@@ -547,12 +546,12 @@ statistics we could easily plot ? Try it !
 
 ### Python libraries
 
-- [`matplotlib`](https://matplotlib.org/) — A comprehensive plotting library for creating static, animated, and interactive visualizations in Python.
+- [`matplotlib`](https://matplotlib.org/) A comprehensive plotting library for creating static, animated, and interactive visualizations in Python.
 
-- [`numpy`](https://numpy.org/) — The fundamental package for efficient numerical computing in Python, providing fast arrays and mathematical operations.
+- [`numpy`](https://numpy.org/) The fundamental package for efficient numerical computing in Python, providing fast arrays and mathematical operations.
 
-- [`rasterio`](https://rasterio.readthedocs.io/) — A Python library for reading, writing, and manipulating geospatial raster data using GDAL under the hood.
+- [`rasterio`](https://rasterio.readthedocs.io/) A Python library for reading, writing, and manipulating geospatial raster data using GDAL under the hood.
 
-- [`requests`](https://requests.readthedocs.io/) — A simple and elegant HTTP library for sending web requests and interacting with APIs.
+- [`requests`](https://requests.readthedocs.io/) A simple and elegant HTTP library for sending web requests and interacting with APIs.
 
 :::
