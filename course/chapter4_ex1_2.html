@@ -297,7 +297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will particularly have a look at three layers that are available through the same WCS requests which are (i) seafloor ages, (ii) crustal thickness, and (iii) lithospheric thickness.</p>
 <p>As we did before, we will use the <code>panalesis_atlas</code> data sore on GeoServer, which serves data in world cylindrical equal area (WCEA), using the ESRI:54034 projection. This is done to ensure proper area calculations, as opposed to data in more common CRS such as EPSG:4326, which use degrees units.</p>
 <p><strong>1. Single Snapshot Analysis</strong> We will first load the three layers for one single age, similar to what we did in the previous part (100 Ma). You have noticed that we used the WCS url request format quite a few times. Instead of repeating the entire code every time, we can define a quick function that we can call with the correct parameters.</p>
-<div id="c2c2265f" class="cell" data-execution_count="1">
+<div id="00910cb4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> construct_wcs_url(layer_name,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      time,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      base_url<span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span>,</span>
@@ -326,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The idea is to simplify the next steps where we will handle multiple layers at the same time, for a given age.</p>
 <p>→ Notice the function parameters order and syntax, what do you observe ?</p>
 <p>We will use this function on our layers of interest, and see if we can plot them easily. For this, we can also create a function to load and plot the maps with a proper color ramp, using the URL, the defined color ramp and a title.</p>
-<div id="a3fded1e" class="cell" data-execution_count="2">
+<div id="bf26072f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> raster</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once these two functions are defined (url constructor + plotter), it becomes very easy to call them. Just define a color ramp of your choosing and call it. Let’s focus on seafloor ages:</p>
-<div id="45bd80d9" class="cell" data-execution_count="3">
+<div id="5a0c6785" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seafloor ages</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seafloor_ages_url <span class="op">=</span> construct_wcs_url(layer_name<span class="op">=</span><span class="st">"seafloor_ages"</span>, time<span class="op">=</span><span class="st">"2100-01-01T00:00:00.000Z"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(seafloor_ages_url)</span>
@@ -383,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Now that we have retrieved the data related to seafloor ages, we are going to take a look at how the ages are distributed. In other words, we are going to investigate if, for our 100 Ma reconstruction, the oceanic crust is rather young, old, intermediate or if the distribution of ages is more complex.</p>
 <p>A simple method to do this is to create an histogram that will show the pixel counts for a given number of fixed intervals (bins). Fortunately for us, the <code>rasterio</code> library has an in-built function that directly creates an histogram from a raster. we can simply call it like this:</p>
-<div id="c8ad8c95" class="cell" data-execution_count="4">
+<div id="048c5d1d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.plot <span class="im">import</span> show_hist</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rasterio.plot.show_hist(raster, bins<span class="op">=</span><span class="dv">30</span>, masked<span class="op">=</span><span class="va">True</span>, title<span class="op">=</span><span class="st">"Seafloor Age Histogram"</span>, label<span class="op">=</span><span class="st">"100 Ma"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -398,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>→ What do you observe on the histogram ? How are the ages distributed ?</p>
 <p>→Given your knowledge about the present-day world, can you guess what the distribution will be if we do a querry at 0Ma ? Try it !</p>
 <p>Another very quick insights we can get is to calculate the mean value for a given age, by simply calling:</p>
-<div id="6583b715" class="cell" data-execution_count="5">
+<div id="9c1bf502" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mean_age <span class="op">=</span> raster.mean()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean seafloor age is </span><span class="sc">{</span>mean_age<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We are now going to check this for the entire Phanerozoic, as we did for the land and ocean areas. Again, we will simply create a loop that will calculate the mean value of every available raster. Let us use the same function as before, with an update for default parameters that are (for our demo) not going to change</p>
-<div id="8b81e915" class="cell" data-execution_count="6">
+<div id="4a22cbfc" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xml.etree <span class="im">import</span> ElementTree <span class="im">as</span> ET</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_available_times(layer_name,base_url<span class="op">=</span><span class="st">"https://geoserver.panalesis.org/geoserver/"</span>, workspace<span class="op">=</span> <span class="st">"panalesis_atlas"</span>, service_type <span class="op">=</span> <span class="st">"WCS"</span>, service_version<span class="op">=</span><span class="st">"1.0.0"</span>):</span>
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sorted</span>(times)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Which we can now use to retrieve all available time steps, and retrieve each map, calculate its mean age value, and finally plot a timeseries chart of the mean age evolution:</p>
-<div id="530e2ab2" class="cell" data-execution_count="7">
+<div id="65bd5356" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"seafloor_ages"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> get_available_times(layer_name<span class="op">=</span>layer_name)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -470,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the last two time-series we plotted (land/ocean area , seafloor ages), we only considered one input map at a time with the <code>rasterio</code> library. This is good, but what if we want to “pack” different sources together and derive insights from several layers ?</p>
 <p>For this, we are going to use <code>xarray</code>, a Python library that deals with multidimensional arrays. An array is a data structure that stores a collection of elements of the same type, organized in a grid-like structure where each element can be retrieved using its position. In our case, as our maps share the same resolution and extent, the elements inside our array are the map pixels.</p>
 <p>Organizing our data in arrays will prove very useful for combined analysis of several variables. Below is a function that creates an array from a WCS URL:</p>
-<div id="ae09d645" class="cell" data-execution_count="8">
+<div id="c9d78fbc" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -493,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This function opens a raster from a WCS URL as we did before, but then creates an <code>xr.DataArray</code> class object to create a multidimensional array: two spatial dimensions (x and y, according to the pixel index) desrcibing the position (index) of each pixel.</p>
 <p>We can then create three data arrays (one for each layer), for a given time:</p>
-<div id="440e247f" class="cell" data-execution_count="9">
+<div id="6cb7d3a6" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2100-01-01T00:00:00.000Z"</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sf_age <span class="op">=</span> load_raster_as_dataarray(<span class="st">"seafloor_ages"</span>, time, <span class="st">"seafloor_age"</span>)</span>
@@ -501,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>litho <span class="op">=</span> load_raster_as_dataarray(<span class="st">"lithospheric_thickness"</span>, time, <span class="st">"lithospheric_thickness"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>As they share the same dimensions, these 3 arrays can be combined in a single <code>xr.Dataset</code>:</p>
-<div id="68d6afe9" class="cell" data-execution_count="10">
+<div id="c9f8297c" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.Dataset({</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"seafloor_age"</span>: sf_age,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"crustal_thickness"</span>: crustal,</span>
@@ -515,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 └── lithospheric_thickness (y: 1273, x: 4018)
 coordinates: x, y (shared)</code></pre>
 <p>Taking advantage of this simple structure, it is now easier to have a glance at all variables with one simple call:</p>
-<div id="4d62ef73" class="cell" data-execution_count="11">
+<div id="e7f4751d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> ds.data_vars:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss">:"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  mean : </span><span class="sc">{</span><span class="bu">float</span>(ds[var].mean())<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
@@ -544,7 +544,7 @@ lithospheric_thickness:
 </div>
 </div>
 <p>Now, we will have a look at the relationship between the seafloor age and the thickness of the lithosphere. Let’s do a simple plot that will show this relationship. We first need to do some pre-filtering of our data. The code below will (i) “flatten” our multidimensional array into a single dimensional one, (ii) discard non oceanic pixels, and (iii) discard any invalid pixels:</p>
-<div id="05d4b139" class="cell" data-execution_count="12">
+<div id="e1168f00" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>age_flat <span class="op">=</span> ds[<span class="st">"seafloor_age"</span>].values.flatten()</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>litho_flat <span class="op">=</span> ds[<span class="st">"lithospheric_thickness"</span>].values.flatten()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -557,12 +557,13 @@ lithospheric_thickness:
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>litho_valid <span class="op">=</span> litho_valid[both_valid]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once this filtering is done, we can plot our two variables:</p>
-<div id="0cacf71f" class="cell" data-execution_count="13">
+<div id="2e180349" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(age_valid, litho_valid, s<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Seafloor Age (Myr)"</span>)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Lithospheric Thickness (km)"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> litho, crustal, sf_age, age_flat, litho_flat, ocean_mask, age_valid, litho_valid</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -573,6 +574,90 @@ lithospheric_thickness:
 </div>
 <p>→ What do you observe ? Is the relationship coherent with what you would expect from your knowledge ?</p>
 <p>→ Can you find a mathematical function that describes this trend? Try using <code>numpy.polyfit</code> to fit a curve to the data.</p>
+<p>Now that we understand the relationship between seafloor age and oceanic lithosphere, we will extend our time-series visualization to continental crust and lithosphere thickness. As we will plot the entire Phanerozoic evolution, our previous approach to use <code>xr.DataArray</code> (single map) or <code>xr.Dataset</code> (multiple maps) for a single time-step is now limited. For this, we will use the very well known and widely used <code>pandas</code> Python library.</p>
+<p>The structure of the code below should be now well known to you. We simply iterate through the time-steps listed in <code>times</code>. For each step, we load the seafloor age, crustal &amp; lithospheric thickness as <code>xr.DataArray</code>, which we then combine into a <code>xr.Dataset</code>. We then discriminate between oceanic versus continental regions, based on whether or not the seafloor age raster value is valid or not.</p>
+<p>The new aspect here is how we store the results. At the beginning of the code, you can see we create an empty list to store results, which we populate with the mean values for each time. After the loop, we create a <code>pd.DataFrame</code> containing all mean values from all ages.</p>
+<div id="8a495283" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> [<span class="st">'2006-01-01T00:00:00.000Z'</span>, <span class="st">'2011-01-01T00:00:00.000Z'</span>, <span class="st">'2015-01-01T00:00:00.000Z'</span>, <span class="st">'2020-01-01T00:00:00.000Z'</span>, <span class="st">'2033-01-01T00:00:00.000Z'</span>, <span class="st">'2040-01-01T00:00:00.000Z'</span>, <span class="st">'2048-01-01T00:00:00.000Z'</span>, <span class="st">'2056-01-01T00:00:00.000Z'</span>, <span class="st">'2068-01-01T00:00:00.000Z'</span>, <span class="st">'2084-01-01T00:00:00.000Z'</span>, <span class="st">'2094-01-01T00:00:00.000Z'</span>, <span class="st">'2100-01-01T00:00:00.000Z'</span>, <span class="st">'2113-01-01T00:00:00.000Z'</span>, <span class="st">'2120-01-01T00:00:00.000Z'</span>, <span class="st">'2133-01-01T00:00:00.000Z'</span>, <span class="st">'2140-01-01T00:00:00.000Z'</span>, <span class="st">'2154-01-01T00:00:00.000Z'</span>, <span class="st">'2165-01-01T00:00:00.000Z'</span>, <span class="st">'2180-01-01T00:00:00.000Z'</span>, <span class="st">'2200-01-01T00:00:00.000Z'</span>, <span class="st">'2210-01-01T00:00:00.000Z'</span>, <span class="st">'2220-01-01T00:00:00.000Z'</span>, <span class="st">'2230-01-01T00:00:00.000Z'</span>, <span class="st">'2240-01-01T00:00:00.000Z'</span>, <span class="st">'2250-01-01T00:00:00.000Z'</span>, <span class="st">'2270-01-01T00:00:00.000Z'</span>, <span class="st">'2290-01-01T00:00:00.000Z'</span>, <span class="st">'2300-01-01T00:00:00.000Z'</span>, <span class="st">'2315-01-01T00:00:00.000Z'</span>, <span class="st">'2331-01-01T00:00:00.000Z'</span>, <span class="st">'2350-01-01T00:00:00.000Z'</span>, <span class="st">'2370-01-01T00:00:00.000Z'</span>, <span class="st">'2383-01-01T00:00:00.000Z'</span>, <span class="st">'2393-01-01T00:00:00.000Z'</span>, <span class="st">'2408-01-01T00:00:00.000Z'</span>, <span class="st">'2420-01-01T00:00:00.000Z'</span>, <span class="st">'2444-01-01T00:00:00.000Z'</span>, <span class="st">'2463-01-01T00:00:00.000Z'</span>, <span class="st">'2475-01-01T00:00:00.000Z'</span>, <span class="st">'2489-01-01T00:00:00.000Z'</span>, <span class="st">'2500-01-01T00:00:00.000Z'</span>, <span class="st">'2518-01-01T00:00:00.000Z'</span>, <span class="st">'2535-01-01T00:00:00.000Z'</span>, <span class="st">'2545-01-01T00:00:00.000Z'</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> time <span class="kw">in</span> times:</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    geological_age <span class="op">=</span> <span class="bu">int</span>(time[:<span class="dv">4</span>]) <span class="op">-</span> <span class="dv">2000</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    sf_age <span class="op">=</span> load_raster_as_dataarray(<span class="st">"seafloor_ages"</span>, time, <span class="st">"seafloor_age"</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    crustal <span class="op">=</span> load_raster_as_dataarray(<span class="st">"crustal_thickness"</span>, time, <span class="st">"crustal_thickness"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    litho <span class="op">=</span> load_raster_as_dataarray(<span class="st">"lithospheric_thickness"</span>, time, <span class="st">"lithospheric_thickness"</span>)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    ds <span class="op">=</span> xr.Dataset({</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"seafloor_age"</span>: sf_age,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"crustal_thickness"</span>: crustal,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"lithospheric_thickness"</span>: litho</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    age_vals <span class="op">=</span> ds[<span class="st">"seafloor_age"</span>].values</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    crustal_vals <span class="op">=</span> ds[<span class="st">"crustal_thickness"</span>].values</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    litho_vals <span class="op">=</span> ds[<span class="st">"lithospheric_thickness"</span>].values</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    ocean_mask <span class="op">=</span> np.isfinite(age_vals)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    continental_mask_crustal <span class="op">=</span> <span class="op">~</span>ocean_mask <span class="op">&amp;</span> np.isfinite(crustal_vals)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    continental_mask_litho <span class="op">=</span> <span class="op">~</span>ocean_mask <span class="op">&amp;</span> np.isfinite(litho_vals)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    results.append({</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>:                      geological_age,</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_seafloor_age"</span>:        <span class="bu">float</span>(np.nanmean(age_vals[ocean_mask])),</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_crustal_ocean"</span>:       <span class="bu">float</span>(np.nanmean(crustal_vals[ocean_mask])),</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_crustal_continental"</span>: <span class="bu">float</span>(np.nanmean(crustal_vals[continental_mask_crustal])),</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_litho_ocean"</span>:         <span class="bu">float</span>(np.nanmean(litho_vals[ocean_mask])),</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mean_litho_continental"</span>:   <span class="bu">float</span>(np.nanmean(litho_vals[continental_mask_litho]))</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">del</span> ds, sf_age, crustal, litho, age_vals, crustal_vals, litho_vals, ocean_mask, continental_mask_crustal, continental_mask_litho</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results).sort_values(<span class="st">"age"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Creating a <code>pd.DataFrame</code> allows us to pack our data in a tabular format: columns with names and rows (indices). This organization is used in all data science fields. Once we have our dataframe, it is very straightforward to plot the various time series.</p>
+<p>For instance, the code below creates a figure with two rows and two columns. We can then arrange each subplot as we prefer. Notice how we simply access subsets of our dataframe to display them in each subplot.</p>
+<div id="a7267da0" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(nrows<span class="op">=</span><span class="dv">2</span>, ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Top-left: Mean Seafloor Age</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(df[<span class="st">"age"</span>], df[<span class="st">"mean_seafloor_age"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>, marker<span class="op">=</span><span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Mean Seafloor Age (Myr)"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Top-right: Crustal Thickness (both)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].plot(df[<span class="st">"age"</span>], df[<span class="st">"mean_crustal_continental"</span>], color<span class="op">=</span><span class="st">"sienna"</span>, marker<span class="op">=</span><span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Continental Crust </span><span class="ch">\n</span><span class="st"> Mean Thickness (km)"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].legend()</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Bottom-left: Lithospheric Thickness - Ocean</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(df[<span class="st">"age"</span>], df[<span class="st">"mean_litho_ocean"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>, marker<span class="op">=</span><span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">"Oceanic Lithosphere </span><span class="ch">\n</span><span class="st"> Mean Thickness (km)"</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">"Age (Ma)"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Bottom-right: Lithospheric Thickness - Continental</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(df[<span class="st">"age"</span>], df[<span class="st">"mean_litho_continental"</span>], color<span class="op">=</span><span class="st">"sienna"</span>, marker<span class="op">=</span><span class="st">"o"</span>, markersize<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">"Continental Lithosphere </span><span class="ch">\n</span><span class="st"> Mean Thickness (km)"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">"Age (Ma)"</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ax <span class="kw">in</span> axes.flat:</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    ax.invert_xaxis()</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_2651/1662022532.py:10: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  axes[0, 1].legend()</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter4_ex1_2_files/figure-html/cell-16-output-2.png" width="758" height="758" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>→ Are there any interesting trends ? Do you notice some odd results ?</p>
+<p>→ Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these supercontinents, do you see these cycles linked with the data we have ?</p>
+<p><strong>Bonus</strong> Next, we will learn how to create an animated GIF to visualize one layer evolution through the Phanerozoic.</p>
 <div class="callout callout-style-default callout-tip callout-titled" data-jupyter="false">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -587,8 +672,9 @@ lithospheric_thickness:
 <section id="python-libraries" class="level3 callout-body-container callout-body">
 <h3 class="anchored" data-anchor-id="python-libraries">Python libraries</h3>
 <ul>
-<li><p><a href="https://docs.xarray.dev/"><code>xarray</code></a> — A Python library for working with labeled multi-dimensional arrays, providing a Dataset structure that combines multiple variables sharing the same coordinate system.</p></li>
-<li><p><a href="https://corteva.github.io/rioxarray/"><code>rioxarray</code></a> — An extension of xarray that adds geospatial capabilities, enabling CRS-aware operations on raster datasets directly within the xarray framework.</p></li>
+<li><p><a href="https://docs.xarray.dev/"><code>xarray</code></a> A Python library for working with labeled multi-dimensional arrays, providing a Dataset structure that combines multiple variables sharing the same coordinate system.</p></li>
+<li><p><a href="https://corteva.github.io/rioxarray/"><code>rioxarray</code></a> An extension of xarray that adds geospatial capabilities, enabling CRS-aware operations on raster datasets directly within the xarray framework.</p></li>
+<li><p><a href="https://pandas.pydata.org/"><code>pandas</code></a> A Python library for data manipulation and analysis, providing a DataFrame structure that organizes tabular data with named columns and row indices.</p></li>
 </ul>
 </section>
 </div>
