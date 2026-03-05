@@ -14,56 +14,70 @@ format:
 *Did faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?*
 
 ## What You Will Do
-You will test a geodynamic hypothesis using multiple paleogeographic and structural datasets from the Palaeo Data Cube. Starting with one time slice, you will:
+You will test a geodynamic hypothesis using multiple datasets from the Palaeo Data Cube. Starting with one time slice, you will:
 
 1. Map seafloor age, crustal thickness, and lithospheric thickness.
 2. Compute global averages and distributions.
-3. Compare two time slices to see if patterns change.
-4. Finally, you will extend your analysis to the entire Phanerozoic and visualize trends.
+3. Compare oceanic versus continental regions across variables.
+4. Extend your analysis to the entire Phanerozoic and visualize trends.
+5. Create an animated GIF of seafloor age evolution through time.
 
 ## Why It Matters
 
-The age and thickness of Earth’s oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation.
+The age and thickness of the Earth's oceanic crust and lithosphere reflect plate tectonic processes and mantle dynamics. Understanding these changes helps explain supercontinent cycles, ocean basin evolution, and even long-term climate regulation.
 
 ## Your Tasks
 
-1. **Single Snapshot Analysis:** 
+1. **Single Snapshot Analysis:**
 
-    1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice (e.g., 100 Ma).
+    1.1. Load seafloor age, crustal thickness, and lithospheric thickness for one time slice using a reusable WCS URL constructor function.
 
-    1.2. Compute mean values and visualize maps.
+    1.2. Compute mean values and visualize maps with custom color ramps.
 
-    1.3. Plot histograms of seafloor age distribution.
+    1.3. Plot a histogram of seafloor age distribution.
 
-2. **Compare Two Worlds:**
-    
-    2.1. Repeat for another time slice (e.g., 250 Ma).
-    
-    2.2. Compare averages and distributions.
+2. **Exploring Relationships:**
 
-    2.3. Discuss whether the data supports faster spreading at one time.
+    2.1. Combine the three layers into a single `xr.Dataset`.
+
+    2.2. Scatter plot seafloor age against lithospheric thickness.
+
+    2.3. Discuss whether the relationship matches theoretical expectations.
 
 3. **Deep-Time Trends:**
 
-    3.1. Automate your workflow for all Phanerozoic slices.
-    
-    3.2. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness.
-    
-    3.3. Interpret major trends and link them to tectonic events.
+    3.1. Automate your workflow for all Phanerozoic time slices using `pandas`.
+
+    3.2. Separate oceanic and continental pixels using the seafloor age mask.
+
+    3.3. Plot time series of mean seafloor age, crustal thickness, and lithospheric thickness for both domains.
+
+    3.4. Interpret major trends and link them to supercontinent cycles.
+
+4. **Bonus — Animated Visualization:**
+
+    4.1. Render each time slice as an image frame.
+
+    4.2. Compile frames into an animated GIF using `imageio`.
+
+    4.3. Experiment with parameters such as time order, frame rate, and layer choice.
 
 
 ## Skills You Will Gain
 
-1. Handling multiple raster datasets in Python.
-2. Computing global and zonal statistics.
-3. Visualizing maps, histograms, and time-series plots.
-4. Testing hypotheses with real geoscience data.
+1. Building reusable functions for WCS data access and plotting.
+2. Working with multidimensional arrays using `xarray` and combining layers into a `Dataset`.
+3. Storing and analyzing time-series results in a `pandas` DataFrame.
+4. Visualizing maps, histograms, scatter plots, and multi-panel time-series figures.
+5. Creating animated GIFs from raster time series.
 
 ## Points for Discussion
 
 *Does the data support the idea that faster spreading rates lead to younger seafloor?*
 
 *How do crustal and lithospheric thickness trends relate to supercontinent cycles?*
+
+*Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?*
 
 *What assumptions did you make about data interpretation and resolution?*
 
@@ -151,13 +165,26 @@ def plot_map(wcs_url,colormap,title):
             bounds = [entry[0] for entry in colormap]
             colors = [entry[1] for entry in colormap[:-1]]
             cmap = ListedColormap(colors)
-            norm = BoundaryNorm(bounds, ncolors=len(colors))
+            norm = BoundaryNorm(
+                bounds,
+                ncolors=len(colors)
+            )
             cmap.set_bad(color='white')
             bounds = dataset.bounds
-            extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
+            extent = [
+                bounds.left,
+                bounds.right,
+                bounds.bottom,
+                bounds.top
+            ]
 
             fig, ax = plt.subplots()
-            img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+            img = ax.imshow(
+                raster,
+                cmap=cmap,
+                norm=norm,
+                extent=extent,
+                origin="upper")
             cbar = plt.colorbar(img, ax=ax)
             cbar.set_label(title)
             ax.set_xlabel("Longitude (m)")
@@ -171,12 +198,30 @@ ramp of your choosing and call it. Let's focus on seafloor ages:
 
 ```{python}
 # Seafloor ages
-seafloor_ages_url = construct_wcs_url(layer_name="seafloor_ages", time="2100-01-01T00:00:00.000Z")
+seafloor_ages_url = construct_wcs_url(
+    layer_name="seafloor_ages",
+    time="2000-01-01T00:00:00.000Z"
+)
+
 print(seafloor_ages_url)
-sf_colormap_entries = [(0, "#30123b", "0"),(30, "#4040a2", "30"),(60, "#4680f6", "60"),(90, "#25c0e7", "90"),
-                       (120, "#1ad2d2", "120"),(150, "#96fe44", "150"),(180, "#e9d539", "180"),(210, "#fe9029", "210"),
-                       (240, "#e2430a", "240"),(270, "#c52603", "270")]
-raster = plot_map(seafloor_ages_url,sf_colormap_entries, "Seafloor Age (Myr)")
+sf_colormap_entries = [
+    (0, "#30123b", "0"),
+    (30, "#4040a2", "30"),
+    (60, "#4680f6", "60"),
+    (90, "#25c0e7", "90"),
+    (120, "#1ad2d2", "120"),
+    (150, "#96fe44", "150"),
+    (180, "#e9d539", "180"),
+    (210, "#fe9029", "210"),
+    (240, "#e2430a", "240"),
+    (270, "#c52603", "270")
+]
+
+raster = plot_map(
+    seafloor_ages_url,
+    sf_colormap_entries,
+    "Seafloor Age (Myr)"
+)
 
 ```
 
@@ -191,7 +236,15 @@ from a raster. we can simply call it like this:
 ```{python}
 import rasterio
 from rasterio.plot import show_hist
-rasterio.plot.show_hist(raster, bins=30, masked=True, title="Seafloor Age Histogram", label="100 Ma")
+
+rasterio.plot.show_hist(
+    raster,
+    bins=30,
+    masked=True,
+    title="Seafloor Age Histogram",
+    label="100 Ma"
+)
+
 ```
 
 &rarr; What do you observe on the histogram ? How are the ages distributed ?
@@ -214,7 +267,13 @@ an update for default parameters that are (for our demo) not going to change
 ```{python}
 from xml.etree import ElementTree as ET
 
-def get_available_times(layer_name,base_url="https://geoserver.panalesis.org/geoserver/", workspace= "panalesis_atlas", service_type = "WCS", service_version="1.0.0"):
+def get_available_times(
+        layer_name,
+        base_url="https://geoserver.panalesis.org/geoserver/",
+        workspace= "panalesis_atlas",
+        service_type = "WCS",
+        service_version="1.0.0"
+):
     describe_url = (
         f"{base_url}{workspace}/{service_type.lower()}"
         f"?service={service_type}&version={service_version}"
@@ -232,22 +291,28 @@ Which we can now use to retrieve all available time steps, and retrieve each map
 finally plot a timeseries chart of the mean age evolution:
 
 ```{python}
-
 layer_name = "seafloor_ages"
-times = get_available_times(layer_name=layer_name)
-
+times = get_available_times(
+    layer_name=layer_name
+)
 
 results = {}
 for time in times:
     geological_age = int(time[:4]) - 2000
-    wcs_url = construct_wcs_url(layer_name=layer_name, time=time)
+    wcs_url = construct_wcs_url(
+        layer_name=layer_name,
+        time=time
+    )
     data = requests.get(wcs_url).content
     with MemoryFile(data) as memfile:
         with memfile.open() as dataset:
             raster = dataset.read(1).astype(float)
             nodata = dataset.nodata
             if nodata is not None:
-                raster = np.ma.masked_equal(raster, nodata)
+                raster = np.ma.masked_equal(
+                    raster,
+                    nodata
+                )
             else:
                 raster = np.ma.masked_invalid(raster)
             mean_age = raster.mean()
@@ -259,7 +324,13 @@ seafloor_ages = [results[age]['sf_mean_age'] for age in ages]
 
 plt.figure(figsize=(4, 3.5))
 
-plt.plot(ages, seafloor_ages, color='red', marker='o', markersize=4)
+plt.plot(
+    ages,
+    seafloor_ages,
+    color='red',
+    marker='o',
+    markersize=4
+)
 plt.xlabel('Age (Ma)')
 plt.ylabel('Mean Seafloor Age (Myr)')
 plt.gca().invert_xaxis()
@@ -287,7 +358,10 @@ import xarray as xr
 import rioxarray
 
 def load_raster_as_dataarray(layer_name, time, name):
-    url = construct_wcs_url(layer_name=layer_name, time=time)
+    url = construct_wcs_url(
+        layer_name=layer_name,
+        time=time
+    )
     data = requests.get(url).content
     with MemoryFile(data) as memfile:
         with memfile.open() as dataset:
@@ -315,9 +389,21 @@ We can then create three data arrays (one for each layer), for a given time:
 
 time = "2100-01-01T00:00:00.000Z"
 
-sf_age = load_raster_as_dataarray("seafloor_ages", time, "seafloor_age")
-crustal = load_raster_as_dataarray("crustal_thickness", time, "crustal_thickness")
-litho = load_raster_as_dataarray("lithospheric_thickness", time, "lithospheric_thickness")
+sf_age = load_raster_as_dataarray(
+    "seafloor_ages",
+    time,
+    "seafloor_age"
+)
+crustal = load_raster_as_dataarray(
+    "crustal_thickness",
+    time,
+    "crustal_thickness"
+)
+litho = load_raster_as_dataarray(
+    "lithospheric_thickness",
+    time,
+    "lithospheric_thickness"
+)
 
 ```
 
@@ -377,7 +463,13 @@ Once this filtering is done, we can plot our two variables:
 
 ```{python}
 plt.figure(figsize=(5, 5))
-plt.scatter(age_valid, litho_valid, s=0.5, alpha=0.3, color="steelblue")
+plt.scatter(
+    age_valid,
+    litho_valid,
+    s=0.5,
+    alpha=0.3,
+    color="steelblue"
+)
 plt.xlabel("Seafloor Age (Myr)")
 plt.ylabel("Lithospheric Thickness (km)")
 plt.show()
@@ -405,14 +497,50 @@ containing all mean values from all ages.
 
 ```{python}
 import pandas as pd
-times = ['2006-01-01T00:00:00.000Z', '2011-01-01T00:00:00.000Z', '2015-01-01T00:00:00.000Z', '2020-01-01T00:00:00.000Z', '2033-01-01T00:00:00.000Z', '2040-01-01T00:00:00.000Z', '2048-01-01T00:00:00.000Z', '2056-01-01T00:00:00.000Z', '2068-01-01T00:00:00.000Z', '2084-01-01T00:00:00.000Z', '2094-01-01T00:00:00.000Z', '2100-01-01T00:00:00.000Z', '2113-01-01T00:00:00.000Z', '2120-01-01T00:00:00.000Z', '2133-01-01T00:00:00.000Z', '2140-01-01T00:00:00.000Z', '2154-01-01T00:00:00.000Z', '2165-01-01T00:00:00.000Z', '2180-01-01T00:00:00.000Z', '2200-01-01T00:00:00.000Z', '2210-01-01T00:00:00.000Z', '2220-01-01T00:00:00.000Z', '2230-01-01T00:00:00.000Z', '2240-01-01T00:00:00.000Z', '2250-01-01T00:00:00.000Z', '2270-01-01T00:00:00.000Z', '2290-01-01T00:00:00.000Z', '2300-01-01T00:00:00.000Z', '2315-01-01T00:00:00.000Z', '2331-01-01T00:00:00.000Z', '2350-01-01T00:00:00.000Z', '2370-01-01T00:00:00.000Z', '2383-01-01T00:00:00.000Z', '2393-01-01T00:00:00.000Z', '2408-01-01T00:00:00.000Z', '2420-01-01T00:00:00.000Z', '2444-01-01T00:00:00.000Z', '2463-01-01T00:00:00.000Z', '2475-01-01T00:00:00.000Z', '2489-01-01T00:00:00.000Z', '2500-01-01T00:00:00.000Z', '2518-01-01T00:00:00.000Z', '2535-01-01T00:00:00.000Z', '2545-01-01T00:00:00.000Z']
+times = [
+    '2006-01-01T00:00:00.000Z', '2011-01-01T00:00:00.000Z',
+    '2015-01-01T00:00:00.000Z', '2020-01-01T00:00:00.000Z',
+    '2033-01-01T00:00:00.000Z', '2040-01-01T00:00:00.000Z',
+    '2048-01-01T00:00:00.000Z', '2056-01-01T00:00:00.000Z',
+    '2068-01-01T00:00:00.000Z', '2084-01-01T00:00:00.000Z',
+    '2094-01-01T00:00:00.000Z', '2100-01-01T00:00:00.000Z',
+    '2113-01-01T00:00:00.000Z', '2120-01-01T00:00:00.000Z',
+    '2133-01-01T00:00:00.000Z', '2140-01-01T00:00:00.000Z',
+    '2154-01-01T00:00:00.000Z', '2165-01-01T00:00:00.000Z',
+    '2180-01-01T00:00:00.000Z', '2200-01-01T00:00:00.000Z',
+    '2210-01-01T00:00:00.000Z', '2220-01-01T00:00:00.000Z',
+    '2230-01-01T00:00:00.000Z', '2240-01-01T00:00:00.000Z',
+    '2250-01-01T00:00:00.000Z', '2270-01-01T00:00:00.000Z',
+    '2290-01-01T00:00:00.000Z', '2300-01-01T00:00:00.000Z',
+    '2315-01-01T00:00:00.000Z', '2331-01-01T00:00:00.000Z',
+    '2350-01-01T00:00:00.000Z', '2370-01-01T00:00:00.000Z',
+    '2383-01-01T00:00:00.000Z', '2393-01-01T00:00:00.000Z',
+    '2408-01-01T00:00:00.000Z', '2420-01-01T00:00:00.000Z',
+    '2444-01-01T00:00:00.000Z', '2463-01-01T00:00:00.000Z',
+    '2475-01-01T00:00:00.000Z', '2489-01-01T00:00:00.000Z',
+    '2500-01-01T00:00:00.000Z', '2518-01-01T00:00:00.000Z',
+    '2535-01-01T00:00:00.000Z', '2545-01-01T00:00:00.000Z'
+]
 results = []
 
 for time in times:
     geological_age = int(time[:4]) - 2000
-    sf_age = load_raster_as_dataarray("seafloor_ages", time, "seafloor_age")
-    crustal = load_raster_as_dataarray("crustal_thickness", time, "crustal_thickness")
-    litho = load_raster_as_dataarray("lithospheric_thickness", time, "lithospheric_thickness")
+    print(f"processing age {geological_age} Ma")
+    sf_age = load_raster_as_dataarray(
+        "seafloor_ages",
+        time,
+        "seafloor_age"
+    )
+    crustal = load_raster_as_dataarray(
+        "crustal_thickness",
+        time,
+        "crustal_thickness"
+    )
+    litho = load_raster_as_dataarray(
+        "lithospheric_thickness",
+        time,
+        "lithospheric_thickness"
+    )
 
     ds = xr.Dataset({
         "seafloor_age": sf_age,
@@ -437,8 +565,11 @@ for time in times:
         "mean_litho_continental":   float(np.nanmean(litho_vals[continental_mask_litho]))
     })
 
-    del ds, sf_age, crustal, litho, age_vals, crustal_vals, litho_vals, ocean_mask, continental_mask_crustal, continental_mask_litho
+    del ds, sf_age, crustal, litho
+    print(f"Processed {geological_age} Ma")
+
 df = pd.DataFrame(results).sort_values("age").reset_index(drop=True)
+print(df)
 
 ```
 
@@ -450,28 +581,61 @@ For instance, the code below creates a figure with two rows and two columns. We 
 prefer. Notice how we simply access subsets of our dataframe to display them in each subplot.
 
 ```{python}
-fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 8))
+fig, axes = plt.subplots(
+    nrows=2,
+    ncols=2,
+    figsize=(8, 8)
+)
 
 # Top-left: Mean Seafloor Age
-axes[0, 0].plot(df["age"], df["mean_seafloor_age"], color="steelblue", marker="o", markersize=3)
+axes[0, 0].plot(
+    df["age"],
+    df["mean_seafloor_age"],
+    color="steelblue",
+    marker="o",
+    markersize=3
+)
 axes[0, 0].set_ylabel("Mean Seafloor Age (Myr)")
 
 # Top-right: Crustal Thickness (both)
-axes[0, 1].plot(df["age"], df["mean_crustal_continental"], color="sienna", marker="o", markersize=3)
+axes[0, 1].plot(
+    df["age"],
+    df["mean_crustal_continental"],
+    color="sienna",
+    marker="o",
+    markersize=3
+)
 axes[0, 1].set_ylabel("Continental Crust \n Mean Thickness (km)")
-axes[0, 1].legend()
 
 # Bottom-left: Lithospheric Thickness - Ocean
-axes[1, 0].plot(df["age"], df["mean_litho_ocean"], color="steelblue", marker="o", markersize=3)
+axes[1, 0].plot(
+    df["age"],
+    df["mean_litho_ocean"],
+    color="steelblue",
+    marker="o",
+    markersize=3
+)
 axes[1, 0].set_ylabel("Oceanic Lithosphere \n Mean Thickness (km)")
 axes[1, 0].set_xlabel("Age (Ma)")
 
 # Bottom-right: Lithospheric Thickness - Continental
-axes[1, 1].plot(df["age"], df["mean_litho_continental"], color="sienna", marker="o", markersize=3)
+axes[1, 1].plot(
+    df["age"],
+    df["mean_litho_continental"],
+    color="sienna",
+    marker="o",
+    markersize=3
+)
 axes[1, 1].set_ylabel("Continental Lithosphere \n Mean Thickness (km)")
 axes[1, 1].set_xlabel("Age (Ma)")
 
 for ax in axes.flat:
+    ax.axvspan(
+        320, 175,
+        alpha=0.15,
+        color="grey",
+        label="Pangea"
+    )
     ax.invert_xaxis()
 
 plt.tight_layout()
@@ -484,7 +648,94 @@ supercontinents, do you see these cycles linked with the data we have ?
 
 
 **Bonus**
-Next, we will learn how to create an animated GIF to visualize one layer evolution through the Phanerozoic.
+Finally, we will learn how to create an animated GIF to visualize one layer evolution through the Phanerozoic. For this we
+will need another two libraries called `io` and `imageio`, designed to deal with files management, and images and video
+files, respectively.
+
+
+```{python}
+import io
+import imageio
+
+def render_frame(wcs_url, colormap, title, geological_age):
+    data = requests.get(wcs_url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster = np.ma.masked_equal(
+                    raster,
+                    nodata
+                )
+            else:
+                raster = np.ma.masked_invalid(raster)
+            bounds = [entry[0] for entry in colormap]
+            colors = [entry[1] for entry in colormap[:-1]]
+            cmap = ListedColormap(colors)
+            norm = BoundaryNorm(
+                bounds,
+                ncolors=len(colors)
+            )
+            cmap.set_bad(color='white')
+            bounds = dataset.bounds
+            extent = [
+                bounds.left,
+                bounds.right,
+                bounds.bottom,
+                bounds.top
+            ]
+            fig, ax = plt.subplots()
+            img = ax.imshow(
+                raster,
+                cmap=cmap,
+                norm=norm,
+                extent=extent,
+                origin="upper"
+            )
+            cbar = plt.colorbar(img, ax=ax)
+            cbar.set_label(title)
+            ax.set_title(f"{geological_age} Ma")
+            ax.set_xlabel("Longitude (m)")
+            ax.set_ylabel("Latitude (m)")
+            buf = io.BytesIO()
+            plt.savefig(
+                buf,
+                format="png",
+                dpi=100
+            )
+            plt.close(fig)
+            buf.seek(0)
+            return imageio.imread(buf)
+
+frames = []
+
+for time in times:
+    geological_age = int(time[:4]) - 2000
+    wcs_url = construct_wcs_url(
+        layer_name="seafloor_ages",
+        time=time
+    )
+    frame = render_frame(
+        wcs_url,
+        sf_colormap_entries,
+        "Seafloor Age (Myr)",
+        geological_age
+    )
+    frames.append(frame)
+
+output_gif = "seafloor_ages_phanerozoic.gif"
+imageio.mimsave(
+    output_gif,
+    frames,
+    fps=4,
+    loop=0
+)
+print(f"GIF saved as: {output_gif}")
+```
+&rarr; Play around with the code above and try to change some parameters (revert the time to have something going from the
+oldest age to present, adjust the duration of each map display, change the layer and symbology).
+
 
 ::: {.callout-tip collapse="true" jupyter="false"}
 # Links to useful libraries and tools
@@ -496,5 +747,9 @@ Next, we will learn how to create an animated GIF to visualize one layer evoluti
 - [`rioxarray`](https://corteva.github.io/rioxarray/) An extension of xarray that adds geospatial capabilities, enabling CRS-aware operations on raster datasets directly within the xarray framework.
 
 - [`pandas`](https://pandas.pydata.org/) A Python library for data manipulation and analysis, providing a DataFrame structure that organizes tabular data with named columns and row indices.
+
+- [`io`](https://docs.python.org/3/library/io.html) A Python standard library module for handling Input/Output (I/O) operations, such as reading data in or writing data out.
+
+- [`imageio`](https://imageio.readthedocs.io/) A Python library for reading and writing a wide range of image and video formats, offering a simple interface to load image data as NumPy arrays.
 :::
 
