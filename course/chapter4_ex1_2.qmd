@@ -525,7 +525,6 @@ results = []
 
 for time in times:
     geological_age = int(time[:4]) - 2000
-    print(f"processing age {geological_age} Ma")
     sf_age = load_raster_as_dataarray(
         "seafloor_ages",
         time,
@@ -566,11 +565,8 @@ for time in times:
     })
 
     del ds, sf_age, crustal, litho
-    print(f"Processed {geological_age} Ma")
 
 df = pd.DataFrame(results).sort_values("age").reset_index(drop=True)
-print(df)
-
 ```
 
 Creating a `pd.DataFrame` allows us to pack our data in a tabular format: columns with names and rows (indices). This
