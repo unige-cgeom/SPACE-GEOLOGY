@@ -1,0 +1,203 @@
+---
+title: "Chapter VI: Exercise 2"
+---
+
+# Landslide risk assessement in an Alpine context
+
+::: {.callout-note collapse="true"}
+# This exercise in brief
+
+### Big Question
+
+Where are the areas most susceptible to new rock instabilities or further destabilization within existing landslide zones,
+based on topographic and geological factors?
+
+### What You Will Do
+
+You will combine vector geological maps with raster elevation data to identify areas with high landslide susceptibility.
+Using Python libraries developed for handling geospatial data , you will filter specific rock types, calculate slope
+gradients from a Digital Elevation Model (DEM), and apply a statistical threshold to pinpoint zones where topography
+and lithology create a critical risk of failure.
+
+
+
+### Why This Matters
+
+Understanding slope stability is critical for land-use planning and hazard mitigation in Alpine environments. By
+analyzing the relationship between lithology, slope angle, and historical instability
+ata, we can predict future failures before they occur. This aligns with the Swiss federal approach to hazard mapping,
+moving from inventory catalogs to indicative susceptibility maps using reproducible code.
+
+
+### Your Tasks
+
+1.  **Data Filtering:** Query vector attributes to isolate lithologies prone to instability (Typ_code 800, 801, 802, 870)
+and existing instability structures (Typ_code 700, 701).
+
+2.  **Terrain Analysis:** Compute slope gradients from the DEM and calculate statistical metrics (mean) to determine the
+stability threshold ($\phi$).
+
+3.  **Susceptibility Modeling:** Apply boolean logic and raster masking to identify:
+    3.1. New potential instabilities on favorable lithologies where slope > $\phi$.
+    3.2. Critical sub-zones within existing landslides where slope > $\phi$.
+
+4.  **Visualization & Export:** Generate static maps highlighting risk zones with appropriate color ramps and
+transparency, and export summary statistics (areas).
+
+
+
+### Skills You Will Gain
+
+1. Calculating terrain attributes (slope, hillshade) from DEM arrays.
+2. Spatial Querying: Filtering vector data based on attribute expressions.
+3. Map Algebra: Performing cell-by-cell mathematical operations and reclassification on raster grids.
+4. Cartographic Output: Rendering geospatial data to image formats (PNG/JPG) with custom colormaps.
+
+
+
+### Points for Discussion
+
+* The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?*
+
+* Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?*
+
+* Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?*
+
+:::
+
+# Step-by-step instructions
+
+**1. Data preparation**
+
+We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography
+(swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25),
+but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the
+`data` folder as a GeoTiFF
+
+&rarr; With the knowledge you have from the previous exercise, load the GeoTiff file and display its metadata.
+
+&rarr; What is the coordinate reference system of the layer ? What is its resolution ?
+
+```{python}
+
+import rasterio
+
+with rasterio.open("data/DEM/Sion_MNT25.tif") as src:
+    dem = src.read(1)
+    transform = src.transform
+    shape = src.shape
+    metadata= src.meta
+    crs = src.crs
+
+print(metadata)
+
+```
+
+Second, we will extract the favorable lithologies that could trigger instabilities. For this, you will need to have the
+`geopandas` library installed. This library is an extension of `pandas` specifically designed to handle geospatial data.
+
+You may use `geopandas` to read a file (for instance shapefile) into a `GeoDataFrame` (gdf), which is simply a `DataFrame`
+that contains a geometry column. The example below shows how to simply load our shapefile of interest and prints out the
+gdf columns, and the 10 first rows.
+
+```{python}
+
+import geopandas as gpd
+
+bedrock_plg = gpd.read_file(r"data/shapefiles/Bedrok_PLG.shp",encoding="utf-8")
+print(bedrock_plg.columns)
+print(bedrock_plg.head(10))
+
+```
+
+If you want to see one feature in particular, for instance the first one, this is very easy to get all properties, or
+just the geometry:
+
+```{python}
+print("First feature:",bedrock_plg.iloc[0])
+
+print("First feature geometry:",bedrock_plg.iloc[0].geometry)
+```
+
+One thing we will do is filter out our original data to keep only selected lithologies. This can be done using the query
+function with the desired condition:
+
+```{python}
+select_litho = bedrock_plg.query("Typ_code == '830'")
+print(select_litho.iloc[0].Litho)
+```
+&rarr; What lithology is associated with the code '830' ?
+
+&rarr; How would you do a filtering, not only for 1 value but for 4 different ones ?
+
+```{python}
+fav_litho = bedrock_plg.query("Typ_code in ('800', '801', '802', '870')")
+print(fav_litho.iloc[0].Litho)
+```
+Using `matplotlib`, we can plot our favorable lithologies, with a symbology based on the 'Typ_code' attribute:
+```{python}
+import matplotlib.pyplot as plt
+
+fav_litho.plot(figsize=(8, 8), column="Typ_code", legend=True)
+plt.show()
+```
+
+A good thing is that we can now convert our favorable lithologies into a raster (which will be useful for us later in the
+ exercice), as the `geopandas` and `rasterio` libraries can work with each other's formats.
+
+ ```{python}
+ from rasterio.features import rasterize
+
+rasterized = rasterize(
+    shapes=((geom, 1) for geom in fav_litho.geometry),
+    out_shape=shape,
+    transform=transform,
+    fill=0,
+    dtype="uint8"
+)
+ ```
+
+The code above creates a raster with the same properties as the DEM we loaded initially: it takes the same shape and
+transform. For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will
+have a value of 0 (from the 'fill' parameter). Let's visualize the result:
+
+```{python}
+plt.imshow(rasterized)
+plt.colorbar()
+plt.axis("off")
+plt.show()
+```
+
+We will now export our new raster. For this, we need to make sure that our output folder exists, by using the `os`
+library, that is used to interact with the operating system of your machine, in this case, by creating a folder where
+we will save our output directory.
+
+```{python}
+import os
+os.makedirs(r"data\outputs", exist_ok=True)
+
+with rasterio.open(
+    r"data/outputs/fav_litho.tif", "w",
+    driver="GTiff",
+    height=shape[0], width=shape[1],
+    count=1, dtype="uint8",
+    crs=crs, transform=transform
+) as dst:
+    dst.write(rasterized, 1)
+```
+
+The code above will write a `GeoTiFF` file with the same properties (shape, crs, transform) as the original DEM, with
+one band (defined by the 'count' parameter).
+
+
+::: {.callout-tip collapse="true"}
+# Links to useful libraries and tools
+
+### Python libraries
+
+
+- [`geopandas`](https://geopandas.org/) An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.
+
+- [`os`](https://docs.python.org/3/library/os.html) A Python standard library module for interacting with the operating system, including file and directory management.
+
+:::
