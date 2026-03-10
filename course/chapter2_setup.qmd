@@ -35,6 +35,9 @@ In this course, we will require the following libraries:
 
 - [`requests`](https://requests.readthedocs.io/) A simple and elegant HTTP library for sending web requests and interacting with APIs.
 
+- [`geopandas`](https://geopandas.org/) An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.
+
+- [`os`](https://docs.python.org/3/library/os.html) A Python standard library module for interacting with the operating system, including file and directory management.
 
 # Code editors
 
