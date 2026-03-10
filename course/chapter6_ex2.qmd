@@ -69,6 +69,8 @@ transparency, and export summary statistics (areas).
 
 **1. Data preparation**
 
+1.1. Lithologies favorable to rock instabilities
+
 We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography
 (swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25),
 but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the
@@ -145,8 +147,9 @@ plt.show()
 A good thing is that we can now convert our favorable lithologies into a raster (which will be useful for us later in the
  exercice), as the `geopandas` and `rasterio` libraries can work with each other's formats.
 
- ```{python}
- from rasterio.features import rasterize
+```{python}
+
+from rasterio.features import rasterize
 
 rasterized = rasterize(
     shapes=((geom, 1) for geom in fav_litho.geometry),
@@ -155,7 +158,7 @@ rasterized = rasterize(
     fill=0,
     dtype="uint8"
 )
- ```
+```
 
 The code above creates a raster with the same properties as the DEM we loaded initially: it takes the same shape and
 transform. For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will
@@ -189,7 +192,203 @@ with rasterio.open(
 The code above will write a `GeoTiFF` file with the same properties (shape, crs, transform) as the original DEM, with
 one band (defined by the 'count' parameter).
 
+&rarr; Let's go back to our rasterized favorable lithologies. Try calculating the area covered by such lithologies. This
+can be done by multiplying the raster pixels width, height and count. The first two are available in the `transform`
+property of the raster metadata (originally from the DEM, that we also applied to our rasterized lithologies). The pixel
+count cna be obtained using `numpy` summing operations.
 
+```{python}
+import numpy as np
+pixel_width = abs(transform[0])
+pixel_height = abs(transform[4])
+pixel_area = pixel_width * pixel_height
+
+pixel_count = np.sum(rasterized == 1)
+
+total_area = pixel_count * pixel_area
+print(total_area)
+```
+&rarr; What does this number represent ? What units ?
+
+1.2. Existing instabilities
+
+We will now look into existing rock instabilities and will identify them using the same method we did for the favorable
+lithologies. Load the 'Instability_Structures_PLG' shapefile and inspect its features in a similar fashion than for the
+bedrock polygons.
+```{python}
+
+instabilities_plg = gpd.read_file(r"data/shapefiles/Instability_Structures_PLG.shp",encoding="utf-8")
+print(instabilities_plg.columns)
+print(instabilities_plg.head(10))
+
+print("First feature:",instabilities_plg.iloc[0])
+
+print("First feature geometry:",instabilities_plg.iloc[0].geometry)
+
+print(instabilities_plg["TYP_CODE"].unique())
+print(instabilities_plg["TYP_NAME"].unique())
+```
+
+&rarr; What are the instabilities you identified?
+
+&rarr; Try plotting the polygons of instabilities with a symbology based on the type
+
+Let's now filter out our existing instabilities using the codes we found in the previous code, and calculate their
+combined area.
+
+```{python}
+existing_instabilities = instabilities_plg.query("TYP_CODE in ('700', '701')")
+existing_instabilities["area_m2"] = existing_instabilities.geometry.area
+
+# Total area
+total_area_plg = existing_instabilities.geometry.area.sum()
+
+print(f"Total area from polygons: {total_area_plg}")
+```
+
+Notice how we were able to calculate the area directly on the vector data, unlike what we did with the favorable
+lithologies ?
+
+&rarr; Both methods are possible, but which one do you think is best suited ? Why ?
+
+&rarr; Rasterize the existing instabilities and calculate the area on the pixels. What result do you get ?
+
+```{python}
+rasterized = rasterize(
+    shapes=((geom, 1) for geom in existing_instabilities.geometry),
+    out_shape=shape,
+    transform=transform,
+    fill=0,
+    dtype="uint8"
+)
+
+pixel_count = np.sum(rasterized == 1)
+
+total_area = pixel_count * pixel_area
+print(f"Total area from pixels: {total_area}")
+```
+
+Let's also export our data to a GeoTiFF using the same command as before.
+
+```{python}
+with rasterio.open(
+    r"data/outputs/instabilities.tif", "w",
+    driver="GTiff",
+    height=shape[0], width=shape[1],
+    count=1, dtype="uint8",
+    crs=crs, transform=transform
+) as dst:
+    dst.write(rasterized, 1)
+```
+
+1.3. Slope distribution
+
+We are going to calculate the slope of each pixel from the original DEM to understand the terrain variations and how
+these are related to instabilities. In traditional Desktop GIS, there are some tools that already implement slope
+calculations, but we can do it manually using `numpy` in Python, se we understand how the slope is calculated.
+
+The slope of a cell is usually calculated using the Horn algorithm (Horn, 1981), and considers the 8 neighbouring cells
+elevation (N, S, E, W, NE, NW, SE, SW). With `np.roll`, we can retrieve the information about each neighbouring cell by
+just shifting the array, for every cell at once.
+
+```{python}
+north = np.roll(dem, -1, axis=0)
+south = np.roll(dem,  1, axis=0)
+east = np.roll(dem,  1, axis=1)
+west = np.roll(dem, -1, axis=1)
+
+north_east = np.roll(north,  1, axis=1)
+north_west = np.roll(north, -1, axis=1)
+south_east = np.roll(south,  1, axis=1)
+south_west = np.roll(south, -1, axis=1)
+```
+
+Then, using Horn's formula, we calculate how much elevation changes east-west (dx) and
+north-south (dy), that will help us calculate the slope in degrees.
+
+```{python}
+
+dx = (north_east + 2*east + south_east - north_west - 2*west - south_west) / (8 * pixel_width)
+dy = (south_west + 2*south + south_east - north_west - 2*north - north_east) / (8 * pixel_height)
+slope_deg = np.degrees(np.arctan(np.sqrt(dx**2 + dy**2)))
+```
+Note that all operations, including `np.roll`, `np.degrees` or `np.arctan` are performed on every pixel of the DEM, this
+is what we call vectorized operations. It is built-in to work faster and in a cleaner way than what a loop would do.
+
+Before moving on to analyze our slope values, we need to correct for the issue with slope calculation at the map's edges.
+When we do `np.roll`, the pixels of the first and last rows, together with pixels from the first and last column are
+moved to the other end of the raster and might induce errors locally. For this reason, we will discard them from our
+analysis by assigning them the 'not a number' (NaN) value.
+
+```{python}
+slope_deg[0, :]  = np.nan
+slope_deg[-1, :] = np.nan
+slope_deg[:, 0]  = np.nan
+slope_deg[:, -1] = np.nan
+```
+
+In the code above, we simply take all pixels from the first row `[0,:]`, all pixels from the last row [-1,:], all pixels
+form the first column `[:,0]` and all pixels from the last column `[:,-1]` and set them to NaN using `np.nan`
+
+Let's now have a look at our values and print the minimum, maximum and mean slope.
+```{python}
+print(f"Min slope:  {np.nanmin(slope_deg):.2f}°")
+print(f"Max slope:  {np.nanmax(slope_deg):.2f}°")
+print(f"Mean slope: {np.nanmean(slope_deg):.2f}°")
+```
+
+&rarr; Plot and save the slope map !
+
+```{python}
+left = transform[2]
+right = transform[2] + transform[0] * dem.shape[1]
+bottom = transform[5] + transform[4] * dem.shape[0]
+top = transform[5]
+
+plt.figure(figsize=(8, 8))
+plt.imshow(slope_deg, cmap="magma", extent=[left, right, bottom, top])
+plt.colorbar(label="Slope (degrees)")
+plt.show()
+
+with rasterio.open(
+    "data/outputs/slope.tif", "w",
+    driver="GTiff",
+    height=shape[0], width=shape[1],
+    count=1, dtype="float32",
+    crs=crs, transform=transform,
+    nodata=np.nan
+) as dst:
+    dst.write(slope_deg.astype("float32"), 1)
+```
+&rarr;  Do you understand how we calculated the extent of the map (left, right, bottom, top) ?
+
+
+1.4. Sampling in a sub-equilibrium zone
+
+Let's now have a look at a specific zone in which we observe instabilities. The area is defined by the polygon
+'subequil_PLG_r.shp'. We will load the shapefile and have a look at the slope values inside this very polygon.
+
+To do this, we will use the `geometry_mask` function from `rasterio`. Remember, we used masks in our first exercise by
+selecting pixels above sea level, but here we will select all pixels of the slope layer inside the sub-equilibrium
+polygon.
+
+```{python}
+from rasterio.features import geometry_mask
+
+subequil_zone = gpd.read_file("data/shapefiles/subequil_PLG_r.shp")
+
+mask = geometry_mask(
+    subequil_zone.geometry,
+    transform=transform,
+    invert=True,
+    out_shape=shape
+)
+
+slope_inside = slope_deg[mask]
+
+print(f"Mean slope inside zone: {np.nanmean(slope_inside):.2f}°")
+print(f"Max slope inside zone:  {np.nanmax(slope_inside):.2f}°")
+```
 ::: {.callout-tip collapse="true"}
 # Links to useful libraries and tools
 
