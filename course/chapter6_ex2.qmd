@@ -1,5 +1,8 @@
 ---
 title: "Chapter VI: Exercise 2"
+format:
+  html: default
+  pdf: default
 ---
 
 # Landslide risk assessement in an Alpine context
@@ -106,7 +109,10 @@ gdf columns, and the 10 first rows.
 
 import geopandas as gpd
 
-bedrock_plg = gpd.read_file(r"data/shapefiles/Bedrok_PLG.shp",encoding="utf-8")
+bedrock_plg = gpd.read_file(
+    r"data/shapefiles/Bedrok_PLG.shp",
+    encoding="utf-8"
+)
 print(bedrock_plg.columns)
 print(bedrock_plg.head(10))
 
@@ -128,7 +134,7 @@ function with the desired condition:
 select_litho = bedrock_plg.query("Typ_code == '830'")
 print(select_litho.iloc[0].Litho)
 ```
-&rarr; What lithology is associated with the code '830' ?
+&rarr; What lithology is associated with the code '870' ?
 
 &rarr; How would you do a filtering, not only for 1 value but for 4 different ones ?
 
@@ -140,7 +146,11 @@ Using `matplotlib`, we can plot our favorable lithologies, with a symbology base
 ```{python}
 import matplotlib.pyplot as plt
 
-fav_litho.plot(figsize=(8, 8), column="Typ_code", legend=True)
+fav_litho.plot(
+    figsize=(8, 8),
+    column="Typ_code",
+    legend=True
+)
 plt.show()
 ```
 
@@ -151,7 +161,7 @@ A good thing is that we can now convert our favorable lithologies into a raster 
 
 from rasterio.features import rasterize
 
-rasterized = rasterize(
+raster_fav_litho = rasterize(
     shapes=((geom, 1) for geom in fav_litho.geometry),
     out_shape=shape,
     transform=transform,
@@ -165,7 +175,7 @@ transform. For each polygon in the favorable lithologies, the created pixels wil
 have a value of 0 (from the 'fill' parameter). Let's visualize the result:
 
 ```{python}
-plt.imshow(rasterized)
+plt.imshow(raster_fav_litho)
 plt.colorbar()
 plt.axis("off")
 plt.show()
@@ -177,7 +187,10 @@ we will save our output directory.
 
 ```{python}
 import os
-os.makedirs(r"data\outputs", exist_ok=True)
+os.makedirs(
+    "data/outputs",
+    exist_ok=True
+)
 
 with rasterio.open(
     r"data/outputs/fav_litho.tif", "w",
@@ -186,7 +199,7 @@ with rasterio.open(
     count=1, dtype="uint8",
     crs=crs, transform=transform
 ) as dst:
-    dst.write(rasterized, 1)
+    dst.write(raster_fav_litho, 1)
 ```
 
 The code above will write a `GeoTiFF` file with the same properties (shape, crs, transform) as the original DEM, with
@@ -203,7 +216,7 @@ pixel_width = abs(transform[0])
 pixel_height = abs(transform[4])
 pixel_area = pixel_width * pixel_height
 
-pixel_count = np.sum(rasterized == 1)
+pixel_count = np.sum(raster_fav_litho == 1)
 
 total_area = pixel_count * pixel_area
 print(total_area)
@@ -217,7 +230,10 @@ lithologies. Load the 'Instability_Structures_PLG' shapefile and inspect its fea
 bedrock polygons.
 ```{python}
 
-instabilities_plg = gpd.read_file(r"data/shapefiles/Instability_Structures_PLG.shp",encoding="utf-8")
+instabilities_plg = gpd.read_file(
+    r"data/shapefiles/Instability_Structures_PLG.shp",
+    encoding="utf-8"
+)
 print(instabilities_plg.columns)
 print(instabilities_plg.head(10))
 
@@ -240,7 +256,6 @@ combined area.
 existing_instabilities = instabilities_plg.query("TYP_CODE in ('700', '701')")
 existing_instabilities["area_m2"] = existing_instabilities.geometry.area
 
-# Total area
 total_area_plg = existing_instabilities.geometry.area.sum()
 
 print(f"Total area from polygons: {total_area_plg}")
@@ -254,7 +269,7 @@ lithologies ?
 &rarr; Rasterize the existing instabilities and calculate the area on the pixels. What result do you get ?
 
 ```{python}
-rasterized = rasterize(
+raster_inst = rasterize(
     shapes=((geom, 1) for geom in existing_instabilities.geometry),
     out_shape=shape,
     transform=transform,
@@ -262,7 +277,7 @@ rasterized = rasterize(
     dtype="uint8"
 )
 
-pixel_count = np.sum(rasterized == 1)
+pixel_count = np.sum(raster_inst == 1)
 
 total_area = pixel_count * pixel_area
 print(f"Total area from pixels: {total_area}")
@@ -278,7 +293,7 @@ with rasterio.open(
     count=1, dtype="uint8",
     crs=crs, transform=transform
 ) as dst:
-    dst.write(rasterized, 1)
+    dst.write(raster_inst, 1)
 ```
 
 1.3. Slope distribution
@@ -308,8 +323,11 @@ north-south (dy), that will help us calculate the slope in degrees.
 
 ```{python}
 
-dx = (north_east + 2*east + south_east - north_west - 2*west - south_west) / (8 * pixel_width)
-dy = (south_west + 2*south + south_east - north_west - 2*north - north_east) / (8 * pixel_height)
+dx = ((north_east + 2*east + south_east - north_west - 2*west - south_west)
+      / (8 * pixel_width))
+dy = ((south_west + 2*south + south_east - north_west - 2*north - north_east)
+      / (8 * pixel_height))
+
 slope_deg = np.degrees(np.arctan(np.sqrt(dx**2 + dy**2)))
 ```
 Note that all operations, including `np.roll`, `np.degrees` or `np.arctan` are performed on every pixel of the DEM, this
@@ -332,9 +350,9 @@ form the first column `[:,0]` and all pixels from the last column `[:,-1]` and s
 
 Let's now have a look at our values and print the minimum, maximum and mean slope.
 ```{python}
-print(f"Min slope:  {np.nanmin(slope_deg):.2f}°")
-print(f"Max slope:  {np.nanmax(slope_deg):.2f}°")
-print(f"Mean slope: {np.nanmean(slope_deg):.2f}°")
+print(f"Min slope:  {np.nanmin(slope_deg)}°")
+print(f"Max slope:  {np.nanmax(slope_deg)}°")
+print(f"Mean slope: {np.nanmean(slope_deg)}°")
 ```
 
 &rarr; Plot and save the slope map !
@@ -346,16 +364,24 @@ bottom = transform[5] + transform[4] * dem.shape[0]
 top = transform[5]
 
 plt.figure(figsize=(8, 8))
-plt.imshow(slope_deg, cmap="magma", extent=[left, right, bottom, top])
+plt.imshow(
+    slope_deg,
+    cmap="magma",
+    extent=[left, right, bottom, top]
+)
 plt.colorbar(label="Slope (degrees)")
 plt.show()
 
 with rasterio.open(
-    "data/outputs/slope.tif", "w",
+    "data/outputs/slope.tif",
+    "w",
     driver="GTiff",
-    height=shape[0], width=shape[1],
-    count=1, dtype="float32",
-    crs=crs, transform=transform,
+    height=shape[0],
+    width=shape[1],
+    count=1,
+    dtype="float32",
+    crs=crs,
+    transform=transform,
     nodata=np.nan
 ) as dst:
     dst.write(slope_deg.astype("float32"), 1)
@@ -363,7 +389,7 @@ with rasterio.open(
 &rarr;  Do you understand how we calculated the extent of the map (left, right, bottom, top) ?
 
 
-1.4. Sampling in a sub-equilibrium zone
+**2. Estimate the representative slope angle**
 
 Let's now have a look at a specific zone in which we observe instabilities. The area is defined by the polygon
 'subequil_PLG_r.shp'. We will load the shapefile and have a look at the slope values inside this very polygon.
@@ -389,6 +415,145 @@ slope_inside = slope_deg[mask]
 print(f"Mean slope inside zone: {np.nanmean(slope_inside):.2f}°")
 print(f"Max slope inside zone:  {np.nanmax(slope_inside):.2f}°")
 ```
+
+&rarr; Plot an histogram that shows the slope distribution within the sampling zone.
+
+
+```{python}
+mean_slope = np.mean(slope_inside)
+
+plt.hist(
+    slope_inside,
+    bins=50
+)
+plt.axvline(
+    mean_slope,
+    color='red',
+    linestyle='--',
+    label=f'Mean: {mean_slope}°')
+plt.xlabel("Slope (°)")
+plt.title("Slope distribution inside zone")
+plt.legend()
+plt.show()
+```
+
+**3. Identify new areas susceptible to instabilities**
+
+3.1. Existing instabilities on favorable lithologies
+
+Now, we will identify areas where we have existing instabilities at locations where the lithology is favorable.
+
+&rarr; Create a new raster (with the same resolution as the original DEM) to identify existing instabilities located on
+favorable lithologies.
+
+```{python}
+instabilities_on_fav_litho = raster_fav_litho * raster_inst
+```
+
+&rarr; Plot the new raster and calculate its area
+
+```{python}
+plt.imshow(instabilities_on_fav_litho)
+plt.colorbar()
+plt.axis("off")
+plt.title("Existing instabilities on favorable lithologies")
+plt.show()
+
+pixel_count = np.sum(instabilities_on_fav_litho == 1)
+print(
+    f"Area of existing instabilities on favorable lithologies: "
+    f"{pixel_count * pixel_area:.0f} m²"
+)
+```
+
+3.2. Zones without instabilities but located on favorable lithologies
+
+&rarr;Using a similar approach, identify the areas where we have fabvorable lithologies but no observed instabilities.
+
+```{python}
+fav_litho_no_instability = (raster_fav_litho == 1) & (raster_inst == 0)
+
+pixel_count = np.sum(fav_litho_no_instability)
+print(
+    f"Area without instabilities but with favorable lithologies: "
+    f"{pixel_count * pixel_area} m²"
+)
+```
+
+3.3. Slopes of zone without instabilities but with favorable lithologies
+
+We will now create a subset of our slope map, focusing only on the zones where we have no instabilities and with
+favorable lithologies.
+
+```{python}
+slope_fav_no_inst = slope_deg[fav_litho_no_instability]
+slope_fav_no_inst = slope_fav_no_inst[np.isfinite(slope_fav_no_inst)]
+print(f"Min slope: {np.nanmin(slope_fav_no_inst)}°")
+print(f"Max slope:  {np.nanmax(slope_fav_no_inst)}°")
+```
+
+Given that we have all slope values over our area of interest, we will keep only pixels that have a slope higher than
+the $\phi$ value we calculated in the part 2 above. This will give us areas susceptible to instabilities.
+
+&rarr; To do this, reclassify our subset slope raster into two classes, depending on the value of the slope value versus
+the $\phi$ value.
+
+```{python}
+slope_class = np.where(slope_deg > mean_slope, 1, 0)
+susceptible_inst = slope_class * fav_litho_no_instability
+
+pixel_count = np.sum(susceptible_inst == 1)
+print(f"Area susceptible to instabilities: {pixel_count * pixel_area:.0f} m²")
+```
+
+**4. Susceptible areas inside the existing instability zones**
+
+&rarr; Repeat the slope subset over existing instabilities ('raster_inst') and calculate the area where the slope is greater
+than $\phi$.
+
+```{python}
+slope_inst = slope_deg[raster_inst]
+slope_inst = slope_inst[np.isfinite(slope_inst)]
+print(f"Min slope: {np.nanmin(slope_inst)}°")
+print(f"Max slope:  {np.nanmax(slope_inst)}°")
+
+slope_class = np.where(slope_deg > mean_slope, 1, 0)
+exist_inst_class = slope_class * raster_inst
+
+pixel_count = np.sum(exist_inst_class == 1)
+print(f"Area of existing risk: {pixel_count * pixel_area} m²")
+```
+
+**5. Total susceptible areas to rock instabilities**
+
+&rarr; Using all of the results you obtained, calculate the total area where we have a susceptibility to instabilities.
+
+```{python}
+total_susceptible = susceptible_inst + exist_inst_class
+total_susceptible = (total_susceptible >= 1).astype("uint8")
+
+pixel_count = np.sum(total_susceptible == 1)
+print(f"Total susceptible area: {pixel_count * pixel_area:.0f} m²")
+
+
+print(
+    f"New potential instabilities (fav. litho, no existing instability): "
+    f"{np.sum(susceptible_inst == 1) * pixel_area} m²"
+)
+print(
+    f"Critical zones within existing instabilities:"
+    f"{np.sum(exist_inst_class == 1) * pixel_area} m²"
+)
+```
+
+**Final questions:**
+
++ What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
++ What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
++ What proportion (in %) of the study area is affected by instabilities ? Provide all the necessary numbers used for the calculation.
++ What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.
++ What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.
+
 ::: {.callout-tip collapse="true"}
 # Links to useful libraries and tools
 
