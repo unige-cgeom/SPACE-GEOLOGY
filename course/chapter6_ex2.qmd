@@ -2,7 +2,6 @@
 title: "Chapter VI: Exercise 2"
 format:
   html: default
-  pdf: default
 ---
 
 # Landslide risk assessement in an Alpine context
