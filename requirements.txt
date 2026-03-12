@@ -9,3 +9,5 @@ xarray
 rioxarray
 imageio
 geopandas
+netCDF4
+scipy
