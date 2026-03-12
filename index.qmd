@@ -8,7 +8,7 @@ author:
     affiliation:
       - name: "Institute for Environmental Sciences, University of Geneva"
         city: "Geneva"
-  - name: "Sébastien Biasse"
+  - name: "Sébastien Biass"
     orcid: 0000-0002-1919-9473
     affiliation:
       - name: "Department of Earth Sciences, University of Geneva"

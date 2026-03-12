@@ -1,5 +1,8 @@
 ---
 title: "Chapter I: GIS in Earth Sciences "
+format:
+  html: default
+  pdf: default
 ---
 
 This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences

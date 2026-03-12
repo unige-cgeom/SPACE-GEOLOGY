@@ -2,6 +2,7 @@
 title: "Chapter IV: Exercise 1 - Part 2 "
 format:
   html: default
+  pdf: default
 ---
 
 # How Fast Was Earth’s Engine Running?
