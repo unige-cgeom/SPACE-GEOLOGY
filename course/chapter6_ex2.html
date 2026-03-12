@@ -136,7 +136,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed fullcontent quarto-light">
+<body class="nav-sidebar floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -225,7 +225,9 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter6_ex2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -311,7 +313,7 @@ window.Quarto = {
 <p>We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the <a href="https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25">swisstopo website</a>, but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the <code>data</code> folder as a GeoTiFF</p>
 <p>→ With the knowledge you have from the previous exercise, load the GeoTiff file and display its metadata.</p>
 <p>→ What is the coordinate reference system of the layer ? What is its resolution ?</p>
-<div id="394aeb54" class="cell" data-execution_count="1">
+<div id="d92900e6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"data/DEM/Sion_MNT25.tif"</span>) <span class="im">as</span> src:</span>
@@ -329,7 +331,7 @@ window.Quarto = {
 </div>
 <p>Second, we will extract the favorable lithologies that could trigger instabilities. For this, you will need to have the <code>geopandas</code> library installed. This library is an extension of <code>pandas</code> specifically designed to handle geospatial data.</p>
 <p>You may use <code>geopandas</code> to read a file (for instance shapefile) into a <code>GeoDataFrame</code> (gdf), which is simply a <code>DataFrame</code> that contains a geometry column. The example below shows how to simply load our shapefile of interest and prints out the gdf columns, and the 10 first rows.</p>
-<div id="18b5ab04" class="cell" data-execution_count="2">
+<div id="c2ae3451" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bedrock_plg <span class="op">=</span> gpd.read_file(</span>
@@ -366,7 +368,7 @@ window.Quarto = {
 </div>
 </div>
 <p>If you want to see one feature in particular, for instance the first one, this is very easy to get all properties, or just the geometry:</p>
-<div id="b9aa375a" class="cell" data-execution_count="3">
+<div id="799b8fb6" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature:"</span>,bedrock_plg.iloc[<span class="dv">0</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature geometry:"</span>,bedrock_plg.iloc[<span class="dv">0</span>].geometry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -379,7 +381,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>One thing we will do is filter out our original data to keep only selected lithologies. This can be done using the query function with the desired condition:</p>
-<div id="0b111148" class="cell" data-execution_count="4">
+<div id="94f9385c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>select_litho <span class="op">=</span> bedrock_plg.query(<span class="st">"Typ_code == '830'"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(select_litho.iloc[<span class="dv">0</span>].Litho)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -388,7 +390,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 <p>→ What lithology is associated with the code ‘870’ ?</p>
 <p>→ How would you do a filtering, not only for 1 value but for 4 different ones ?</p>
-<div id="03bdbaed" class="cell" data-execution_count="5">
+<div id="38534c7e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fav_litho <span class="op">=</span> bedrock_plg.query(<span class="st">"Typ_code in ('800', '801', '802', '870')"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fav_litho.iloc[<span class="dv">0</span>].Litho)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -396,7 +398,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>Using <code>matplotlib</code>, we can plot our favorable lithologies, with a symbology based on the ‘Typ_code’ attribute:</p>
-<div id="b94fcf0d" class="cell" data-execution_count="6">
+<div id="b22b5588" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fav_litho.plot(</span>
@@ -414,7 +416,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>A good thing is that we can now convert our favorable lithologies into a raster (which will be useful for us later in the exercice), as the <code>geopandas</code> and <code>rasterio</code> libraries can work with each other’s formats.</p>
-<div id="ee7c881a" class="cell" data-execution_count="7">
+<div id="89f979ce" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> rasterize</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>raster_fav_litho <span class="op">=</span> rasterize(</span>
@@ -426,7 +428,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The code above creates a raster with the same properties as the DEM we loaded initially: it takes the same shape and transform. For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will have a value of 0 (from the ‘fill’ parameter). Let’s visualize the result:</p>
-<div id="4b6e231c" class="cell" data-execution_count="8">
+<div id="4657622f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(raster_fav_litho)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
@@ -440,7 +442,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>We will now export our new raster. For this, we need to make sure that our output folder exists, by using the <code>os</code> library, that is used to interact with the operating system of your machine, in this case, by creating a folder where we will save our output directory.</p>
-<div id="a577832b" class="cell" data-execution_count="9">
+<div id="e7763aad" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/outputs"</span>,</span>
@@ -458,7 +460,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 <p>The code above will write a <code>GeoTiFF</code> file with the same properties (shape, crs, transform) as the original DEM, with one band (defined by the ‘count’ parameter).</p>
 <p>→ Let’s go back to our rasterized favorable lithologies. Try calculating the area covered by such lithologies. This can be done by multiplying the raster pixels width, height and count. The first two are available in the <code>transform</code> property of the raster metadata (originally from the DEM, that we also applied to our rasterized lithologies). The pixel count cna be obtained using <code>numpy</code> summing operations.</p>
-<div id="1587ecb2" class="cell" data-execution_count="10">
+<div id="cc537114" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pixel_width <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">0</span>])</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>pixel_height <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">4</span>])</span>
@@ -475,7 +477,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 <p>→ What does this number represent ? What units ?</p>
 <p>1.2. Existing instabilities</p>
 <p>We will now look into existing rock instabilities and will identify them using the same method we did for the favorable lithologies. Load the ‘Instability_Structures_PLG’ shapefile and inspect its features in a similar fashion than for the bedrock polygons.</p>
-<div id="a55de5bb" class="cell" data-execution_count="11">
+<div id="6d02475f" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>instabilities_plg <span class="op">=</span> gpd.read_file(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"data/shapefiles/Instability_Structures_PLG</span><span class="dv">.</span><span class="vs">shp"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
@@ -518,7 +520,7 @@ Length: 3, dtype: str</code></pre>
 <p>→ What are the instabilities you identified?</p>
 <p>→ Try plotting the polygons of instabilities with a symbology based on the type</p>
 <p>Let’s now filter out our existing instabilities using the codes we found in the previous code, and calculate their combined area.</p>
-<div id="7b4dcd8d" class="cell" data-execution_count="12">
+<div id="b4bff9ee" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>existing_instabilities <span class="op">=</span> instabilities_plg.query(<span class="st">"TYP_CODE in ('700', '701')"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>existing_instabilities[<span class="st">"area_m2"</span>] <span class="op">=</span> existing_instabilities.geometry.area</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -532,7 +534,7 @@ Length: 3, dtype: str</code></pre>
 <p>Notice how we were able to calculate the area directly on the vector data, unlike what we did with the favorable lithologies ?</p>
 <p>→ Both methods are possible, but which one do you think is best suited ? Why ?</p>
 <p>→ Rasterize the existing instabilities and calculate the area on the pixels. What result do you get ?</p>
-<div id="3ec64a0c" class="cell" data-execution_count="13">
+<div id="09d86a91" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raster_inst <span class="op">=</span> rasterize(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    shapes<span class="op">=</span>((geom, <span class="dv">1</span>) <span class="cf">for</span> geom <span class="kw">in</span> existing_instabilities.geometry),</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    out_shape<span class="op">=</span>shape,</span>
@@ -550,7 +552,7 @@ Length: 3, dtype: str</code></pre>
 </div>
 </div>
 <p>Let’s also export our data to a GeoTiFF using the same command as before.</p>
-<div id="264b48f1" class="cell" data-execution_count="14">
+<div id="f8a3a635" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"data/outputs/instabilities</span><span class="dv">.</span><span class="vs">tif"</span>, <span class="st">"w"</span>,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    driver<span class="op">=</span><span class="st">"GTiff"</span>,</span>
@@ -563,7 +565,7 @@ Length: 3, dtype: str</code></pre>
 <p>1.3. Slope distribution</p>
 <p>We are going to calculate the slope of each pixel from the original DEM to understand the terrain variations and how these are related to instabilities. In traditional Desktop GIS, there are some tools that already implement slope calculations, but we can do it manually using <code>numpy</code> in Python, se we understand how the slope is calculated.</p>
 <p>The slope of a cell is usually calculated using the Horn algorithm (Horn, 1981), and considers the 8 neighbouring cells elevation (N, S, E, W, NE, NW, SE, SW). With <code>np.roll</code>, we can retrieve the information about each neighbouring cell by just shifting the array, for every cell at once.</p>
-<div id="4adc451b" class="cell" data-execution_count="15">
+<div id="380fc663" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>north <span class="op">=</span> np.roll(dem, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>south <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>east <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -575,7 +577,7 @@ Length: 3, dtype: str</code></pre>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>south_west <span class="op">=</span> np.roll(south, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then, using Horn’s formula, we calculate how much elevation changes east-west (dx) and north-south (dy), that will help us calculate the slope in degrees.</p>
-<div id="e7077412" class="cell" data-execution_count="16">
+<div id="fdb4a8ab" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> ((north_east <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>east <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>west <span class="op">-</span> south_west)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">/</span> (<span class="dv">8</span> <span class="op">*</span> pixel_width))</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> ((south_west <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>south <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>north <span class="op">-</span> north_east)</span>
@@ -585,7 +587,7 @@ Length: 3, dtype: str</code></pre>
 </div>
 <p>Note that all operations, including <code>np.roll</code>, <code>np.degrees</code> or <code>np.arctan</code> are performed on every pixel of the DEM, this is what we call vectorized operations. It is built-in to work faster and in a cleaner way than what a loop would do.</p>
 <p>Before moving on to analyze our slope values, we need to correct for the issue with slope calculation at the map’s edges. When we do <code>np.roll</code>, the pixels of the first and last rows, together with pixels from the first and last column are moved to the other end of the raster and might induce errors locally. For this reason, we will discard them from our analysis by assigning them the ‘not a number’ (NaN) value.</p>
-<div id="6d024788" class="cell" data-execution_count="17">
+<div id="4ef46ca5" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="dv">0</span>, :]  <span class="op">=</span> np.nan</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="op">-</span><span class="dv">1</span>, :] <span class="op">=</span> np.nan</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>slope_deg[:, <span class="dv">0</span>]  <span class="op">=</span> np.nan</span>
@@ -593,7 +595,7 @@ Length: 3, dtype: str</code></pre>
 </div>
 <p>In the code above, we simply take all pixels from the first row <code>[0,:]</code>, all pixels from the last row [-1,:], all pixels form the first column <code>[:,0]</code> and all pixels from the last column <code>[:,-1]</code> and set them to NaN using <code>np.nan</code></p>
 <p>Let’s now have a look at our values and print the minimum, maximum and mean slope.</p>
-<div id="6f64c944" class="cell" data-execution_count="18">
+<div id="f07cdf96" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -604,7 +606,7 @@ Mean slope: 22.002260549400983°</code></pre>
 </div>
 </div>
 <p>→ Plot and save the slope map !</p>
-<div id="da1885e0" class="cell" data-execution_count="19">
+<div id="2adb7e35" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>left <span class="op">=</span> transform[<span class="dv">2</span>]</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>right <span class="op">=</span> transform[<span class="dv">2</span>] <span class="op">+</span> transform[<span class="dv">0</span>] <span class="op">*</span> dem.shape[<span class="dv">1</span>]</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>bottom <span class="op">=</span> transform[<span class="dv">5</span>] <span class="op">+</span> transform[<span class="dv">4</span>] <span class="op">*</span> dem.shape[<span class="dv">0</span>]</span>
@@ -644,7 +646,7 @@ Mean slope: 22.002260549400983°</code></pre>
 <p><strong>2. Estimate the representative slope angle</strong></p>
 <p>Let’s now have a look at a specific zone in which we observe instabilities. The area is defined by the polygon ‘subequil_PLG_r.shp’. We will load the shapefile and have a look at the slope values inside this very polygon.</p>
 <p>To do this, we will use the <code>geometry_mask</code> function from <code>rasterio</code>. Remember, we used masks in our first exercise by selecting pixels above sea level, but here we will select all pixels of the slope layer inside the sub-equilibrium polygon.</p>
-<div id="a51a52b2" class="cell" data-execution_count="20">
+<div id="de5cf276" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> geometry_mask</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>subequil_zone <span class="op">=</span> gpd.read_file(<span class="st">"data/shapefiles/subequil_PLG_r.shp"</span>)</span>
@@ -666,7 +668,7 @@ Max slope inside zone:  40.34°</code></pre>
 </div>
 </div>
 <p>→ Plot an histogram that shows the slope distribution within the sampling zone.</p>
-<div id="46b81fa9" class="cell" data-execution_count="21">
+<div id="44d84d62" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mean_slope <span class="op">=</span> np.mean(slope_inside)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>plt.hist(</span>
@@ -694,11 +696,11 @@ Max slope inside zone:  40.34°</code></pre>
 <p>3.1. Existing instabilities on favorable lithologies</p>
 <p>Now, we will identify areas where we have existing instabilities at locations where the lithology is favorable.</p>
 <p>→ Create a new raster (with the same resolution as the original DEM) to identify existing instabilities located on favorable lithologies.</p>
-<div id="bb095181" class="cell" data-execution_count="22">
+<div id="f246c2b9" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>instabilities_on_fav_litho <span class="op">=</span> raster_fav_litho <span class="op">*</span> raster_inst</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>→ Plot the new raster and calculate its area</p>
-<div id="32a3b4a2" class="cell" data-execution_count="23">
+<div id="24e363fb" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(instabilities_on_fav_litho)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
@@ -723,7 +725,7 @@ Max slope inside zone:  40.34°</code></pre>
 </div>
 <p>3.2. Zones without instabilities but located on favorable lithologies</p>
 <p>→Using a similar approach, identify the areas where we have fabvorable lithologies but no observed instabilities.</p>
-<div id="70b0c58f" class="cell" data-execution_count="24">
+<div id="942d5d8b" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fav_litho_no_instability <span class="op">=</span> (raster_fav_litho <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (raster_inst <span class="op">==</span> <span class="dv">0</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(fav_litho_no_instability)</span>
@@ -737,7 +739,7 @@ Max slope inside zone:  40.34°</code></pre>
 </div>
 <p>3.3. Slopes of zone without instabilities but with favorable lithologies</p>
 <p>We will now create a subset of our slope map, focusing only on the zones where we have no instabilities and with favorable lithologies.</p>
-<div id="133854b6" class="cell" data-execution_count="25">
+<div id="fecb50c6" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_deg[fav_litho_no_instability]</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_fav_no_inst[np.isfinite(slope_fav_no_inst)]</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_fav_no_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
@@ -749,7 +751,7 @@ Max slope:  62.59057439122892°</code></pre>
 </div>
 <p>Given that we have all slope values over our area of interest, we will keep only pixels that have a slope higher than the <span class="math inline">\(\phi\)</span> value we calculated in the part 2 above. This will give us areas susceptible to instabilities.</p>
 <p>→ To do this, reclassify our subset slope raster into two classes, depending on the value of the slope value versus the <span class="math inline">\(\phi\)</span> value.</p>
-<div id="972858c9" class="cell" data-execution_count="26">
+<div id="5101cc9d" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>slope_class <span class="op">=</span> np.where(slope_deg <span class="op">&gt;</span> mean_slope, <span class="dv">1</span>, <span class="dv">0</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>susceptible_inst <span class="op">=</span> slope_class <span class="op">*</span> fav_litho_no_instability</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -761,7 +763,7 @@ Max slope:  62.59057439122892°</code></pre>
 </div>
 <p><strong>4. Susceptible areas inside the existing instability zones</strong></p>
 <p>→ Repeat the slope subset over existing instabilities (‘raster_inst’) and calculate the area where the slope is greater than <span class="math inline">\(\phi\)</span>.</p>
-<div id="2a3e9bdf" class="cell" data-execution_count="27">
+<div id="9ee616d6" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_deg[raster_inst]</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_inst[np.isfinite(slope_inst)]</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
@@ -780,7 +782,7 @@ Area of existing risk: 52225625.0 m²</code></pre>
 </div>
 <p><strong>5. Total susceptible areas to rock instabilities</strong></p>
 <p>→ Using all of the results you obtained, calculate the total area where we have a susceptibility to instabilities.</p>
-<div id="5dc0bed2" class="cell" data-execution_count="28">
+<div id="90beb3ca" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> susceptible_inst <span class="op">+</span> exist_inst_class</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> (total_susceptible <span class="op">&gt;=</span> <span class="dv">1</span>).astype(<span class="st">"uint8"</span>)</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
