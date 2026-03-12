@@ -190,7 +190,7 @@
     "href": "index.html#course-structure",
     "title": "SPACE-GEOLOGY",
     "section": "Course Structure",
-    "text": "Course Structure\n\n\n\n\n\n\nNoteMonday March 23\n\n\n\n09:00 - 09:15 Intro to SPACE-GEOLOGY\n09:15 - 10:00 Lecture: GIS & Remote Sensing in Earth Sciences (G. Giuliani)\n10:00 - 12:30 Python Environment Setup\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.1: Reconstructing Earth’s Past – From a Snapshot to Deep Time\n\n\n\n\n\n\n\n\nNoteTuesday March 24\n\n\n\n09:00 - 09:30 Feedback from Day 1\n09:30 - 10:30 Lecture: Reconstructing the Earth in Deep-time using Plate Tectonic Models (C. Vérard)\n10:30 - 12:30 Exercise 1.2: How Fast Was Earth’s Engine Running?\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.2 (continued)\n\n\n\n\n\n\n\n\nNoteWednesday March 25\n\n\n\n9:00 - 10:00 Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)\n10:00 - 12:30 Exercise 1.3: Sediment Flux Modelling\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.3 (continued)\n\n\n\n\n\n\n\n\nNoteThursday March 26\n\n\n\n9:00 - 10:00 Lecture (TBA)\n10:00 - 12:30 Exercise 2: Landslide Susceptibility Assessment\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 2 (continued)\n\n\n\n\n\n\n\n\nNoteFriday March 27\n\n\n\n9:00 - 12:30 Exercise 2 (continued)\n12:30 - 13:30 Lunch\n13:30 - 17:00 Wrap-up & Report Writing\n\n\n\nExercise 1: Evolution of the Earth in deep-time\nThis exercise introduces students to geological modelling in GIS through a progressive, research-style exploration of Earth’s deep-time evolution using the Palaeo Data Cube. Starting with paleogeographic reconstructions, students analyze how land–ocean distribution changed from 100 Ma to the entire Phanerozoic by loading GeoTIFF rasters, computing global statistics, and visualizing maps and time series in Python. The course then expands to test geodynamic hypotheses by integrating seafloor age, crustal thickness, and lithospheric thickness datasets to examine how spreading rates and crustal architecture evolved through time. Finally, students model sediment delivery to ancient coastlines by combining paleogeography, hydrology, and climate data to identify river outlets, compute basin properties, and estimate sediment flux using the BQART framework. Across all exercises, students develop core GIS and coding skills, learn to automate multi-dataset workflows, and interpret how tectonics, climate, and surface processes interact to shape Earth systems over hundreds of millions of years.\n\n\nExercise 2: Landslide risk assessement in an Alpine context\nThe second exercise focuses on a regional-scale application in the Swiss Alps, where students assess landslide susceptibility using GIS-based spatial analysis. By integrating high-resolution digital elevation models with geological maps and other relevant spatial layers, students evaluate how topography and geological conditions control slope instability. The exercise emphasizes practical risk assessment methods, including terrain analysis and multi-layer overlay, to identify areas most prone to landslides in an Alpine environment."
+    "text": "Course Structure\n\n\n\n\n\n\nNoteMonday March 23\n\n\n\n09:00 - 09:15 Intro to SPACE-GEOLOGY\n09:15 - 10:00 Lecture: GIS & Remote Sensing in Earth Sciences (G. Giuliani)\n10:00 - 12:30 Python Environment Setup\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.1: Reconstructing Earth’s Past – From a Snapshot to Deep Time\n\n\n\n\n\n\n\n\nNoteTuesday March 24\n\n\n\n09:00 - 09:30 Feedback from Day 1\n09:30 - 10:30 Lecture: Reconstructing the Earth in Deep-time using Plate Tectonic Models (C. Vérard)\n10:30 - 12:30 Exercise 1.2: How Fast Was Earth’s Engine Running?\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.2 (continued)\n\n\n\n\n\n\n\n\nNoteWednesday March 25\n\n\n\n9:00 - 10:00 Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)\n10:00 - 12:30 Exercise 1.3: Palaeogeography Meets Palaeoclimatology\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 1.3 (continued)\n\n\n\n\n\n\n\n\nNoteThursday March 26\n\n\n\n9:00 - 10:00 Lecture (TBA)\n10:00 - 12:30 Exercise 2: Landslide Susceptibility Assessment\n12:30 - 13:30 Lunch\n13:30 - 17:00 Exercise 2 (continued)\n\n\n\n\n\n\n\n\nNoteFriday March 27\n\n\n\n9:00 - 12:30 Exercise 2 (continued)\n12:30 - 13:30 Lunch\n13:30 - 17:00 Wrap-up & Report Writing\n\n\n\nExercise 1: Evolution of the Earth in deep-time\nThis exercise introduces students to geological modelling in GIS through a progressive, research-style exploration of Earth’s deep-time evolution using the Palaeo Data Cube. Starting with paleogeographic reconstructions, students analyze how land–ocean distribution changed from 100 Ma to the entire Phanerozoic by loading GeoTIFF rasters, computing global statistics, and visualizing maps and time series in Python. The course then expands to test geodynamic hypotheses by integrating seafloor age, crustal thickness, and lithospheric thickness datasets to examine how these layers are linked. Finally, students explore climate data (temperature, precipitation) and generate climate zone maps. Across all exercises, students develop core GIS and coding skills, learn to automate multi-dataset workflows, and interpret how tectonics, climate, and surface processes interact to shape Earth systems over hundreds of millions of years.\n\n\nExercise 2: Landslide risk assessement in an Alpine context\nThe second exercise focuses on a regional-scale application in the Swiss Alps, where students assess landslide susceptibility using GIS-based spatial analysis. By integrating high-resolution digital elevation models with geological maps and other relevant spatial layers, students evaluate how topography and geological conditions control slope instability. The exercise emphasizes practical risk assessment methods, including terrain analysis and multi-layer overlay, to identify areas most prone to landslides in an Alpine environment."
   },
   {
     "objectID": "index.html#more-information",
@@ -222,11 +222,22 @@
     ]
   },
   {
+    "objectID": "course/chapter5_ex1_3.html",
+    "href": "course/chapter5_ex1_3.html",
+    "title": "Chapter V: Exercise 1 - Part 3",
+    "section": "",
+    "text": "NoteThis exercise in brief\n\n\n\n\n\n\n\nHow did Earth’s past climate vary across geological time, and how can we reconstruct it from numerical model outputs?\n\n\n\nIn this module, you will:\n\nLoad and inspect a NetCDF climate file using xarray\nUnderstand the structure and metadata of NetCDF files\nConvert raw model outputs to standard units\nClassify every grid cell into a Köppen-Geiger climate zone\nFetch a land mask from palaeogeography and apply it to your map\n\n\n\n\nClimate models produce outputs in formats that are very different from the GeoTIFF rasters you have worked with so far. NetCDF is the standard format in climate and ocean sciences, and knowing how to read, inspect, and analyse these files is an essential skill for any geoscientist working with model data. Köppen-Geiger classification is a widely used framework to summarise complex climate information into a simple, interpretable map.\n\n\n\n\nLoad the data: Open a NetCDF file for a chosen reconstruction age.\n1.1. Inspect the dimensions, coordinates, and variables.\n1.2. Read the variable attributes to understand units and provenance.\nExplore the data: Select and print subsets of the data.\n2.1. Extract temperature values for a single month.\n2.2. Extract a time series for a specific location (e.g. Geneva).\nConvert units: Transform raw model outputs into usable units.\n3.1. Convert temperature from Kelvin to Celsius.\n3.2. Convert precipitation from m s⁻¹ to mm/month.\nClassify climate zones: Apply the Köppen-Geiger algorithm.\n4.1. Compute temperature and precipitation derived quantities.\n4.2. Write and apply the classification function grid cell by grid cell.\nMask and visualise: Fetch a land mask and plot the final map.\n5.1. Request the palaeogeography layer from the PANALESIS GeoServer.\n5.2. Resample the mask to match the climate grid resolution.\n5.3. Apply the mask and plot the Köppen-Geiger map.\n\n\n\n\n\nReading and inspecting NetCDF files with xarray.\nUnderstanding CF Conventions and variable metadata.\nPerforming unit conversions on multi-dimensional arrays.\nImplementing a rule-based classification algorithm in Python.\nCombining data from different sources and resolutions using resampling.\nFetching raster data from a WCS GeoServer endpoint.\n\n\n\n\nThe climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?\nThe land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs. ocean?\nWe used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?\nHow would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?",
+    "crumbs": [
+      "Course",
+      "Chapter V: Exercise 1 - Part 3"
+    ]
+  },
+  {
     "objectID": "course/chapter5_ex1_3.html#big-question",
     "href": "course/chapter5_ex1_3.html#big-question",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Big Question",
-    "text": "Big Question\nHow did sediment delivery to ancient coastlines vary across the Phanerozoic, and what controls these changes?",
+    "section": "",
+    "text": "How did Earth’s past climate vary across geological time, and how can we reconstruct it from numerical model outputs?",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
@@ -236,8 +247,8 @@
     "objectID": "course/chapter5_ex1_3.html#what-you-will-do",
     "href": "course/chapter5_ex1_3.html#what-you-will-do",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "What You Will Do",
-    "text": "What You Will Do\nYou will estimate sediment flux at river outlets through deep time using paleogeography, hydrology, and climate data from the Palaeo Data Cube. Starting with one time slice, you will: 1. Identify major river outlets near ancient coastlines. 2. Compute basin attributes (area, relief, temperature). 3. Apply the BQART equation to estimate sediment flux.\nThen, you will scale up your workflow to compare two time slices and finally analyze trends across the entire Phanerozoic.",
+    "section": "",
+    "text": "In this module, you will:\n\nLoad and inspect a NetCDF climate file using xarray\nUnderstand the structure and metadata of NetCDF files\nConvert raw model outputs to standard units\nClassify every grid cell into a Köppen-Geiger climate zone\nFetch a land mask from palaeogeography and apply it to your map",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
@@ -247,8 +258,8 @@
     "objectID": "course/chapter5_ex1_3.html#why-this-matters",
     "href": "course/chapter5_ex1_3.html#why-this-matters",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Why This Matters",
-    "text": "Why This Matters\nSediment flux is a key link between tectonics, climate, and the carbon cycle. Understanding how sediment delivery changed through time helps explain ocean chemistry, nutrient cycles, and even long-term climate regulation.",
+    "section": "",
+    "text": "Climate models produce outputs in formats that are very different from the GeoTIFF rasters you have worked with so far. NetCDF is the standard format in climate and ocean sciences, and knowing how to read, inspect, and analyse these files is an essential skill for any geoscientist working with model data. Köppen-Geiger classification is a widely used framework to summarise complex climate information into a simple, interpretable map.",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
@@ -258,8 +269,8 @@
     "objectID": "course/chapter5_ex1_3.html#your-tasks",
     "href": "course/chapter5_ex1_3.html#your-tasks",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Your Tasks",
-    "text": "Your Tasks\n\nSingle Snapshot Analysis:\n1.1. Load paleogeography, flow direction, flow accumulation, and temperature for one time slice (e.g., 100 Ma).\n1.2. Identify outlets near coastlines using flow accumulation and land/ocean mask.\n1.3. Compute basin attributes: drainage area, relief, mean temperature.\n1.4. Apply BQART to estimate sediment flux at each outlet.\n1.5. Visualize sediment flux on a global map.\nCompare Two Worlds\n2.1. Repeat for another time slice (e.g., 250 Ma).\n2.2. Compare sediment flux patterns and discuss differences.\nDeep-Time Trends\n3.1. Automate your workflow for all Phanerozoic slices.\n3.2. Plot time series of global sediment flux and interpret major trends.",
+    "section": "",
+    "text": "Load the data: Open a NetCDF file for a chosen reconstruction age.\n1.1. Inspect the dimensions, coordinates, and variables.\n1.2. Read the variable attributes to understand units and provenance.\nExplore the data: Select and print subsets of the data.\n2.1. Extract temperature values for a single month.\n2.2. Extract a time series for a specific location (e.g. Geneva).\nConvert units: Transform raw model outputs into usable units.\n3.1. Convert temperature from Kelvin to Celsius.\n3.2. Convert precipitation from m s⁻¹ to mm/month.\nClassify climate zones: Apply the Köppen-Geiger algorithm.\n4.1. Compute temperature and precipitation derived quantities.\n4.2. Write and apply the classification function grid cell by grid cell.\nMask and visualise: Fetch a land mask and plot the final map.\n5.1. Request the palaeogeography layer from the PANALESIS GeoServer.\n5.2. Resample the mask to match the climate grid resolution.\n5.3. Apply the mask and plot the Köppen-Geiger map.",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
@@ -269,8 +280,8 @@
     "objectID": "course/chapter5_ex1_3.html#skills-you-will-gain",
     "href": "course/chapter5_ex1_3.html#skills-you-will-gain",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Skills You Will Gain",
-    "text": "Skills You Will Gain\n\nAdvanced raster analysis and hydrological modeling in Python.\nBasin delineation and outlet detection using flow direction and accumulation.\nApplying empirical models (BQART) to paleodata.\nVisualizing spatial patterns and temporal trends.",
+    "section": "",
+    "text": "Reading and inspecting NetCDF files with xarray.\nUnderstanding CF Conventions and variable metadata.\nPerforming unit conversions on multi-dimensional arrays.\nImplementing a rule-based classification algorithm in Python.\nCombining data from different sources and resolutions using resampling.\nFetching raster data from a WCS GeoServer endpoint.",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
@@ -280,8 +291,8 @@
     "objectID": "course/chapter5_ex1_3.html#points-for-discussion",
     "href": "course/chapter5_ex1_3.html#points-for-discussion",
     "title": "Chapter V: Exercise 1 - Part 3",
-    "section": "Points for Discussion",
-    "text": "Points for Discussion\nWhich factors (area, relief, temperature) most strongly influence sediment flux?\nHow does paleogeography control sediment routing?\nWhat assumptions did you make about outlet selection and basin delineation?\nHow do tectonic and climate changes explain sediment flux trends?",
+    "section": "",
+    "text": "The climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?\nThe land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs. ocean?\nWe used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?\nHow would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?",
     "crumbs": [
       "Course",
       "Chapter V: Exercise 1 - Part 3"
