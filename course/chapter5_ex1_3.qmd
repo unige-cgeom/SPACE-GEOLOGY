@@ -483,3 +483,11 @@ ax.set_ylabel("Latitude (°)")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.callout-tip collapse="true" jupyter="false"}
+# Links to useful libraries and tools
+
+### Python libraries
+
+- [`scipy`](https://scipy.org/) A Python library for scientific computing, providing tools for statistics, optimization, interpolation, and signal processing built on top of `numpy`
+:::

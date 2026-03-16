@@ -10,6 +10,9 @@ website:
     background: "#2c3e50"
     left:
       - text: "Edited by Florian Franziskakis, Sébastien Biass, Grégory Giuliani"
+    center:
+      - text: "More Information"
+        href: info/license.qmd
     right:
       - text: "This course was built using Quarto"
         href: https://quarto.org/
@@ -22,9 +25,8 @@ website:
         href: index.qmd
       - text: "Course"
         href: course/chapter1_intro.qmd
-    right:
-      - text: "License"
-        href: info/license.qmd
+      - text: "Report Template"
+        href: report/report.qmd
 
   sidebar:
     - title: "Course Chapters"
@@ -35,6 +37,7 @@ website:
         - course/chapter4_ex1_2.qmd
         - course/chapter5_ex1_3.qmd
         - course/chapter6_ex2.qmd
-    - title: "License"
+    - title: "More Information"
       contents:
         - info/license.qmd
+        - info/use_of_AI_declaration.qmd

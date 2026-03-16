@@ -1,0 +1,44 @@
+---
+title: "Declaration on the use of AI"
+format:
+  html: default
+  pdf: default
+---
+
+The following statement is based on the [**Templates for declaring the use of generative artificial intelligence**](https://www.unige.ch/sciences/en/lafaculte/directive-generative-artificial-intelligence/templates-declaring-use-generative-artificial-intelligence)
+edited by the University of Geneva Faculty of Science, as part of the broader **Directive on the Use of Generative Artificial
+Intelligence**
+
+We declare that I have used one or more generative artificial intelligence tools (e.g., ChatGPT, Gemini, Copilot, DALL·E, DeepL, etc.) for the following tasks:
+
+Generating ideas or plans: **Yes**: We used AI (Claude) to fine-tune ideas for the exercise goals and steps, based on a human-written draft. This includes for instance asking the LLM to add suggestions on possible additional tools that could be used by students to analyze the maps.
+
+Writing text or content: **No**
+
+Text summarization or synthesis: **No**
+
+Linguistic correction or rephrasing: **No**
+
+Text translation: **No**
+
+Computer code generation:
+
+Partial generation: **Yes**: Minor edits to adapt existing chunks of code into content used in this course. This includes for example going from static functions into loops, plotting functionalities or format libraries descriptions.
+
+Complete generation (code produced from start to finish by the tool based on instructions): **No**
+
+Creation of synthetic data from real data: **No**
+
+Data augmentation: **No**
+
+Automated data analysis (e.g., classification, clustering, visualization): **No**
+
+Generation of scientific illustrations or diagrams: **No**
+
+Assistance in solving a scientific problem (mathematical, physical, etc.): **No**
+
+
+
+**Authors**: Florian Franziskakis, Sébastien Biass, Grégory Giuliani
+
+**Date**: March 2026
