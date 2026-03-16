@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter II: Setting up your environment – SPACE GEOLOGY</title>
+<title>SPACE-GEOLOGY – SPACE GEOLOGY</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,10 +69,39 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -94,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../course/chapter1_intro.html" aria-current="page"> 
+    <a class="nav-link" href="../course/chapter1_intro.html"> 
 <span class="menu-text">Course</span></a>
   </li>  
 </ul>
@@ -109,73 +138,21 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter2_setup.html">Chapter II: Setting up your environment</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter1_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter I: GIS in Earth Sciences</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter II: Setting up your environment</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter3_ex1_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter III: Exercise 1 - Part 1</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter4_ex1_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter IV: Exercise 1 - Part 2</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter5_ex1_3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter V: Exercise 1 - Part 3</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter6_ex2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter VI: Exercise 2</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter2_setup.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="chapter2_setup.ipynb" download="chapter2_setup.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></div>
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="report.docx"><i class="bi bi-file-word"></i>MS Word</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter II: Setting up your environment</h1>
+<h1 class="title">SPACE-GEOLOGY</h1>
+<p class="subtitle lead">Report</p>
 </div>
 
 
@@ -192,54 +169,97 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter will help you get started with Python and set your environment up. There are a few different options available to run the scripts that are provided in this course.</p>
-<p>We will dedicate time during the first day to make sure all students have their environment and code editors installed on their machines. It is advised however to try and install one before the course starts.</p>
-<section id="python" class="level1">
-<h1>Python</h1>
-<p>The SPACE-GEOLOGY course is based on Python, a widespread programming language used, amongst other things, to perform data analysis. The Python ecosystem is made of libraries and packages designed to perform specific tasks. We will use some of them that are focusing on data retrieval, analysis (spatial or non spatial) and visualization.</p>
-<section id="installing-python" class="level2">
-<h2 class="anchored" data-anchor-id="installing-python">Installing Python</h2>
-<p>Normally, most of the computers should have Python already installed, however we are going to use the Python 3.12 version, which you can download from the <a href="https://www.python.org/downloads/">Python website</a>.</p>
+<section id="general-introduction" class="level1">
+<h1>General Introduction</h1>
 </section>
-<section id="libraries" class="level2">
-<h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<p>In this course, we will require the following libraries:</p>
-<ul>
-<li><p><a href="https://docs.xarray.dev/"><code>xarray</code></a> A Python library for working with labeled multi-dimensional arrays, providing a Dataset structure that combines multiple variables sharing the same coordinate system.</p></li>
-<li><p><a href="https://corteva.github.io/rioxarray/"><code>rioxarray</code></a> An extension of xarray that adds geospatial capabilities, enabling CRS-aware operations on raster datasets directly within the xarray framework.</p></li>
-<li><p><a href="https://pandas.pydata.org/"><code>pandas</code></a> A Python library for data manipulation and analysis, providing a DataFrame structure that organizes tabular data with named columns and row indices.</p></li>
-<li><p><a href="https://matplotlib.org/"><code>matplotlib</code></a> A comprehensive plotting library for creating static, animated, and interactive visualizations in Python.</p></li>
-<li><p><a href="https://numpy.org/"><code>numpy</code></a> The fundamental package for efficient numerical computing in Python, providing fast arrays and mathematical operations.</p></li>
-<li><p><a href="https://rasterio.readthedocs.io/"><code>rasterio</code></a> A Python library for reading, writing, and manipulating geospatial raster data using GDAL under the hood.</p></li>
-<li><p><a href="https://requests.readthedocs.io/"><code>requests</code></a> A simple and elegant HTTP library for sending web requests and interacting with APIs.</p></li>
-<li><p><a href="https://geopandas.org/"><code>geopandas</code></a> An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.</p></li>
-<li><p><a href="https://docs.python.org/3/library/os.html"><code>os</code></a> A Python standard library module for interacting with the operating system, including file and directory management.</p></li>
-<li><p><a href="https://docs.python.org/3/library/xml.etree.elementtree.html"><code>xml.etree.ElementTree</code></a> A Python standard library module for parsing and navigating XML documents as a tree structure, where each element’s tag, attributes, and text are accessible as nodes.</p></li>
-</ul>
+<section id="exercise-i-deep-time-earth-reconstruction" class="level1">
+<h1>Exercise I: Deep-time Earth Reconstruction</h1>
+<section id="context-and-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="context-and-objectives">Context and Objectives</h2>
+<p>Explain here the overall scope of this exercise, especially in the context of applying GIS tools to geology.</p>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology">Methodology</h2>
+<p>What tools and libraries did you use ? To what purpose ?</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Breakdown your results (screenshots and code you modified or added) for the exercises’s three parts.</p>
+<section id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time" class="level3">
+<h3 class="anchored" data-anchor-id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time">Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time</h3>
+</section>
+<section id="part-ii-how-fast-was-earths-engine-running" class="level3">
+<h3 class="anchored" data-anchor-id="part-ii-how-fast-was-earths-engine-running">Part II: How Fast Was Earth’s Engine Running?</h3>
+</section>
+<section id="part-iii-palaeogeography-meets-palaeoclimatology" class="level3">
+<h3 class="anchored" data-anchor-id="part-iii-palaeogeography-meets-palaeoclimatology">Part III: Palaeogeography Meets Palaeoclimatology</h3>
 </section>
 </section>
-<section id="code-editors" class="level1">
-<h1>Code editors</h1>
-<section id="visual-studio-vs-code" class="level2">
-<h2 class="anchored" data-anchor-id="visual-studio-vs-code">Visual Studio (VS) Code</h2>
-<p>VS Code is a code editor developed by Microsoft. It is available for <a href="https://code.visualstudio.com/docs/setup/windows">Windows</a>, <a href="https://code.visualstudio.com/docs/setup/mac">macOS</a>, or <a href="https://code.visualstudio.com/docs/setup/linux">Linux</a>.</p>
-<p>You may follow the installation instructions associated to the operating system you are using, just make sure to have the <a href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter">Jupyter extension</a> also installed.</p>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Refer to the “Points for Discussion” in each part of the exercise I. You may answer with text ( a few paragraphs) and/or by adding references to scientific articles from the literature.</p>
+<section id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time-1" class="level3">
+<h3 class="anchored" data-anchor-id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time-1">Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time</h3>
+<p>What assumptions did you make when defining land vs.&nbsp;ocean?</p>
+<p>How does using pixel counts vs.&nbsp;area-aware calculations affect your results?</p>
+<p>What patterns do you see in land fraction across the Phanerozoic? Any surprises?</p>
 </section>
-<section id="pycharm" class="level2">
-<h2 class="anchored" data-anchor-id="pycharm">PyCharm</h2>
-<p>PyCharm is an Integrated Development Environment (IDE) for Python that is also available for <a href="https://www.jetbrains.com/pycharm/download/?section=windows">Windows</a>, <a href="https://www.jetbrains.com/pycharm/download/?section=mac">macOS</a>, or <a href="https://www.jetbrains.com/pycharm/download/?section=linux">Linux</a>.</p>
-<p>With its latest version, PyCharm now supports the integration of Jupyter Notebooks.</p>
+<section id="part-ii-how-fast-was-earths-engine-running-1" class="level3">
+<h3 class="anchored" data-anchor-id="part-ii-how-fast-was-earths-engine-running-1">Part II: How Fast Was Earth’s Engine Running?</h3>
+<p>How do crustal and lithospheric thickness trends relate to supercontinent cycles?</p>
+<p>Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?</p>
+<p>What assumptions did you make about data interpretation and resolution?</p>
+<p>What uncertainties exist in these reconstructions?</p>
 </section>
-<section id="google-colab" class="level2">
-<h2 class="anchored" data-anchor-id="google-colab">Google Colab</h2>
-<p>Google Colab is an online service for running Jupyter Notebooks without the need for local code editor installation. It can simply be accessed from <a href="https://colab.research.google.com/">your browser</a> and already contains most of the required libraries.</p>
+<section id="part-iii-palaeogeography-meets-palaeoclimatology-1" class="level3">
+<h3 class="anchored" data-anchor-id="part-iii-palaeogeography-meets-palaeoclimatology-1">Part III: Palaeogeography Meets Palaeoclimatology</h3>
+<p>The climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?</p>
+<p>The land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs.&nbsp;ocean?</p>
+<p>We used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?</p>
+<p>How would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?</p>
 </section>
-<section id="qgis-notebook" class="level2">
-<h2 class="anchored" data-anchor-id="qgis-notebook">QGIS Notebook</h2>
-<p>QGIS Notebook is a plugin that can be <a href="https://plugins.qgis.org/plugins/qgis_notebook/">installed in QGIS</a> to run and write notebooks. It uses the Python environment that comes with QGIS.</p>
+</section>
+<section id="perspectives" class="level2">
+<h2 class="anchored" data-anchor-id="perspectives">Perspectives</h2>
+<p>Add a brief conclusion about limitations of the tools we used in this exercise.</p>
+<p>How does this exercise compared to the traditional “Dekstop”-based workflows you are used to, for instance with QGIS and/or ArcGIS</p>
+</section>
+</section>
+<section id="exercise-ii-landslide-susceptibility-analysis" class="level1">
+<h1>Exercise II: Landslide Susceptibility Analysis</h1>
+<section id="context-and-objectives-1" class="level2">
+<h2 class="anchored" data-anchor-id="context-and-objectives-1">Context and Objectives</h2>
+<p>Explain here the overall scope of this exercise, especially in the context of applying GIS tools to geology.</p>
+</section>
+<section id="methodology-1" class="level2">
+<h2 class="anchored" data-anchor-id="methodology-1">Methodology</h2>
+<p>What tools and libraries did you use ? To what purpose ?</p>
+</section>
+<section id="results-1" class="level2">
+<h2 class="anchored" data-anchor-id="results-1">Results</h2>
+<p>Breakdown your results (screenshots and code you modified or added).</p>
+</section>
+<section id="discussion-1" class="level2">
+<h2 class="anchored" data-anchor-id="discussion-1">Discussion</h2>
+<p>Refer to the “Points for Discussion”. You may answer with text ( a few paragraphs) and/or by adding references to scientific articles from the literature.</p>
+<p>The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle (<span class="math inline">\(\phi\)</span>). How valid is this assumption across different lithological units?</p>
+<p>Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?</p>
+<p>Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?</p>
+</section>
+<section id="perspectives-1" class="level2">
+<h2 class="anchored" data-anchor-id="perspectives-1">Perspectives</h2>
+<p>Add a brief conclusion about limitations of the tools we used in this exercise.</p>
+<p>How does this exercise compared to the traditional “Dekstop”-based workflows you are used to, for instance with QGIS and/or ArcGIS</p>
+</section>
+</section>
+<section id="general-conclusion" class="level1">
+<h1>General Conclusion</h1>
+<p>Did this course provide a satisfactory introduction to geospatial analysis with Python applied to geology ?</p>
+<p>Did you have any experience coding with Python before ?</p>
+<p>Are you likely to continue working with Python in the future ? If yes, why ? I no, why not ?</p>
+<p>Suggest improvements to this course.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
