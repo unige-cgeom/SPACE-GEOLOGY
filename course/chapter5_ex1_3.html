@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-9195fa1a9c736cb8c2994c5df3058328.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-71f3cbb19d03427b87d4c501c8552f43.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -131,6 +131,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li class="nav-item">
     <a class="nav-link active" href="../course/chapter1_intro.html" aria-current="page"> 
 <span class="menu-text">Course</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../info/license.qmd"> 
+<span class="menu-text">License</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -198,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter5_ex1_3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter5_ex1_3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="chapter5_ex1_3.ipynb" download="chapter5_ex1_3.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -358,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>We will learn how to read NetCDF files, understand their metadata, and turn input data related to precipitation and temperature into climate zones maps (Köppen-Geiger) for the entire Phanerozoic.</p>
 <p>Let’s first load a file from the <code>data/climate</code> folder. We have one file per reconstruction age. The last 4 digits in the filename represents the age in millions of years (Ma), written to 4 digits style. For example, 0 Ma → <code>0000</code>, 100 Ma → <code>0100</code>, 444 Ma → <code>0444</code>. By using a regular expression (regex) from the <code>re</code> library, selecting an age can be done like:</p>
-<div id="966e30bf" class="cell" data-execution_count="1">
+<div id="1590b110" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">100</span></span>
@@ -397,14 +403,14 @@ Attributes:
 <p>→ Have a look at the metadata: how is the data organized ? What is the resolution ?</p>
 <p>→ Does this give you enough information about the data source ?</p>
 <p>Every variable in a NetCDF file carries <strong>attributes</strong>: metadata describing what the variable is, its units, and more. This follows the <strong>CF Conventions</strong> standard. Let’s have a look at the air surface temperature variable:</p>
-<div id="0f8c2e8b" class="cell" data-execution_count="2">
+<div id="47348770" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds[<span class="st">"temperature_surface_air"</span>].attrs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{'standard_name': 'air_temperature', 'long_name': 'Near-surface air temperature', 'units': 'K'}</code></pre>
 </div>
 </div>
 <p>Thanks to the structure of the input data and how we read it using <code>xarray</code>, it is possible to access only selected slices of the entire dataset. For instance, we can select only one variable:</p>
-<div id="750aa1d0" class="cell" data-execution_count="3">
+<div id="3a7e8fc9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -422,7 +428,7 @@ Attributes:
 </div>
 </div>
 <p>We can also select a single month, using <code>.sel()</code> which selects data by label (e.g.&nbsp;<code>month=1</code>):</p>
-<div id="cdc2f095" class="cell" data-execution_count="4">
+<div id="f63bf6d8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>temp_jan <span class="op">=</span> temp.sel(month<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_jan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -439,7 +445,7 @@ Attributes:
 </div>
 </div>
 <p>Or even a given location. For instance, if we take the approximate location of Geneva (lat/lon). The <code>method="nearest"</code> finds the grid cell with the centroid that is closest to your input coordinates:</p>
-<div id="2a4c70ef" class="cell" data-execution_count="5">
+<div id="db458dc2" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>temp_geneva <span class="op">=</span> temp.sel(latitude<span class="op">=</span><span class="fl">46.2</span>, longitude<span class="op">=</span><span class="fl">6.1</span>, method<span class="op">=</span><span class="st">"nearest"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva.values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -463,7 +469,7 @@ Attributes:
 <p>→ What were the temperatures 100 millions years ago at this location?</p>
 <p>→ What does this tell you about the model resolution ?</p>
 <p>Let’s now have a look at our data by plotting it, reusing the January subset we did before.</p>
-<div id="be5b83b0" class="cell" data-execution_count="6">
+<div id="c753e84a" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>temp_jan.plot()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"January mean surface air temperature (K)"</span>)</span>
@@ -477,7 +483,7 @@ Attributes:
 </div>
 </div>
 <p>As you noticed, the units for temperature are in Kelvin and precipitation are in meters per seconds. Before any analysis, we need to convert both variables to standard units, in our case this would be degrees Celsius and millimeters per month.</p>
-<div id="0b0028c6" class="cell" data-execution_count="7">
+<div id="995e08e9" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_c <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>] <span class="op">-</span> <span class="fl">273.15</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>temp_c.attrs[<span class="st">"units"</span>] <span class="op">=</span> <span class="st">"°C"</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -490,14 +496,14 @@ Attributes:
 </div>
 <p>We now have everything we need to classify each grid cell into a climate zone.</p>
 <p>For the classification we need to know how warm or cold each grid cell gets. The coldest and warmest month determine whether a climate is polar, temperate, or continental. The number of months above 10°C is a proxy for the growing season.</p>
-<div id="590e7466" class="cell" data-execution_count="8">
+<div id="4f5a5a69" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>t_annual <span class="op">=</span> temp_c.mean(dim<span class="op">=</span><span class="st">"month"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>t_min <span class="op">=</span> temp_c.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>t_max <span class="op">=</span> temp_c.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>months_above_10 <span class="op">=</span> (temp_c <span class="op">&gt;</span> <span class="dv">10</span>).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Precipitation seasonality is just as important as the total amount. A climate with dry summers behaves very differently from one with dry winters, even if the annual total is the same. We split the year into summer (Apr–Sep) and winter (Oct–Mar) halves to detect this seasonality.</p>
-<div id="442fb74d" class="cell" data-execution_count="9">
+<div id="5e9cfc20" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p_annual <span class="op">=</span> precip_mm.<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p_min <span class="op">=</span> precip_mm.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>p_max <span class="op">=</span> precip_mm.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
@@ -505,12 +511,12 @@ Attributes:
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>p_winter <span class="op">=</span> precip_mm.sel(month<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>]).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Group B (arid) climates are defined by precipitation being too low relative to evaporation demand. Evaporation increases with temperature, so the threshold is not a fixed number but depends on the annual mean temperature. We will use a simplified version of the standard formula:</p>
-<div id="e59639e0" class="cell" data-execution_count="10">
+<div id="87f0e09b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p_threshold <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> t_annual <span class="op">+</span> <span class="dv">28</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The full Köppen formula adjusts <code>p_threshold</code> based on precipitation seasonality (adding 0 to 28 mm depending on whether rain falls in summer or winter). Here we use a fixed offset of +28 for simplicity.</p>
 <p>Let’s write a function that takes the pre-computed quantities for a single grid cell and returns its 2-letter Köppen-Geiger code. The logic follows the standard hierarchical order: polar first, then arid, tropical, temperate and continental.</p>
-<div id="c89c41b7" class="cell" data-execution_count="11">
+<div id="42867fde" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_koppen(t_ann, t_mn, t_mx, p_ann, p_mn, p_sum, p_win, p_thr):</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E: Polar (warmest month too cold for tree growth)</span></span>
@@ -549,7 +555,7 @@ Attributes:
 <span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Df"</span>           <span class="co"># no dry season</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We now loop over every grid cell and apply the function. This will give us a <code>numpy</code> array (2D) with the two-letters classes for each cell.</p>
-<div id="7871ef4d" class="cell" data-execution_count="12">
+<div id="56bbe9c5" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n_lat <span class="op">=</span> <span class="bu">len</span>(ds.latitude)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_lon <span class="op">=</span> <span class="bu">len</span>(ds.longitude)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>koppen <span class="op">=</span> np.full((n_lat, n_lon), <span class="st">""</span>, dtype<span class="op">=</span><span class="bu">object</span>)</span>
@@ -573,7 +579,7 @@ Attributes:
 </div>
 </div>
 <p>Let’s now plot our map to inspect the results.</p>
-<div id="f998b266" class="cell" data-execution_count="13">
+<div id="93cf23b7" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>koppen_classes <span class="op">=</span> {</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ET"</span>: (<span class="dv">1</span>,  <span class="st">"#C0C0C0"</span>),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EF"</span>: (<span class="dv">2</span>,  <span class="st">"#FFFFFF"</span>),</span>
@@ -710,7 +716,7 @@ Attributes:
 </table>
 <p>The climate model runs over the full grid including ocean cells. To show only land areas in our Köppen-Geiger map, we will create a land mask directly from the PANALESIS GeoServer, as we used in the first two parts of this exercise.</p>
 <p>The time convention is the same as before: geological age in Ma is added to the year 2000 (e.g.&nbsp;100 Ma → <code>2100-01-01T00:00:00.000Z</code>).</p>
-<div id="6b330fae" class="cell" data-execution_count="14">
+<div id="7fcb0f62" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> zoom</span>
@@ -743,7 +749,7 @@ Attributes:
 <span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>land_mask_hires <span class="op">=</span> mask_raw <span class="op">&gt;=</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Our elevation data (from palaeogeography) has a resolution of 0.1°, which is much more higher resolution than the climate data (approx 5.6°). We need to resample it down using <code>scipy.ndimage.zoom</code> with <code>order=0</code> (nearest neighbour) and keep a cell as land if more than 50% of the high-resolution pixels are land. This is an approximation but will give us an overview globally.</p>
-<div id="ab94c0de" class="cell" data-execution_count="15">
+<div id="f2a4b938" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>zoom_factors <span class="op">=</span> (n_lat <span class="op">/</span> land_mask_hires.shape[<span class="dv">0</span>],</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                n_lon <span class="op">/</span> land_mask_hires.shape[<span class="dv">1</span>])</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>land_mask <span class="op">=</span> zoom(land_mask_hires.astype(<span class="bu">float</span>), zoom_factors, order<span class="op">=</span><span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.5</span></span>
@@ -756,12 +762,12 @@ Attributes:
 <p>→ Does the land mask shape matches the climate data ?</p>
 <p>→ What other method could we use to have mathing resolutions accross both maps?</p>
 <p>Now that we have our land mask, we need to apply it to our Köppen-Geiger classes, by converting all pixels not on land as <code>np.nan</code>. This implies converting the original data type (integers) to float numbers, because integers cannot describe <code>np.nan</code>.</p>
-<div id="f71aa810" class="cell" data-execution_count="16">
+<div id="a3ea8f98" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>koppen_num_masked <span class="op">=</span> koppen_num.astype(<span class="bu">float</span>).copy()</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>koppen_num_masked[<span class="op">~</span>land_mask] <span class="op">=</span> np.nan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we can plot the updated map:</p>
-<div id="45caa52a" class="cell" data-execution_count="17">
+<div id="cff714dc" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.pcolormesh(</span>
@@ -1196,6 +1202,35 @@ Attributes:
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ Edited by Florian Franziskakis, Sébastien Biass, Grégory Giuliani
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/">
+<p>This course was built using Quarto</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/unige-cgeom/SPACE-GEOLOGY">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 
