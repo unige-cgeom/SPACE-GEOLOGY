@@ -2,8 +2,12 @@
 title: "Chapter VI: Exercise 2"
 format:
   html: default
-  pdf: default
-
+  pdf:
+    execute:
+      eval: false
+  ipynb:
+    execute:
+      eval: false
 ---
 
 # Landslide risk assessement in an Alpine context

@@ -2,7 +2,12 @@
 title: "Chapter II: Setting up your environment"
 format:
   html: default
-  pdf: default
+  pdf:
+    execute:
+      eval: false
+  ipynb:
+    execute:
+      eval: false
 ---
 
 This chapter will help you get started with Python and set your environment up. There are a few different options

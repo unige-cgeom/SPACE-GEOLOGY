@@ -2,7 +2,12 @@
 title: "Chapter V: Exercise 1 - Part 3"
 format:
   html: default
-  pdf: default
+  pdf:
+    execute:
+      eval: false
+  ipynb:
+    execute:
+      eval: false
 ---
 
 # Palaeogeography Meets Palaeoclimatology

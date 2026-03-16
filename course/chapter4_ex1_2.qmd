@@ -2,7 +2,12 @@
 title: "Chapter IV: Exercise 1 - Part 2 "
 format:
   html: default
-  pdf: default
+  pdf:
+    execute:
+      eval: false
+  ipynb:
+    execute:
+      eval: false
 ---
 
 # How Fast Was Earth’s Engine Running?

@@ -36,7 +36,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 ## Course Structure
 
 ::: {.callout-note icon=false}
-### Monday March 23
+### Monday March 23 - Rue des Maraîchers Building - Room 605 (morning) & 102 (afternoon)
 **09:00 - 09:15** Intro to SPACE-GEOLOGY
 
 **09:15 - 10:00** Lecture: GIS & Remote Sensing in Earth Sciences (G. Giuliani)
@@ -49,7 +49,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 :::
 
 ::: {.callout-note icon=false}
-### Tuesday March 24
+### Tuesday March 24 - Rue des Maraîchers Building - Room 605 (all day)
 **09:00 - 09:30** Feedback from Day 1
 
 **09:30 - 10:30** Lecture: Reconstructing the Earth in Deep-time using Plate Tectonic Models (C. Vérard)
@@ -62,7 +62,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 :::
 
 ::: {.callout-note icon=false}
-### Wednesday March 25
+### Wednesday March 25 - Rue des Maraîchers Building - Room 606 (all day)
 **9:00 - 10:00** Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)
 
 **10:00 - 12:30** Exercise 1.3: Palaeogeography Meets Palaeoclimatology
@@ -73,7 +73,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 :::
 
 ::: {.callout-note icon=false}
-### Thursday March 26
+### Thursday March 26 - Rue des Maraîchers Building - Room 201 (all day)
 **9:00 - 10:00** Lecture (TBA)
 
 **10:00 - 12:30** Exercise 2: Landslide Susceptibility Assessment
@@ -84,7 +84,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 :::
 
 ::: {.callout-note icon=false}
-### Friday March 27
+### Friday March 27 - Rue des Maraîchers Building - Room 201 (morning) & 102 (afternoon)
 **9:00 - 12:30** Exercise 2 (continued)
 
 **12:30 - 13:30** Lunch

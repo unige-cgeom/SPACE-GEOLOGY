@@ -6,12 +6,26 @@ execute:
 
 website:
   title: "SPACE GEOLOGY"
+  page-footer:
+    background: "#2c3e50"
+    left:
+      - text: "Edited by Florian Franziskakis, Sébastien Biass, Grégory Giuliani"
+    right:
+      - text: "This course was built using Quarto"
+        href: https://quarto.org/
+      - icon: github
+        href: https://github.com/unige-cgeom/SPACE-GEOLOGY
   navbar:
+    background: "#2c3e50"
     left:
       - text: "Home"
         href: index.qmd
       - text: "Course"
         href: course/chapter1_intro.qmd
+    right:
+      - text: "License"
+        href: info/license.qmd
+
   sidebar:
     - title: "Course Chapters"
       contents:
@@ -21,3 +35,6 @@ website:
         - course/chapter4_ex1_2.qmd
         - course/chapter5_ex1_3.qmd
         - course/chapter6_ex2.qmd
+    - title: "License"
+      contents:
+        - info/license.qmd

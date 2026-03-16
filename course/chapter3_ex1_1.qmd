@@ -1,8 +1,13 @@
 ---
-title: "Chapter III: Exercise 1 - Part 1 "
+title: "Chapter III: Exercise 1 - Part 1"
 format:
   html: default
-  pdf: default
+  pdf:
+    execute:
+      eval: false
+  ipynb:
+    execute:
+      eval: false
 ---
 # Reconstructing Earth’s Past – From a Snapshot to Deep Time
 ::: {.callout-note collapse="true"}
