@@ -65,11 +65,11 @@ transparency, and export summary statistics (areas).
 
 ### Points for Discussion
 
-* The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?*
+*The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?*
 
-* Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?*
+*Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?*
 
-* Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?*
+*Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?*
 
 :::
 

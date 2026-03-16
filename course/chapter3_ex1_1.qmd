@@ -97,8 +97,7 @@ For 100Ma, the map would look like (with map resolution at 1x1°):
 
 &rarr; Try and display the same map in your Desktop GIS. <br>
 
-It is easier to get the maps at 1x1° resolution from the EarthByte
-webpage listed in the original record. A color ramp is provided in the supplementary material section (ADD LINK HERE).
+It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the original record.
 
 &rarr; Explore the map.
 Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?
@@ -112,7 +111,7 @@ The data is available at:
 
 Franziskakis, F., Vérard, C., Castelltort, S., & Giuliani, G. (2025). Global Quantified Palaeogeographic Maps and Associated Sea-level Variations for the Phanerozoic using the PANALESIS Model [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15396265
 
-&rarr; Load the 100Ma map and compare it to the Scotese & Wright nmap. The PANALESIS map should look something like:
+&rarr; Load the 100Ma map and compare it to the Scotese & Wright map. The PANALESIS map should look something like:
 
 ![100Ma map from PANALESIS (2026) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
 
@@ -431,7 +430,9 @@ print("Ocean area =", ocean_area, "m²")
 
 Finally, we are going to extend this analysis to all our available maps. For this, we will simply create a loop that
 iterates through all time steps and extract the values for land and ocean areas. First, we can define a function that
-lists all available reconstructions:
+lists all available reconstructions. We can do this using the The `xml.etree.ElementTree` module, a Python standard
+library tool for parsing and navigating XML documents as a tree structure, where each element (tag, attributes, text) is
+accessible as a node.
 
 
 ```{python}
@@ -558,5 +559,7 @@ statistics we could easily plot ? Try it !
 - [`rasterio`](https://rasterio.readthedocs.io/) A Python library for reading, writing, and manipulating geospatial raster data using GDAL under the hood.
 
 - [`requests`](https://requests.readthedocs.io/) A simple and elegant HTTP library for sending web requests and interacting with APIs.
+
+- [`xml.etree.ElementTree`](https://docs.python.org/3/library/xml.etree.elementtree.html) A Python standard library module for parsing and navigating XML documents as a tree structure, where each element's tag, attributes, and text are accessible as nodes.
 
 :::

@@ -47,6 +47,8 @@ In this course, we will require the following libraries:
 
 - [`os`](https://docs.python.org/3/library/os.html) A Python standard library module for interacting with the operating system, including file and directory management.
 
+- [`xml.etree.ElementTree`](https://docs.python.org/3/library/xml.etree.elementtree.html) A Python standard library module for parsing and navigating XML documents as a tree structure, where each element's tag, attributes, and text are accessible as nodes.
+
 # Code editors
 
 ## Visual Studio (VS) Code
