@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html</loc>
-    <lastmod>2026-03-16T09:11:45.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter4_ex1_2.html</loc>
-    <lastmod>2026-03-16T09:11:45.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter3_ex1_1.html</loc>
-    <lastmod>2026-03-16T09:11:45.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/index.html</loc>
-    <lastmod>2026-03-16T09:11:45.552Z</lastmod>
-  </url>
-  <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter6_ex2.html</loc>
-    <lastmod>2026-03-16T09:11:45.516Z</lastmod>
-  </url>
-  <url>
-    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter1_intro.html</loc>
-    <lastmod>2026-03-16T09:11:45.515Z</lastmod>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/info/license.html</loc>
+    <lastmod>2026-03-16T09:34:19.710Z</lastmod>
   </url>
   <url>
     <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter5_ex1_3.html</loc>
-    <lastmod>2026-03-16T09:11:45.516Z</lastmod>
+    <lastmod>2026-03-16T09:34:19.670Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter1_intro.html</loc>
+    <lastmod>2026-03-16T09:34:19.669Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter6_ex2.html</loc>
+    <lastmod>2026-03-16T09:34:19.670Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/index.html</loc>
+    <lastmod>2026-03-16T09:34:19.710Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter3_ex1_1.html</loc>
+    <lastmod>2026-03-16T09:34:19.670Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter4_ex1_2.html</loc>
+    <lastmod>2026-03-16T09:34:19.670Z</lastmod>
+  </url>
+  <url>
+    <loc>https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html</loc>
+    <lastmod>2026-03-16T09:34:19.670Z</lastmod>
   </url>
 </urlset>
