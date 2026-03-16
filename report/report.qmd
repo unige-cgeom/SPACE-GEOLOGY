@@ -1,0 +1,114 @@
+---
+title: "SPACE-GEOLOGY"
+subtitle: "Report"
+format:
+  html: default
+  docx:
+    toc: true
+    number-sections: true
+    highlight-style: github
+---
+
+# General Introduction
+
+# Exercise I: Deep-time Earth Reconstruction
+
+## Context and Objectives
+
+Explain here the overall scope of this exercise, especially in the context of applying GIS tools to geology.
+
+## Methodology
+
+What tools and libraries did you use ? To what purpose ?
+
+## Results
+
+Breakdown your results (screenshots and code you modified or added) for the exercises's three parts.
+
+### Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time
+
+### Part II: How Fast Was Earth’s Engine Running?
+
+### Part III: Palaeogeography Meets Palaeoclimatology
+
+## Discussion
+
+Refer to the "Points for Discussion" in each part of the exercise I. You may answer with text ( a few paragraphs) and/or
+by adding references to scientific articles from the literature.
+
+### Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time
+
+What assumptions did you make when defining land vs. ocean?
+
+How does using pixel counts vs. area-aware calculations affect your results?
+
+What patterns do you see in land fraction across the Phanerozoic? Any surprises?
+
+### Part II: How Fast Was Earth’s Engine Running?
+
+How do crustal and lithospheric thickness trends relate to supercontinent cycles?
+
+Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?
+
+What assumptions did you make about data interpretation and resolution?
+
+What uncertainties exist in these reconstructions?
+
+### Part III: Palaeogeography Meets Palaeoclimatology
+
+The climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?
+
+The land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs. ocean?
+
+We used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?
+
+How would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?
+
+## Perspectives
+
+Add a brief conclusion about limitations of the tools we used in this exercise.
+
+How does this exercise compared to the traditional "Dekstop"-based workflows you are used to, for instance with QGIS
+and/or ArcGIS
+
+# Exercise II: Landslide Susceptibility Analysis
+
+## Context and Objectives
+
+Explain here the overall scope of this exercise, especially in the context of applying GIS tools to geology.
+
+## Methodology
+
+What tools and libraries did you use ? To what purpose ?
+
+## Results
+
+Breakdown your results (screenshots and code you modified or added).
+
+## Discussion
+
+Refer to the "Points for Discussion". You may answer with text ( a few paragraphs) and/or
+by adding references to scientific articles from the literature.
+
+The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?
+
+Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?
+
+Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?
+
+## Perspectives
+
+Add a brief conclusion about limitations of the tools we used in this exercise.
+
+How does this exercise compared to the traditional "Dekstop"-based workflows you are used to, for instance with QGIS
+and/or ArcGIS
+
+# General Conclusion
+
+Did this course provide a satisfactory introduction to geospatial analysis with Python applied to geology ?
+
+Did you have any experience coding with Python before ?
+
+Are you likely to continue working with Python in the future ? If yes, why ? I no, why not ?
+
+Suggest improvements to this course.
