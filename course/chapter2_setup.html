@@ -167,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter2_setup.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="chapter2_setup.ipynb" download="chapter2_setup.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></div>
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter2_setup.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -192,6 +192,9 @@ ul.task-list li input[type="checkbox"] {
 
 <p>This chapter will help you get started with Python and set your environment up. There are a few different options available to run the scripts that are provided in this course.</p>
 <p>We will dedicate time during the first day to make sure all students have their environment and code editors installed on their machines. It is advised however to try and install one before the course starts.</p>
+<p>Each exercise is available in numerous formats. First, you may access them on the <a href="https://unige-cgeom.github.io/SPACE-GEOLOGY">SPACE-GEOLOGY course website</a>, under the tab <code>Course</code>. In this webpage, if you go to a specific exercise (or part) chapter, you can access it in pdf or in a JupyterNotebook (.ipynb) format.</p>
+<p>We recommend using the notebook format, as it allows you to read the explanations while running the code snippets. This requires to have Python installed, alongside a code editor. Alternatively, you may decide to use Google Colab, an online platform to run notebooks directly. Another option is to use QGIS, which has a dedicated plugin to run notebooks.</p>
+<p>All information to set up your environment are provided below.</p>
 <section id="python" class="level1">
 <h1>Python</h1>
 <p>The SPACE-GEOLOGY course is based on Python, a widespread programming language used, amongst other things, to perform data analysis. The Python ecosystem is made of libraries and packages designed to perform specific tasks. We will use some of them that are focusing on data retrieval, analysis (spatial or non spatial) and visualization.</p>
@@ -218,23 +221,77 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="code-editors" class="level1">
 <h1>Code editors</h1>
+<p>Independent of your code editor, you should create a folder <code>SPACE-GEOLOGY-2026</code> on your machine, in a location of your choosing. This is where we will save our notebooks, store results and load input data from.</p>
 <section id="visual-studio-vs-code" class="level2">
 <h2 class="anchored" data-anchor-id="visual-studio-vs-code">Visual Studio (VS) Code</h2>
 <p>VS Code is a code editor developed by Microsoft. It is available for <a href="https://code.visualstudio.com/docs/setup/windows">Windows</a>, <a href="https://code.visualstudio.com/docs/setup/mac">macOS</a>, or <a href="https://code.visualstudio.com/docs/setup/linux">Linux</a>.</p>
 <p>You may follow the installation instructions associated to the operating system you are using, just make sure to have the <a href="https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter">Jupyter extension</a> also installed.</p>
+<p>Open visual studio code, click on “Open folder”</p>
+<p>Select your “SPACE-GEOLOGY_2026” folder and open it. If required, specify that you trust the project.</p>
+<p><img src="images/VS_Code_welcome.png" class="img-fluid" style="width:40.0%"></p>
+<p>Go to the search bar on top of the window and click on “Show and Run Commands” (or just type Ctrl + Shift + P)</p>
+<p><img src="images/VS_Code_show_run_cmd.png" class="img-fluid" style="width:60.0%"></p>
+<p>Search and click on “Python Create Environment” and select the “venv” option</p>
+<p><img src="images/VS_Code_create_env.png" class="img-fluid" style="width:60.0%"></p>
+<p><img src="images/VS_Code_venv.png" class="img-fluid" style="width:60.0%"></p>
+<p>Select the correct version (we will use Python 3.12, so any of the Python 3.12 will work).</p>
+<p><img src="images/VS_Code_py_312.png" class="img-fluid" style="width:60.0%"></p>
+<p>Keep <code>.venv</code> as the virtual environment folder name.</p>
+<p><img src="images/VS_Code_venv_name.png" class="img-fluid" style="width:60.0%"></p>
+<p>Add required packages to install by clicking on “Search PyPI packages”. The full is in the section above. Notice that some of the libraries are already included, so for now, let’s just add xarray and pandas. We will install others later.</p>
+<p><img src="images/VS_Code_add_packages.png" class="img-fluid" style="width:60.0%"></p>
+<p>You should see a dialog box opening on the bottom left part of the screen saying that it is installing packages and creating the virtual environment.</p>
+<p><img src="images/VS_Code_venv_being_created.png" class="img-fluid" style="width:60.0%"></p>
+<p>If successful, you should now see the virtual environment activated. Go to “View” and select “Terminal”. A window should open on the bottom of the screen with the path to your SPACE-GEOLOGY-2026 folder, with a green <code>(.venv)</code> before it. This means that your environment is correctly installed and running.</p>
+<p><img src="images/VS_Code_view_terminal.png" class="img-fluid" style="width:60.0%"></p>
+<p>Now, let’s go to the terminal. We previously only installed xarray and pandas. We need to install more libraries before starting to work. We will use the package installer for Python to manually install them. The command you need to type in your terminal is</p>
+<p><code>pip install &lt;package&gt;</code></p>
+<p>so for instance, to install rioxarray, just type</p>
+<p><code>pip install rioxarray</code></p>
+<p>You will see some code running to install <code>rioxarary</code> and other dependencies. Repeat this for other packages until all required ones are installed. If you try and install a package that is already installed, no problem, you will simply see a message stating that the requirement is already satisfied.</p>
+<p><strong>Note:</strong> there are some libraries that are part of the Python standard libraries like os or xml.etree.ElementTree, no need to install these.</p>
+<p><strong>You are now ready to run your code !</strong></p>
 </section>
 <section id="pycharm" class="level2">
 <h2 class="anchored" data-anchor-id="pycharm">PyCharm</h2>
 <p>PyCharm is an Integrated Development Environment (IDE) for Python that is also available for <a href="https://www.jetbrains.com/pycharm/download/?section=windows">Windows</a>, <a href="https://www.jetbrains.com/pycharm/download/?section=mac">macOS</a>, or <a href="https://www.jetbrains.com/pycharm/download/?section=linux">Linux</a>.</p>
 <p>With its latest version, PyCharm now supports the integration of Jupyter Notebooks.</p>
+<p>Open PyCharm, click on “Open”</p>
+<p>Select your “SPACE-GEOLOGY_2026” folder and open it. If required, specify that you trust the project.</p>
+<p><img src="images/PyCharm_welcome.png" class="img-fluid" style="width:60.0%"></p>
+<p>Once opened, go the main menu (top left corner horizontal lines icon), and select “Settings”.</p>
+<p><img src="images/PyCharm_settings.png" class="img-fluid" style="width:60.0%"></p>
+<p>A new window should appear. If not selected already, click on “Python/Interpreter” and click on the “Add interpreter” button. Choose the option “Add local interpreter”</p>
+<p><img src="images/PyCharm_add_local_interpreter.png" class="img-fluid" style="width:60.0%"></p>
+<p>Another window should open where you can configure the virtual environment. Select “Generate new”, choose a 3.12 version of Python and keep the path in your “SPACE-GEOLOGY-2026” folder. CLick “OK” and wait for the venv to be installed.</p>
+<p><img src="images/PyCharm_conf_venv.png" class="img-fluid" style="width:60.0%"></p>
+<p>If successful, you should now see the virtual environment activated. Go to the bottom right corner and click on the terminal icon <img src="images/PyCharm_terminal_icon.png" class="img-fluid" style="width:5.0%">. You can also open the terminal by using <code>Alt + F12</code>. A window should open on the bottom of the screen with the path to your SPACE-GEOLOGY-2026 folder, and a <code>(venv)</code> before it. This means that your environment is correctly installed and running.</p>
+<p>Now, another step is to install the required libraries before starting to work. We will use the package installer for Python to manually install them. The command you need to type in your terminal is:</p>
+<p><code>pip install &lt;package&gt;</code></p>
+<p>so for instance, to install rioxarray, just type</p>
+<p><code>pip install rioxarray</code></p>
+<p>You will see some code running to install <code>rioxarary</code> and other dependencies. Repeat this for other packages until all required ones are installed. If you try and install a package that is already installed, no problem, you will simply see a message stating that the requirement is already satisfied.</p>
+<p><strong>Note:</strong> there are some libraries that are part of the Python standard libraries like os or xml.etree.ElementTree, no need to install these.</p>
+<p><strong>You are now ready to run your code !</strong></p>
 </section>
 <section id="google-colab" class="level2">
 <h2 class="anchored" data-anchor-id="google-colab">Google Colab</h2>
 <p>Google Colab is an online service for running Jupyter Notebooks without the need for local code editor installation. It can simply be accessed from <a href="https://colab.research.google.com/">your browser</a> and already contains most of the required libraries.</p>
+<p>To use Colab, you will require a Google account. Go to the website and login. Once logged in, you may simply select the “Upload” option and click on “Browse” to load the notebook from your computer.</p>
+<p><img src="images/Colab_upload_notebook.png" class="img-fluid" style="width:60.0%"></p>
+<p><strong>You are not ready to run your code !</strong></p>
 </section>
 <section id="qgis-notebook" class="level2">
 <h2 class="anchored" data-anchor-id="qgis-notebook">QGIS Notebook</h2>
 <p>QGIS Notebook is a plugin that can be <a href="https://plugins.qgis.org/plugins/qgis_notebook/">installed in QGIS</a> to run and write notebooks. It uses the Python environment that comes with QGIS.</p>
+<p>To install the plugin, open QGIS, and go to the top options and select “Plugins”, then click on “Manage and Install Plugins”.</p>
+<p><img src="images/QGIS_manage_plugins.png" class="img-fluid" style="width:60.0%"></p>
+<p>A new window should open. Click on “All” and search “Notebook”. You should see it appear. CLick on “Install Plugin”</p>
+<p><img src="images/QGIS_plugin_notebook.png" class="img-fluid" style="width:60.0%"></p>
+<p>If successfully installed, you should see a message pop up in the top of this window, and some icons appearing in your toolbar : <img src="images/QGIS_notebook_icons.png" class="img-fluid" style="width:10.0%">. Clicking on the first icon will open the notebook user interface.</p>
+<p><img src="images/QGIS_notebook_ui.png" class="img-fluid" style="width:60.0%"></p>
+<p>The notebooks from the exercise can be opened by just clicking on “Open” and load your notebooks.</p>
+<p><strong>You are not ready to run your code !</strong></p>
 
 
 </section>
