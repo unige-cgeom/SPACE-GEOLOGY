@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,6 +103,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -254,8 +257,8 @@ window.Quarto = {
 </header>
 
 
-<section id="landslide-risk-assessement-in-an-alpine-context" class="level1">
-<h1>Landslide risk assessement in an Alpine context</h1>
+<section id="landslide-risk-assessement-in-an-alpine-context" class="level2">
+<h2 class="anchored" data-anchor-id="landslide-risk-assessement-in-an-alpine-context">Landslide risk assessement in an Alpine context</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -308,14 +311,16 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="step-by-step-instructions" class="level1">
-<h1>Step-by-step instructions</h1>
-<p><strong>1. Data preparation</strong></p>
-<p>1.1. Lithologies favorable to rock instabilities</p>
-<p>We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the <a href="https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25">swisstopo website</a>, but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the <code>data</code> folder as a GeoTiFF</p>
+<section id="step-by-step-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="step-by-step-instructions">Step-by-step instructions</h2>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data preparation</h3>
+<section id="lithologies-favorable-to-rock-instabilities" class="level4">
+<h4 class="anchored" data-anchor-id="lithologies-favorable-to-rock-instabilities">Lithologies favorable to rock instabilities</h4>
+<p>We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the <a href="https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25">swisstopo website</a>, but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the <code>data</code> folder as a GeoTiFF, and we open it using the <a href="https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open">rasterio.open</a> function.</p>
 <p>→ With the knowledge you have from the previous exercise, load the GeoTiff file and display its metadata.</p>
 <p>→ What is the coordinate reference system of the layer ? What is its resolution ?</p>
-<div id="a147870e" class="cell" data-execution_count="1">
+<div id="509cd950" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"data/DEM/Sion_MNT25.tif"</span>) <span class="im">as</span> src:</span>
@@ -325,15 +330,22 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    metadata<span class="op">=</span> src.meta</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    crs <span class="op">=</span> src.crs</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(metadata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>{'driver': 'GTiff', 'dtype': 'int16', 'nodata': -32768.0, 'width': 700, 'height': 480, 'count': 1, 'crs': CRS.from_wkt('PROJCS["CH1903+ / LV95",GEOGCS["CH1903+",DATUM["CH1903+",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],AUTHORITY["EPSG","6150"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4150"]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.9524055555556],PARAMETER["longitude_of_center",7.43958333333333],PARAMETER["azimuth",90],PARAMETER["rectified_grid_angle",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",2600000],PARAMETER["false_northing",1200000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","2056"]]'), 'transform': Affine(25.0, 0.0, 2584986.8688682015,
-       0.0, -25.0, 1121987.7697438349)}</code></pre>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>metadata</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>{'driver': 'GTiff',
+ 'dtype': 'int16',
+ 'nodata': -32768.0,
+ 'width': 700,
+ 'height': 480,
+ 'count': 1,
+ 'crs': CRS.from_wkt('PROJCS["CH1903+ / LV95",GEOGCS["CH1903+",DATUM["CH1903+",SPHEROID["Bessel 1841",6377397.155,299.1528128,AUTHORITY["EPSG","7004"]],AUTHORITY["EPSG","6150"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4150"]],PROJECTION["Hotine_Oblique_Mercator_Azimuth_Center"],PARAMETER["latitude_of_center",46.9524055555556],PARAMETER["longitude_of_center",7.43958333333333],PARAMETER["azimuth",90],PARAMETER["rectified_grid_angle",90],PARAMETER["scale_factor",1],PARAMETER["false_easting",2600000],PARAMETER["false_northing",1200000],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","2056"]]'),
+ 'transform': Affine(25.0, 0.0, 2584986.8688682015,
+        0.0, -25.0, 1121987.7697438349)}</code></pre>
 </div>
 </div>
-<p>Second, we will extract the favorable lithologies that could trigger instabilities. For this, you will need to have the <code>geopandas</code> library installed. This library is an extension of <code>pandas</code> specifically designed to handle geospatial data.</p>
-<p>You may use <code>geopandas</code> to read a file (for instance shapefile) into a <code>GeoDataFrame</code> (gdf), which is simply a <code>DataFrame</code> that contains a geometry column. The example below shows how to simply load our shapefile of interest and prints out the gdf columns, and the 10 first rows.</p>
-<div id="9d9ebd67" class="cell" data-execution_count="2">
+<p>Second, we will extract the lithologies that favour instabilities the <code>geopandas</code> library. This library is an extension of <code>pandas</code> specifically designed to handle geospatial data.</p>
+<p>You may use <code>geopandas</code> to read a <em>vector</em> file (for instance shapefile) into a <code>GeoDataFrame</code> (gdf), which is simply a <code>DataFrame</code> that contains a geometry column. The example below shows how to simply load bedrock shapefile and print out the <em>attributes</em> (i.e., the columns) and the 10 first rows.</p>
+<div id="ef1430e1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bedrock_plg <span class="op">=</span> gpd.read_file(</span>
@@ -341,36 +353,92 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedrock_plg.columns)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedrock_plg.head(<span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>bedrock_plg.head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Index(['Litho', 'Typ_code', 'geometry'], dtype='str')
-                                               Litho Typ_code  \
-0                                         Cornieules      830   
-1  Quartzites blancs, quartzites sériciteux verts...      810   
-2  Quartz-séricitoschistes bleu-vert à galets de ...      800   
-3                                Calcaires, dolomies      850   
-4                         Marbres roux, calcschistes      900   
-5                           Métagranophyres de Thyon      710   
-6  Quartzites blancs, quartzites sériciteux verts...      880   
-7                                Calcaires, dolomies      850   
-8  Quartzites blancs, quartzites sériciteux verts...      880   
-9                                Calcaires, dolomies      540   
+<pre><code>Index(['Litho', 'Typ_code', 'geometry'], dtype='str')</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 
-                                            geometry  
-0  POLYGON ((2600420.881 1109999.818, 2600347.472...  
-1  POLYGON ((2600455.712 1109999.817, 2600420.881...  
-2  POLYGON ((2600473.014 1109999.817, 2600455.712...  
-3  POLYGON ((2595792.433 1110045.049, 2595802.745...  
-4  POLYGON ((2595144.964 1109999.879, 2595123.478...  
-5  POLYGON ((2589265.138 1110113.773, 2589260.828...  
-6  POLYGON ((2591384.488 1110000.056, 2591265.459...  
-7  POLYGON ((2596758.224 1110166.489, 2596772.365...  
-8  POLYGON ((2594866.447 1110168.379, 2594879.885...  
-9  POLYGON ((2587113.889 1110111.267, 2587115.608...  </code></pre>
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Litho</th>
+<th data-quarto-table-cell-role="th">Typ_code</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>Cornieules</td>
+<td>830</td>
+<td>POLYGON ((2600420.881 1109999.818, 2600347.472...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Quartzites blancs, quartzites sériciteux verts...</td>
+<td>810</td>
+<td>POLYGON ((2600455.712 1109999.817, 2600420.881...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Quartz-séricitoschistes bleu-vert à galets de ...</td>
+<td>800</td>
+<td>POLYGON ((2600473.014 1109999.817, 2600455.712...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Calcaires, dolomies</td>
+<td>850</td>
+<td>POLYGON ((2595792.433 1110045.049, 2595802.745...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Marbres roux, calcschistes</td>
+<td>900</td>
+<td>POLYGON ((2595144.964 1109999.879, 2595123.478...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>Métagranophyres de Thyon</td>
+<td>710</td>
+<td>POLYGON ((2589265.138 1110113.773, 2589260.828...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>Quartzites blancs, quartzites sériciteux verts...</td>
+<td>880</td>
+<td>POLYGON ((2591384.488 1110000.056, 2591265.459...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Calcaires, dolomies</td>
+<td>850</td>
+<td>POLYGON ((2596758.224 1110166.489, 2596772.365...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Quartzites blancs, quartzites sériciteux verts...</td>
+<td>880</td>
+<td>POLYGON ((2594866.447 1110168.379, 2594879.885...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>Calcaires, dolomies</td>
+<td>540</td>
+<td>POLYGON ((2587113.889 1110111.267, 2587115.608...</td>
+</tr>
+</tbody>
+</table>
+
 </div>
 </div>
-<p>If you want to see one feature in particular, for instance the first one, this is very easy to get all properties, or just the geometry:</p>
-<div id="bb56fb1a" class="cell" data-execution_count="3">
+</div>
+<p>To inspect one feature in particular, for instance the first one (index 0), this is very easy to get all properties, or just the geometry:</p>
+<div id="424a093f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature:"</span>,bedrock_plg.iloc[<span class="dv">0</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature geometry:"</span>,bedrock_plg.iloc[<span class="dv">0</span>].geometry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -382,8 +450,8 @@ Name: 0, dtype: object
 First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.4715314964 1109999.8178518438, 2600344.230977689 1110004.4506205749, 2600349.6061105966 1110007.56776513, 2600366.669032538 1110017.4582891844, 2600389.1695947875 1110029.9814623275, 2600392.9822670342 1110025.3017914605, 2600399.482531328 1110019.9190153389, 2600406.045310493 1110013.3956502674, 2600412.545579132 1110007.6299779532, 2600418.2958199754 1110002.2472052546, 2600420.881028366 1109999.8175176182))</code></pre>
 </div>
 </div>
-<p>One thing we will do is filter out our original data to keep only selected lithologies. This can be done using the query function with the desired condition:</p>
-<div id="2255a976" class="cell" data-execution_count="4">
+<p>We need to filter out the original data to keep only the lithologies of interest. This can be done using the <code>query</code> function with the desired condition:</p>
+<div id="757a3c20" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>select_litho <span class="op">=</span> bedrock_plg.query(<span class="st">"Typ_code == '830'"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(select_litho.iloc[<span class="dv">0</span>].Litho)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -392,7 +460,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 <p>→ What lithology is associated with the code ‘870’ ?</p>
 <p>→ How would you do a filtering, not only for 1 value but for 4 different ones ?</p>
-<div id="d919f53b" class="cell" data-execution_count="5">
+<div id="255bad25" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fav_litho <span class="op">=</span> bedrock_plg.query(<span class="st">"Typ_code in ('800', '801', '802', '870')"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fav_litho.iloc[<span class="dv">0</span>].Litho)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -400,7 +468,7 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>Using <code>matplotlib</code>, we can plot our favorable lithologies, with a symbology based on the ‘Typ_code’ attribute:</p>
-<div id="2b32a0ea" class="cell" data-execution_count="6">
+<div id="61da80cf" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fav_litho.plot(</span>
@@ -417,8 +485,8 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 </div>
-<p>A good thing is that we can now convert our favorable lithologies into a raster (which will be useful for us later in the exercice), as the <code>geopandas</code> and <code>rasterio</code> libraries can work with each other’s formats.</p>
-<div id="4636fad4" class="cell" data-execution_count="7">
+<p>Lithologies will be used as <strong>mask</strong> in the rest of the study. In order to mask out raster data, the lithology layer needs to be converted into a raster that is <strong>aligned</strong> with the raster layer to mask (here, the <code>Sion_MNT25.tif</code> layer). Aligned means that the pixels of both layers have the same reference coordinates and extent, providing a 100% overlap. To ensure that, we use the <code>shape</code> and <code>transform</code> variables obtained from the DEM and pass them to <code>rasterio</code>’s <a href="https://rasterio.readthedocs.io/en/stable/api/rasterio.features.html#rasterio.features.rasterize">rasterize</a> function:</p>
+<div id="3db0cf37" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> rasterize</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>raster_fav_litho <span class="op">=</span> rasterize(</span>
@@ -429,8 +497,8 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"uint8"</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The code above creates a raster with the same properties as the DEM we loaded initially: it takes the same shape and transform. For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will have a value of 0 (from the ‘fill’ parameter). Let’s visualize the result:</p>
-<div id="669d3b28" class="cell" data-execution_count="8">
+<p>For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will have a value of 0 (from the ‘fill’ parameter). Let’s visualize the result:</p>
+<div id="4045601f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(raster_fav_litho)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
@@ -443,8 +511,8 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 </div>
-<p>We will now export our new raster. For this, we need to make sure that our output folder exists, by using the <code>os</code> library, that is used to interact with the operating system of your machine, in this case, by creating a folder where we will save our output directory.</p>
-<div id="1fe538dd" class="cell" data-execution_count="9">
+<p>The next step is to export the raster. We ensure that the target directory exists - or, if not, create it - using the <a href="https://docs.python.org/3/library/os.html#os.makedirs">makedirs</a> function from the <code>os</code> library. The <code>os</code> library is used to interact with the operating system of your machine, in this case, by creating a folder where</p>
+<div id="fbc074fd" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>os.makedirs(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/outputs"</span>,</span>
@@ -460,9 +528,9 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dst:</span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    dst.write(raster_fav_litho, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The code above will write a <code>GeoTiFF</code> file with the same properties (shape, crs, transform) as the original DEM, with one band (defined by the ‘count’ parameter).</p>
-<p>→ Let’s go back to our rasterized favorable lithologies. Try calculating the area covered by such lithologies. This can be done by multiplying the raster pixels width, height and count. The first two are available in the <code>transform</code> property of the raster metadata (originally from the DEM, that we also applied to our rasterized lithologies). The pixel count cna be obtained using <code>numpy</code> summing operations.</p>
-<div id="02649d82" class="cell" data-execution_count="10">
+<p>The code writes a <code>GeoTiFF</code> file with the same properties (shape, crs, transform) as the original DEM, with one band (defined by the ‘count’ parameter).</p>
+<p>→ Let’s go back to our rasterized favorable lithologies. Try calculating the area covered by such lithologies. This can be done by multiplying the raster pixels width, height and count. The first two are available in the <code>transform</code> property of the raster metadata (originally from the DEM, that we also applied to our rasterized lithologies). The pixel count can be obtained using <code>numpy</code> summing operations.</p>
+<div id="44e3a80c" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pixel_width <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">0</span>])</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>pixel_height <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">4</span>])</span>
@@ -477,22 +545,40 @@ First feature geometry: POLYGON ((2600420.881028366 1109999.8175176182, 2600347.
 </div>
 </div>
 <p>→ What does this number represent ? What units ?</p>
-<p>1.2. Existing instabilities</p>
-<p>We will now look into existing rock instabilities and will identify them using the same method we did for the favorable lithologies. Load the ‘Instability_Structures_PLG’ shapefile and inspect its features in a similar fashion than for the bedrock polygons.</p>
-<div id="963d1eae" class="cell" data-execution_count="11">
+</section>
+<section id="existing-instabilities" class="level4">
+<h4 class="anchored" data-anchor-id="existing-instabilities">Existing instabilities</h4>
+<p>Ler’s now inspect and identify existing rock instabilities. Load the ‘Instability_Structures_PLG’ shapefile and inspect its features in a similar fashion than for the bedrock polygons.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Unique values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can display all <em>unique values</em> in one column using <code>df['col_name'].unique()</code>.</p>
+</div>
+</div>
+<div id="e8d2e2c9" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>instabilities_plg <span class="op">=</span> gpd.read_file(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"data/shapefiles/Instability_Structures_PLG</span><span class="dv">.</span><span class="vs">shp"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    encoding<span class="op">=</span><span class="st">"utf-8"</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg.columns)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg.head(<span class="dv">10</span>))</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature:"</span>,instabilities_plg.iloc[<span class="dv">0</span>])</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature geometry:"</span>,instabilities_plg.iloc[<span class="dv">0</span>].geometry)</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg[<span class="st">"TYP_CODE"</span>].unique())</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg[<span class="st">"TYP_NAME"</span>].unique())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the columns</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg.columns)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the first 10 rows</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(instabilities_plg.head(<span class="dv">10</span>))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature:"</span>,instabilities_plg.iloc[<span class="dv">0</span>])</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"First feature geometry:"</span>,instabilities_plg.iloc[<span class="dv">0</span>].geometry)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>instabilities_plg[<span class="st">"TYP_CODE"</span>].unique()</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>instabilities_plg[<span class="st">"TYP_NAME"</span>].unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Index(['TYP_CODE', 'TYP_NAME', 'geometry'], dtype='str')
   TYP_CODE         TYP_NAME                                           geometry
@@ -510,11 +596,10 @@ First feature: TYP_CODE                                                  NaN
 TYP_NAME                                                  NaN
 geometry    POLYGON ((2599545.863567139 1109999.8215756896...
 Name: 0, dtype: object
-First feature geometry: POLYGON ((2599545.863567139 1109999.8215756896, 2599495.4608857874 1109999.8218054776, 2599501.954468604 1110010.501370709, 2599512.329591187 1110028.4308467756, 2599520.8296714383 1110044.9540440661, 2599529.7672925973 1110059.1101618235, 2599535.9548253138 1110073.445890607, 2599542.0798866404 1110085.070746612, 2599548.0290956614 1110091.9771502984, 2599549.017673099 1110079.0004745785, 2599548.080372331 1110058.7272803036, 2599547.9555473025 1110042.8680383984, 2599547.0807332536 1110023.9463304074, 2599545.863567139 1109999.8215756896))
-&lt;StringArray&gt;
-[nan, '700', '701']
-Length: 3, dtype: str
-&lt;StringArray&gt;
+First feature geometry: POLYGON ((2599545.863567139 1109999.8215756896, 2599495.4608857874 1109999.8218054776, 2599501.954468604 1110010.501370709, 2599512.329591187 1110028.4308467756, 2599520.8296714383 1110044.9540440661, 2599529.7672925973 1110059.1101618235, 2599535.9548253138 1110073.445890607, 2599542.0798866404 1110085.070746612, 2599548.0290956614 1110091.9771502984, 2599549.017673099 1110079.0004745785, 2599548.080372331 1110058.7272803036, 2599547.9555473025 1110042.8680383984, 2599547.0807332536 1110023.9463304074, 2599545.863567139 1109999.8215756896))</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>&lt;StringArray&gt;
 [nan, 'tassement actif', 'tassement inactif']
 Length: 3, dtype: str</code></pre>
 </div>
@@ -522,13 +607,13 @@ Length: 3, dtype: str</code></pre>
 <p>→ What are the instabilities you identified?</p>
 <p>→ Try plotting the polygons of instabilities with a symbology based on the type</p>
 <p>Let’s now filter out our existing instabilities using the codes we found in the previous code, and calculate their combined area.</p>
-<div id="72dab411" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>existing_instabilities <span class="op">=</span> instabilities_plg.query(<span class="st">"TYP_CODE in ('700', '701')"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>existing_instabilities[<span class="st">"area_m2"</span>] <span class="op">=</span> existing_instabilities.geometry.area</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>total_area_plg <span class="op">=</span> existing_instabilities.geometry.area.<span class="bu">sum</span>()</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total area from polygons: </span><span class="sc">{</span>total_area_plg<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="459905cd" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>existing_instabilities <span class="op">=</span> instabilities_plg.query(<span class="st">"TYP_CODE in ('700', '701')"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>existing_instabilities[<span class="st">"area_m2"</span>] <span class="op">=</span> existing_instabilities.geometry.area</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>total_area_plg <span class="op">=</span> existing_instabilities.geometry.area.<span class="bu">sum</span>()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total area from polygons: </span><span class="sc">{</span>total_area_plg<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total area from polygons: 66063238.71564696</code></pre>
 </div>
@@ -536,71 +621,73 @@ Length: 3, dtype: str</code></pre>
 <p>Notice how we were able to calculate the area directly on the vector data, unlike what we did with the favorable lithologies ?</p>
 <p>→ Both methods are possible, but which one do you think is best suited ? Why ?</p>
 <p>→ Rasterize the existing instabilities and calculate the area on the pixels. What result do you get ?</p>
-<div id="730cd05c" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raster_inst <span class="op">=</span> rasterize(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    shapes<span class="op">=</span>((geom, <span class="dv">1</span>) <span class="cf">for</span> geom <span class="kw">in</span> existing_instabilities.geometry),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    out_shape<span class="op">=</span>shape,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"uint8"</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(raster_inst <span class="op">==</span> <span class="dv">1</span>)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>total_area <span class="op">=</span> pixel_count <span class="op">*</span> pixel_area</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total area from pixels: </span><span class="sc">{</span>total_area<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f5b19f6d" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>raster_inst <span class="op">=</span> rasterize(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    shapes<span class="op">=</span>((geom, <span class="dv">1</span>) <span class="cf">for</span> geom <span class="kw">in</span> existing_instabilities.geometry),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    out_shape<span class="op">=</span>shape,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    fill<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"uint8"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(raster_inst <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>total_area <span class="op">=</span> pixel_count <span class="op">*</span> pixel_area</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total area from pixels: </span><span class="sc">{</span>total_area<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total area from pixels: 65998125.0</code></pre>
 </div>
 </div>
 <p>Let’s also export our data to a GeoTiFF using the same command as before.</p>
-<div id="1b2cec1f" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"data/outputs/instabilities</span><span class="dv">.</span><span class="vs">tif"</span>, <span class="st">"w"</span>,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    driver<span class="op">=</span><span class="st">"GTiff"</span>,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span>shape[<span class="dv">0</span>], width<span class="op">=</span>shape[<span class="dv">1</span>],</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    count<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="st">"uint8"</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span>crs, transform<span class="op">=</span>transform</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dst:</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    dst.write(raster_inst, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="eb936c11" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"data/outputs/instabilities</span><span class="dv">.</span><span class="vs">tif"</span>, <span class="st">"w"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    driver<span class="op">=</span><span class="st">"GTiff"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span>shape[<span class="dv">0</span>], width<span class="op">=</span>shape[<span class="dv">1</span>],</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    count<span class="op">=</span><span class="dv">1</span>, dtype<span class="op">=</span><span class="st">"uint8"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span>crs, transform<span class="op">=</span>transform</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dst:</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    dst.write(raster_inst, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>1.3. Slope distribution</p>
+</section>
+<section id="slope-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="slope-distribution">Slope distribution</h4>
 <p>We are going to calculate the slope of each pixel from the original DEM to understand the terrain variations and how these are related to instabilities. In traditional Desktop GIS, there are some tools that already implement slope calculations, but we can do it manually using <code>numpy</code> in Python, se we understand how the slope is calculated.</p>
 <p>The slope of a cell is usually calculated using the Horn algorithm (Horn, 1981), and considers the 8 neighbouring cells elevation (N, S, E, W, NE, NW, SE, SW). With <code>np.roll</code>, we can retrieve the information about each neighbouring cell by just shifting the array, for every cell at once.</p>
-<div id="dbe905bb" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>north <span class="op">=</span> np.roll(dem, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>south <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>east <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>west <span class="op">=</span> np.roll(dem, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>north_east <span class="op">=</span> np.roll(north,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>north_west <span class="op">=</span> np.roll(north, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>south_east <span class="op">=</span> np.roll(south,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>south_west <span class="op">=</span> np.roll(south, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="970d5c2c" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>north <span class="op">=</span> np.roll(dem, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>south <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>east <span class="op">=</span> np.roll(dem,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>west <span class="op">=</span> np.roll(dem, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>north_east <span class="op">=</span> np.roll(north,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>north_west <span class="op">=</span> np.roll(north, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>south_east <span class="op">=</span> np.roll(south,  <span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>south_west <span class="op">=</span> np.roll(south, <span class="op">-</span><span class="dv">1</span>, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then, using Horn’s formula, we calculate how much elevation changes east-west (dx) and north-south (dy), that will help us calculate the slope in degrees.</p>
-<div id="eed23704" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> ((north_east <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>east <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>west <span class="op">-</span> south_west)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">/</span> (<span class="dv">8</span> <span class="op">*</span> pixel_width))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> ((south_west <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>south <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>north <span class="op">-</span> north_east)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">/</span> (<span class="dv">8</span> <span class="op">*</span> pixel_height))</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>slope_deg <span class="op">=</span> np.degrees(np.arctan(np.sqrt(dx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dy<span class="op">**</span><span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="2effdb1d" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> ((north_east <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>east <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>west <span class="op">-</span> south_west)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">/</span> (<span class="dv">8</span> <span class="op">*</span> pixel_width))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> ((south_west <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>south <span class="op">+</span> south_east <span class="op">-</span> north_west <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>north <span class="op">-</span> north_east)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">/</span> (<span class="dv">8</span> <span class="op">*</span> pixel_height))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>slope_deg <span class="op">=</span> np.degrees(np.arctan(np.sqrt(dx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> dy<span class="op">**</span><span class="dv">2</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Note that all operations, including <code>np.roll</code>, <code>np.degrees</code> or <code>np.arctan</code> are performed on every pixel of the DEM, this is what we call vectorized operations. It is built-in to work faster and in a cleaner way than what a loop would do.</p>
 <p>Before moving on to analyze our slope values, we need to correct for the issue with slope calculation at the map’s edges. When we do <code>np.roll</code>, the pixels of the first and last rows, together with pixels from the first and last column are moved to the other end of the raster and might induce errors locally. For this reason, we will discard them from our analysis by assigning them the ‘not a number’ (NaN) value.</p>
-<div id="9037911d" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="dv">0</span>, :]  <span class="op">=</span> np.nan</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="op">-</span><span class="dv">1</span>, :] <span class="op">=</span> np.nan</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>slope_deg[:, <span class="dv">0</span>]  <span class="op">=</span> np.nan</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>slope_deg[:, <span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="9e21c5c6" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="dv">0</span>, :]  <span class="op">=</span> np.nan</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>slope_deg[<span class="op">-</span><span class="dv">1</span>, :] <span class="op">=</span> np.nan</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>slope_deg[:, <span class="dv">0</span>]  <span class="op">=</span> np.nan</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>slope_deg[:, <span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> np.nan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In the code above, we simply take all pixels from the first row <code>[0,:]</code>, all pixels from the last row [-1,:], all pixels form the first column <code>[:,0]</code> and all pixels from the last column <code>[:,-1]</code> and set them to NaN using <code>np.nan</code></p>
 <p>Let’s now have a look at our values and print the minimum, maximum and mean slope.</p>
-<div id="6ba2b3b7" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b8547f01" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(slope_deg)<span class="sc">}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Min slope:  0.0°
 Max slope:  73.42134202544572°
@@ -608,34 +695,34 @@ Mean slope: 22.002260549400983°</code></pre>
 </div>
 </div>
 <p>→ Plot and save the slope map !</p>
-<div id="1bd97026" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>left <span class="op">=</span> transform[<span class="dv">2</span>]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>right <span class="op">=</span> transform[<span class="dv">2</span>] <span class="op">+</span> transform[<span class="dv">0</span>] <span class="op">*</span> dem.shape[<span class="dv">1</span>]</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>bottom <span class="op">=</span> transform[<span class="dv">5</span>] <span class="op">+</span> transform[<span class="dv">4</span>] <span class="op">*</span> dem.shape[<span class="dv">0</span>]</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> transform[<span class="dv">5</span>]</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    slope_deg,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"magma"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    extent<span class="op">=</span>[left, right, bottom, top]</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"Slope (degrees)"</span>)</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/outputs/slope.tif"</span>,</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"w"</span>,</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    driver<span class="op">=</span><span class="st">"GTiff"</span>,</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span>shape[<span class="dv">0</span>],</span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span>shape[<span class="dv">1</span>],</span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    count<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"float32"</span>,</span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span>crs,</span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    nodata<span class="op">=</span>np.nan</span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dst:</span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    dst.write(slope_deg.astype(<span class="st">"float32"</span>), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ec738035" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>left <span class="op">=</span> transform[<span class="dv">2</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>right <span class="op">=</span> transform[<span class="dv">2</span>] <span class="op">+</span> transform[<span class="dv">0</span>] <span class="op">*</span> dem.shape[<span class="dv">1</span>]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>bottom <span class="op">=</span> transform[<span class="dv">5</span>] <span class="op">+</span> transform[<span class="dv">4</span>] <span class="op">*</span> dem.shape[<span class="dv">0</span>]</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>top <span class="op">=</span> transform[<span class="dv">5</span>]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    slope_deg,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"magma"</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    extent<span class="op">=</span>[left, right, bottom, top]</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>plt.colorbar(label<span class="op">=</span><span class="st">"Slope (degrees)"</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/outputs/slope.tif"</span>,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"w"</span>,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    driver<span class="op">=</span><span class="st">"GTiff"</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span>shape[<span class="dv">0</span>],</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span>shape[<span class="dv">1</span>],</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>    count<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>    dtype<span class="op">=</span><span class="st">"float32"</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span>crs,</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    nodata<span class="op">=</span>np.nan</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>) <span class="im">as</span> dst:</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>    dst.write(slope_deg.astype(<span class="st">"float32"</span>), <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -645,47 +732,63 @@ Mean slope: 22.002260549400983°</code></pre>
 </div>
 </div>
 <p>→ Do you understand how we calculated the extent of the map (left, right, bottom, top) ?</p>
-<p><strong>2. Estimate the representative slope angle</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Python libraries
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The advantage of open-source software is the wealth of available tools developed by and available for the community. The method shown above illustrates how to code an algorithm for slope computation for scratch. However, other libraries specifically designed for DEM handling provide numerous functions for terrain analyses (e.g., <a href="https://github.com/creare-com/pydem">PyDEM</a>), including slope, aspects, curvature etc…</p>
+</div>
+</div>
+</section>
+</section>
+<section id="estimate-the-representative-slope-angle" class="level3">
+<h3 class="anchored" data-anchor-id="estimate-the-representative-slope-angle">Estimate the representative slope angle</h3>
 <p>Let’s now have a look at a specific zone in which we observe instabilities. The area is defined by the polygon ‘subequil_PLG_r.shp’. We will load the shapefile and have a look at the slope values inside this very polygon.</p>
 <p>To do this, we will use the <code>geometry_mask</code> function from <code>rasterio</code>. Remember, we used masks in our first exercise by selecting pixels above sea level, but here we will select all pixels of the slope layer inside the sub-equilibrium polygon.</p>
-<div id="ebab7697" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> geometry_mask</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>subequil_zone <span class="op">=</span> gpd.read_file(<span class="st">"data/shapefiles/subequil_PLG_r.shp"</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> geometry_mask(</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    subequil_zone.geometry,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    invert<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    out_shape<span class="op">=</span>shape</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>slope_inside <span class="op">=</span> slope_deg[mask]</span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean slope inside zone: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(slope_inside)<span class="sc">:.2f}</span><span class="ss">°"</span>)</span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope inside zone:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_inside)<span class="sc">:.2f}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="65a19171" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.features <span class="im">import</span> geometry_mask</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>subequil_zone <span class="op">=</span> gpd.read_file(<span class="st">"data/shapefiles/subequil_PLG_r.shp"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> geometry_mask(</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    subequil_zone.geometry,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span>transform,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    invert<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    out_shape<span class="op">=</span>shape</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>slope_inside <span class="op">=</span> slope_deg[mask]</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean slope inside zone: </span><span class="sc">{</span>np<span class="sc">.</span>nanmean(slope_inside)<span class="sc">:.2f}</span><span class="ss">°"</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope inside zone:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_inside)<span class="sc">:.2f}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Mean slope inside zone: 20.20°
 Max slope inside zone:  40.34°</code></pre>
 </div>
 </div>
 <p>→ Plot an histogram that shows the slope distribution within the sampling zone.</p>
-<div id="c8ad2965" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mean_slope <span class="op">=</span> np.mean(slope_inside)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>plt.hist(</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    slope_inside,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">50</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>plt.axvline(</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    mean_slope,</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'red'</span>,</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="ss">f'Mean: </span><span class="sc">{</span>mean_slope<span class="sc">}</span><span class="ss">°'</span>)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Slope (°)"</span>)</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Slope distribution inside zone"</span>)</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6b5274a1" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>mean_slope <span class="op">=</span> np.mean(slope_inside)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.hist(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    slope_inside,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    bins<span class="op">=</span><span class="dv">50</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>plt.axvline(</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    mean_slope,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span><span class="st">'red'</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    linestyle<span class="op">=</span><span class="st">'--'</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="ss">f'Mean: </span><span class="sc">{</span>mean_slope<span class="sc">}</span><span class="ss">°'</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Slope (°)"</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Slope distribution inside zone"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -694,26 +797,29 @@ Max slope inside zone:  40.34°</code></pre>
 </div>
 </div>
 </div>
-<p><strong>3. Identify new areas susceptible to instabilities</strong></p>
-<p>3.1. Existing instabilities on favorable lithologies</p>
+</section>
+<section id="identify-new-areas-susceptible-to-instabilities" class="level3">
+<h3 class="anchored" data-anchor-id="identify-new-areas-susceptible-to-instabilities">Identify new areas susceptible to instabilities**</h3>
+<section id="existing-instabilities-on-favorable-lithologies" class="level4">
+<h4 class="anchored" data-anchor-id="existing-instabilities-on-favorable-lithologies">Existing instabilities on favorable lithologies</h4>
 <p>Now, we will identify areas where we have existing instabilities at locations where the lithology is favorable.</p>
 <p>→ Create a new raster (with the same resolution as the original DEM) to identify existing instabilities located on favorable lithologies.</p>
-<div id="b83274a3" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>instabilities_on_fav_litho <span class="op">=</span> raster_fav_litho <span class="op">*</span> raster_inst</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="54053b34" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>instabilities_on_fav_litho <span class="op">=</span> raster_fav_litho <span class="op">*</span> raster_inst</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>→ Plot the new raster and calculate its area</p>
-<div id="4ad9988c" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(instabilities_on_fav_litho)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Existing instabilities on favorable lithologies"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(instabilities_on_fav_litho <span class="op">==</span> <span class="dv">1</span>)</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Area of existing instabilities on favorable lithologies: "</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7e44558b" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plt.imshow(instabilities_on_fav_litho)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Existing instabilities on favorable lithologies"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(instabilities_on_fav_litho <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Area of existing instabilities on favorable lithologies: "</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -725,27 +831,31 @@ Max slope inside zone:  40.34°</code></pre>
 <pre><code>Area of existing instabilities on favorable lithologies: 38441875 m²</code></pre>
 </div>
 </div>
-<p>3.2. Zones without instabilities but located on favorable lithologies</p>
-<p>→Using a similar approach, identify the areas where we have fabvorable lithologies but no observed instabilities.</p>
-<div id="2b534e46" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fav_litho_no_instability <span class="op">=</span> (raster_fav_litho <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (raster_inst <span class="op">==</span> <span class="dv">0</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(fav_litho_no_instability)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Area without instabilities but with favorable lithologies: "</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="zones-without-instabilities-but-located-on-favorable-lithologies" class="level4">
+<h4 class="anchored" data-anchor-id="zones-without-instabilities-but-located-on-favorable-lithologies">Zones without instabilities but located on favorable lithologies</h4>
+<p>→Using a similar approach, identify the areas where we have favorable lithologies but no observed instabilities.</p>
+<div id="e72d4e89" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fav_litho_no_instability <span class="op">=</span> (raster_fav_litho <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (raster_inst <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(fav_litho_no_instability)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Area without instabilities but with favorable lithologies: "</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area without instabilities but with favorable lithologies: 21353125.0 m²</code></pre>
 </div>
 </div>
-<p>3.3. Slopes of zone without instabilities but with favorable lithologies</p>
+</section>
+<section id="slopes-of-zone-without-instabilities-but-with-favorable-lithologies" class="level4">
+<h4 class="anchored" data-anchor-id="slopes-of-zone-without-instabilities-but-with-favorable-lithologies">Slopes of zone without instabilities but with favorable lithologies</h4>
 <p>We will now create a subset of our slope map, focusing only on the zones where we have no instabilities and with favorable lithologies.</p>
-<div id="7440a205" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_deg[fav_litho_no_instability]</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_fav_no_inst[np.isfinite(slope_fav_no_inst)]</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_fav_no_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_fav_no_inst)<span class="sc">}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b964a57a" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_deg[fav_litho_no_instability]</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>slope_fav_no_inst <span class="op">=</span> slope_fav_no_inst[np.isfinite(slope_fav_no_inst)]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_fav_no_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_fav_no_inst)<span class="sc">}</span><span class="ss">°"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Min slope: 0.0°
 Max slope:  62.59057439122892°</code></pre>
@@ -753,60 +863,67 @@ Max slope:  62.59057439122892°</code></pre>
 </div>
 <p>Given that we have all slope values over our area of interest, we will keep only pixels that have a slope higher than the <span class="math inline">\(\phi\)</span> value we calculated in the part 2 above. This will give us areas susceptible to instabilities.</p>
 <p>→ To do this, reclassify our subset slope raster into two classes, depending on the value of the slope value versus the <span class="math inline">\(\phi\)</span> value.</p>
-<div id="62d71a12" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>slope_class <span class="op">=</span> np.where(slope_deg <span class="op">&gt;</span> mean_slope, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>susceptible_inst <span class="op">=</span> slope_class <span class="op">*</span> fav_litho_no_instability</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(susceptible_inst <span class="op">==</span> <span class="dv">1</span>)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Area susceptible to instabilities: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0af84fb9" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>slope_class <span class="op">=</span> np.where(slope_deg <span class="op">&gt;</span> mean_slope, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>susceptible_inst <span class="op">=</span> slope_class <span class="op">*</span> fav_litho_no_instability</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(susceptible_inst <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Area susceptible to instabilities: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Area susceptible to instabilities: 13695625 m²</code></pre>
 </div>
 </div>
-<p><strong>4. Susceptible areas inside the existing instability zones</strong></p>
+</section>
+</section>
+<section id="susceptible-areas-inside-the-existing-instability-zones" class="level3">
+<h3 class="anchored" data-anchor-id="susceptible-areas-inside-the-existing-instability-zones">Susceptible areas inside the existing instability zones**</h3>
 <p>→ Repeat the slope subset over existing instabilities (‘raster_inst’) and calculate the area where the slope is greater than <span class="math inline">\(\phi\)</span>.</p>
-<div id="7f6b4f45" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_deg[raster_inst]</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_inst[np.isfinite(slope_inst)]</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>slope_class <span class="op">=</span> np.where(slope_deg <span class="op">&gt;</span> mean_slope, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>exist_inst_class <span class="op">=</span> slope_class <span class="op">*</span> raster_inst</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(exist_inst_class <span class="op">==</span> <span class="dv">1</span>)</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Area of existing risk: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3003c389" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_deg[raster_inst]</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>slope_inst <span class="op">=</span> slope_inst[np.isfinite(slope_inst)]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Min slope: </span><span class="sc">{</span>np<span class="sc">.</span>nanmin(slope_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max slope:  </span><span class="sc">{</span>np<span class="sc">.</span>nanmax(slope_inst)<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>slope_class <span class="op">=</span> np.where(slope_deg <span class="op">&gt;</span> mean_slope, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>exist_inst_class <span class="op">=</span> slope_class <span class="op">*</span> raster_inst</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(exist_inst_class <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Area of existing risk: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Min slope: 0.0°
 Max slope:  71.205524828538°
 Area of existing risk: 52225625.0 m²</code></pre>
 </div>
 </div>
-<p><strong>5. Total susceptible areas to rock instabilities</strong></p>
+</section>
+<section id="total-susceptible-areas-to-rock-instabilities" class="level3">
+<h3 class="anchored" data-anchor-id="total-susceptible-areas-to-rock-instabilities">Total susceptible areas to rock instabilities**</h3>
 <p>→ Using all of the results you obtained, calculate the total area where we have a susceptibility to instabilities.</p>
-<div id="98edbfc8" class="cell" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> susceptible_inst <span class="op">+</span> exist_inst_class</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> (total_susceptible <span class="op">&gt;=</span> <span class="dv">1</span>).astype(<span class="st">"uint8"</span>)</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(total_susceptible <span class="op">==</span> <span class="dv">1</span>)</span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total susceptible area: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span>)</span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"New potential instabilities (fav. litho, no existing instability): "</span></span>
-<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(susceptible_inst <span class="op">==</span> <span class="dv">1</span>) <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
-<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
-<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Critical zones within existing instabilities:"</span></span>
-<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(exist_inst_class <span class="op">==</span> <span class="dv">1</span>) <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
-<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="52ff0863" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> susceptible_inst <span class="op">+</span> exist_inst_class</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>total_susceptible <span class="op">=</span> (total_susceptible <span class="op">&gt;=</span> <span class="dv">1</span>).astype(<span class="st">"uint8"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>pixel_count <span class="op">=</span> np.<span class="bu">sum</span>(total_susceptible <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total susceptible area: </span><span class="sc">{</span>pixel_count <span class="op">*</span> pixel_area<span class="sc">:.0f}</span><span class="ss"> m²"</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"New potential instabilities (fav. litho, no existing instability): "</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(susceptible_inst <span class="op">==</span> <span class="dv">1</span>) <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Critical zones within existing instabilities:"</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">sum</span>(exist_inst_class <span class="op">==</span> <span class="dv">1</span>) <span class="op">*</span> pixel_area<span class="sc">}</span><span class="ss"> m²"</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total susceptible area: 65921250 m²
 New potential instabilities (fav. litho, no existing instability): 13695625.0 m²
 Critical zones within existing instabilities:52225625.0 m²</code></pre>
 </div>
 </div>
-<p><strong>Final questions:</strong></p>
+</section>
+<section id="final-questions" class="level3">
+<h3 class="anchored" data-anchor-id="final-questions">Final questions</h3>
 <ul>
 <li>What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.</li>
 <li>What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.</li>
@@ -815,7 +932,7 @@ Critical zones within existing instabilities:52225625.0 m²</code></pre>
 <li>What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.</li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -824,9 +941,9 @@ Critical zones within existing instabilities:52225625.0 m²</code></pre>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<section id="python-libraries" class="level3 callout-body-container callout-body">
-<h3 class="anchored" data-anchor-id="python-libraries">Python libraries</h3>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<section id="python-libraries-1" class="level3 callout-body-container callout-body">
+<h3 class="anchored" data-anchor-id="python-libraries-1">Python libraries</h3>
 <ul>
 <li><p><a href="https://geopandas.org/"><code>geopandas</code></a> An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.</p></li>
 <li><p><a href="https://docs.python.org/3/library/os.html"><code>os</code></a> A Python standard library module for interacting with the operating system, including file and directory management.</p></li>
@@ -836,6 +953,7 @@ Critical zones within existing instabilities:52225625.0 m²</code></pre>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
