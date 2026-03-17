@@ -2,12 +2,7 @@
 title: "Chapter II: Setting up your environment"
 format:
   html: default
-  pdf:
-    execute:
-      eval: false
-  ipynb:
-    execute:
-      eval: false
+  pdf: default
 ---
 
 This chapter will help you get started with Python and set your environment up. There are a few different options
@@ -15,6 +10,16 @@ available to run the scripts that are provided in this course.
 
 We will dedicate time during the first day to make sure all students have their environment and code editors installed on
 their machines. It is advised however to try and install one before the course starts.
+
+Each exercise is available in numerous formats. First, you may access them on the [SPACE-GEOLOGY course website](https://unige-cgeom.github.io/SPACE-GEOLOGY),
+under the tab `Course`. In this webpage, if you go to a specific exercise (or part) chapter, you can access it in pdf or
+in a JupyterNotebook (.ipynb) format.
+
+We recommend using the notebook format, as it allows you to read the explanations while running the code snippets. This
+requires to have Python installed, alongside a code editor. Alternatively, you may decide to use Google Colab, an online
+platform to run notebooks directly. Another option is to use QGIS, which has a dedicated plugin to run notebooks.
+
+All information to set up your environment are provided below.
 
 # Python
 The SPACE-GEOLOGY course is based on Python, a widespread programming language used, amongst other things, to perform
@@ -51,6 +56,8 @@ In this course, we will require the following libraries:
 
 # Code editors
 
+Independent of your code editor, you should create a folder `SPACE-GEOLOGY-2026` on your machine, in a location of your choosing. This is where we will save our notebooks, store results and load input data from.
+
 ## Visual Studio (VS) Code
 
 VS Code is a code editor developed by Microsoft. It is available for [Windows](https://code.visualstudio.com/docs/setup/windows),
@@ -58,6 +65,70 @@ VS Code is a code editor developed by Microsoft. It is available for [Windows](h
 
 You may follow the installation instructions associated to the operating system you are using, just make sure to have
 the [Jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter) also installed.
+
+Open visual studio code, click on "Open folder"
+
+Select your "SPACE-GEOLOGY_2026" folder and open it. If required, specify that you trust the project.
+
+![](images/VS_Code_welcome.png){width=40%}
+
+Go to the search bar on top of the window and click on "Show and Run Commands" (or just type Ctrl + Shift + P)
+
+![](images/VS_Code_show_run_cmd.png){width=60%}
+
+Search and click on "Python Create Environment" and select the "venv" option
+
+![](images/VS_Code_create_env.png){width=60%}
+
+![](images/VS_Code_venv.png){width=60%}
+
+
+Select the correct version (we will use Python 3.12, so any of the Python 3.12 will work).
+
+![](images/VS_Code_py_312.png){width=60%}
+
+Keep `.venv` as the virtual environment folder name.
+
+![](images/VS_Code_venv_name.png){width=60%}
+
+
+Add required packages to install by clicking on "Search PyPI packages". The full is in the section above. Notice that
+some of the libraries are already included, so for now, let's just add xarray and pandas. We will install others later.
+
+![](images/VS_Code_add_packages.png){width=60%}
+
+
+You should see a dialog box opening on the bottom left part of the screen saying that it is installing packages and
+creating the virtual environment.
+
+![](images/VS_Code_venv_being_created.png){width=60%}
+
+If successful, you should now see the virtual environment activated. Go to "View" and select "Terminal". A window should
+open on the bottom of the screen with the path to your SPACE-GEOLOGY-2026 folder, with a green `(.venv)` before it.
+This means that your environment is correctly installed and running.
+
+![](images/VS_Code_view_terminal.png){width=60%}
+
+Now, let's go to the terminal. We previously only installed xarray and pandas. We need to install more libraries
+before starting to work. We will use the package installer for Python to manually install them. The command you need to
+type in your terminal is
+
+`pip install <package>`
+
+so for instance, to install rioxarray, just type
+
+ `pip install rioxarray`
+
+You will see some code running to install `rioxarary` and other dependencies. Repeat this for other packages until all
+required ones are installed. If you try and install a package that is already installed, no problem, you will simply see
+a message stating that the requirement is already satisfied.
+
+
+**Note:** there are some libraries that are part of the Python standard libraries like os or xml.etree.ElementTree, no need
+to install these.
+
+**You are now ready to run your code !**
+
 
 
 ## PyCharm
@@ -68,6 +139,49 @@ PyCharm is an Integrated Development Environment (IDE) for Python that is also a
 
 With its latest version, PyCharm now supports the integration of Jupyter Notebooks.
 
+Open PyCharm, click on "Open"
+
+Select your "SPACE-GEOLOGY_2026" folder and open it. If required, specify that you trust the project.
+
+![](images/PyCharm_welcome.png){width=60%}
+
+Once opened, go the main menu (top left corner horizontal lines icon), and select "Settings".
+
+![](images/PyCharm_settings.png){width=60%}
+
+A new window should appear. If not selected already, click on "Python/Interpreter" and click on the "Add interpreter"
+button. Choose the option "Add local interpreter"
+
+![](images/PyCharm_add_local_interpreter.png){width=60%}
+
+Another window should open where you can configure the virtual environment. Select "Generate new", choose a 3.12 version
+of Python and keep the path in your "SPACE-GEOLOGY-2026" folder. CLick "OK" and wait for the venv to be installed.
+
+![](images/PyCharm_conf_venv.png){width=60%}
+
+If successful, you should now see the virtual environment activated. Go to the bottom right corner and click on the
+terminal icon ![](images/PyCharm_terminal_icon.png){width=5%}. You can also open the terminal by using `Alt + F12`. A
+window should open on the bottom of the screen with the path to your SPACE-GEOLOGY-2026 folder, and a `(venv)` before it.
+This means that your environment is correctly installed and running.
+
+Now, another step is to install the required libraries before starting to work. We will use the package installer for
+Python to manually install them. The command you need to type in your terminal is:
+
+`pip install <package>`
+
+so for instance, to install rioxarray, just type
+
+ `pip install rioxarray`
+
+You will see some code running to install `rioxarary` and other dependencies. Repeat this for other packages until all
+required ones are installed. If you try and install a package that is already installed, no problem, you will simply see
+a message stating that the requirement is already satisfied.
+
+
+**Note:** there are some libraries that are part of the Python standard libraries like os or xml.etree.ElementTree, no need
+to install these.
+
+**You are now ready to run your code !**
 
 ## Google Colab
 
@@ -75,7 +189,32 @@ Google Colab is an online service for running Jupyter Notebooks without the need
 can simply be accessed from [your browser](https://colab.research.google.com/) and already contains most of the required
 libraries.
 
+To use Colab, you will require a Google account. Go to the website and login. Once logged in, you may simply select the
+"Upload" option and click on "Browse" to load the notebook from your computer.
+
+![](images/Colab_upload_notebook.png){width=60%}
+
+**You are not ready to run your code !**
+
 ## QGIS Notebook
 
 QGIS Notebook is a plugin that can be [installed in QGIS](https://plugins.qgis.org/plugins/qgis_notebook/) to run and
 write notebooks. It uses the Python environment that comes with QGIS.
+
+To install the plugin, open QGIS, and go to the top options and select "Plugins", then click on "Manage and Install Plugins".
+
+![](images/QGIS_manage_plugins.png){width=60%}
+
+A new window should open. Click on "All" and search "Notebook". You should see it appear. CLick on "Install Plugin"
+
+![](images/QGIS_plugin_notebook.png){width=60%}
+
+If successfully installed, you should see a message pop up in the top of this window, and some icons appearing in your
+toolbar : ![](images/QGIS_notebook_icons.png){width=10%}. Clicking on the first icon will open the notebook user interface.
+
+![](images/QGIS_notebook_ui.png){width=60%}
+
+The notebooks from the exercise can be opened by just clicking on "Open" and load your notebooks.
+
+**You are not ready to run your code !**
+
