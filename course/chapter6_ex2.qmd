@@ -10,10 +10,10 @@ format:
       eval: false
 ---
 
-# Landslide risk assessement in an Alpine context
+## Landslide risk assessement in an Alpine context
 
 ::: {.callout-note collapse="true"}
-# This exercise in brief
+## This exercise in brief
 
 ### Big Question
 
@@ -73,20 +73,18 @@ transparency, and export summary statistics (areas).
 
 :::
 
-# Step-by-step instructions
+## Step-by-step instructions
 
-**1. Data preparation**
+### Data preparation
 
-1.1. Lithologies favorable to rock instabilities
+#### Lithologies favorable to rock instabilities
 
-We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography
-(swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25),
-but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the
-`data` folder as a GeoTiFF
+We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25), but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the `data` folder as a GeoTiFF, and we open it using the [rasterio.open](https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open) function.
 
 &rarr; With the knowledge you have from the previous exercise, load the GeoTiff file and display its metadata.
 
 &rarr; What is the coordinate reference system of the layer ? What is its resolution ?
+
 
 ```{python}
 
@@ -99,16 +97,14 @@ with rasterio.open("data/DEM/Sion_MNT25.tif") as src:
     metadata= src.meta
     crs = src.crs
 
-print(metadata)
+metadata
 
 ```
 
-Second, we will extract the favorable lithologies that could trigger instabilities. For this, you will need to have the
-`geopandas` library installed. This library is an extension of `pandas` specifically designed to handle geospatial data.
+Second, we will extract the lithologies that favour instabilities the `geopandas` library. This library is an extension of `pandas` specifically designed to handle geospatial data.
 
-You may use `geopandas` to read a file (for instance shapefile) into a `GeoDataFrame` (gdf), which is simply a `DataFrame`
-that contains a geometry column. The example below shows how to simply load our shapefile of interest and prints out the
-gdf columns, and the 10 first rows.
+You may use `geopandas` to read a *vector* file (for instance shapefile) into a `GeoDataFrame` (gdf), which is simply a `DataFrame`
+that contains a geometry column. The example below shows how to simply load bedrock shapefile and print out the *attributes* (i.e., the columns) and the 10 first rows.
 
 ```{python}
 
@@ -119,12 +115,11 @@ bedrock_plg = gpd.read_file(
     encoding="utf-8"
 )
 print(bedrock_plg.columns)
-print(bedrock_plg.head(10))
+bedrock_plg.head(10)
 
 ```
 
-If you want to see one feature in particular, for instance the first one, this is very easy to get all properties, or
-just the geometry:
+To inspect one feature in particular, for instance the first one (index 0), this is very easy to get all properties, or just the geometry:
 
 ```{python}
 print("First feature:",bedrock_plg.iloc[0])
@@ -132,8 +127,7 @@ print("First feature:",bedrock_plg.iloc[0])
 print("First feature geometry:",bedrock_plg.iloc[0].geometry)
 ```
 
-One thing we will do is filter out our original data to keep only selected lithologies. This can be done using the query
-function with the desired condition:
+We need to filter out the original data to keep only the lithologies of interest. This can be done using the `query` function with the desired condition:
 
 ```{python}
 select_litho = bedrock_plg.query("Typ_code == '830'")
@@ -148,6 +142,7 @@ fav_litho = bedrock_plg.query("Typ_code in ('800', '801', '802', '870')")
 print(fav_litho.iloc[0].Litho)
 ```
 Using `matplotlib`, we can plot our favorable lithologies, with a symbology based on the 'Typ_code' attribute:
+
 ```{python}
 import matplotlib.pyplot as plt
 
@@ -159,8 +154,7 @@ fav_litho.plot(
 plt.show()
 ```
 
-A good thing is that we can now convert our favorable lithologies into a raster (which will be useful for us later in the
- exercice), as the `geopandas` and `rasterio` libraries can work with each other's formats.
+Lithologies will be used as **mask** in the rest of the study. In order to mask out raster data, the lithology layer needs to be converted into a raster that is **aligned** with the raster layer to mask (here, the `Sion_MNT25.tif` layer). Aligned means that the pixels of both layers have the same reference coordinates and extent, providing a 100% overlap. To ensure that, we use the `shape` and `transform` variables obtained from the DEM and pass them to `rasterio`'s [rasterize](https://rasterio.readthedocs.io/en/stable/api/rasterio.features.html#rasterio.features.rasterize) function:
 
 ```{python}
 
@@ -175,9 +169,7 @@ raster_fav_litho = rasterize(
 )
 ```
 
-The code above creates a raster with the same properties as the DEM we loaded initially: it takes the same shape and
-transform. For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will
-have a value of 0 (from the 'fill' parameter). Let's visualize the result:
+For each polygon in the favorable lithologies, the created pixels will have a value of 1. Other pixels will have a value of 0 (from the 'fill' parameter). Let's visualize the result:
 
 ```{python}
 plt.imshow(raster_fav_litho)
@@ -186,9 +178,7 @@ plt.axis("off")
 plt.show()
 ```
 
-We will now export our new raster. For this, we need to make sure that our output folder exists, by using the `os`
-library, that is used to interact with the operating system of your machine, in this case, by creating a folder where
-we will save our output directory.
+The next step is to export the raster. We ensure that the target directory exists - or, if not, create it - using the [makedirs](https://docs.python.org/3/library/os.html#os.makedirs) function from the `os` library. The `os` library is used to interact with the operating system of your machine, in this case, by creating a folder where
 
 ```{python}
 import os
@@ -207,13 +197,13 @@ with rasterio.open(
     dst.write(raster_fav_litho, 1)
 ```
 
-The code above will write a `GeoTiFF` file with the same properties (shape, crs, transform) as the original DEM, with
-one band (defined by the 'count' parameter).
+The code writes a `GeoTiFF` file with the same properties (shape, crs, transform) as the original DEM, with one band (defined by the 'count' parameter).
 
 &rarr; Let's go back to our rasterized favorable lithologies. Try calculating the area covered by such lithologies. This
 can be done by multiplying the raster pixels width, height and count. The first two are available in the `transform`
 property of the raster metadata (originally from the DEM, that we also applied to our rasterized lithologies). The pixel
-count cna be obtained using `numpy` summing operations.
+count can be obtained using `numpy` summing operations.
+
 
 ```{python}
 import numpy as np
@@ -228,26 +218,38 @@ print(total_area)
 ```
 &rarr; What does this number represent ? What units ?
 
-1.2. Existing instabilities
 
-We will now look into existing rock instabilities and will identify them using the same method we did for the favorable
-lithologies. Load the 'Instability_Structures_PLG' shapefile and inspect its features in a similar fashion than for the
-bedrock polygons.
+
+
+#### Existing instabilities
+
+Ler's now inspect and identify existing rock instabilities. Load the 'Instability_Structures_PLG' shapefile and inspect its features in a similar fashion than for the bedrock polygons.
+
+::: {.callout-tip}
+## Unique values
+
+You can display all *unique values* in one column using `df['col_name'].unique()`.
+
+:::
+
 ```{python}
 
 instabilities_plg = gpd.read_file(
     r"data/shapefiles/Instability_Structures_PLG.shp",
     encoding="utf-8"
 )
+
+# Print the columns
 print(instabilities_plg.columns)
+# Print the first 10 rows
 print(instabilities_plg.head(10))
 
 print("First feature:",instabilities_plg.iloc[0])
 
 print("First feature geometry:",instabilities_plg.iloc[0].geometry)
 
-print(instabilities_plg["TYP_CODE"].unique())
-print(instabilities_plg["TYP_NAME"].unique())
+instabilities_plg["TYP_CODE"].unique()
+instabilities_plg["TYP_NAME"].unique()
 ```
 
 &rarr; What are the instabilities you identified?
@@ -301,7 +303,7 @@ with rasterio.open(
     dst.write(raster_inst, 1)
 ```
 
-1.3. Slope distribution
+#### Slope distribution
 
 We are going to calculate the slope of each pixel from the original DEM to understand the terrain variations and how
 these are related to instabilities. In traditional Desktop GIS, there are some tools that already implement slope
@@ -394,7 +396,16 @@ with rasterio.open(
 &rarr;  Do you understand how we calculated the extent of the map (left, right, bottom, top) ?
 
 
-**2. Estimate the representative slope angle**
+::: {.callout-tip}
+## Python libraries
+
+The advantage of open-source software is the wealth of available tools developed by and available for the community. The method shown above illustrates how to code an algorithm for slope computation for scratch. However, other libraries specifically designed for DEM handling provide numerous functions for terrain analyses (e.g., [PyDEM](https://github.com/creare-com/pydem)), including slope, aspects, curvature etc...
+
+:::
+
+
+
+### Estimate the representative slope angle
 
 Let's now have a look at a specific zone in which we observe instabilities. The area is defined by the polygon
 'subequil_PLG_r.shp'. We will load the shapefile and have a look at the slope values inside this very polygon.
@@ -442,9 +453,9 @@ plt.legend()
 plt.show()
 ```
 
-**3. Identify new areas susceptible to instabilities**
+### Identify new areas susceptible to instabilities**
 
-3.1. Existing instabilities on favorable lithologies
+#### Existing instabilities on favorable lithologies
 
 Now, we will identify areas where we have existing instabilities at locations where the lithology is favorable.
 
@@ -471,9 +482,9 @@ print(
 )
 ```
 
-3.2. Zones without instabilities but located on favorable lithologies
+#### Zones without instabilities but located on favorable lithologies
 
-&rarr;Using a similar approach, identify the areas where we have fabvorable lithologies but no observed instabilities.
+&rarr;Using a similar approach, identify the areas where we have favorable lithologies but no observed instabilities.
 
 ```{python}
 fav_litho_no_instability = (raster_fav_litho == 1) & (raster_inst == 0)
@@ -485,7 +496,7 @@ print(
 )
 ```
 
-3.3. Slopes of zone without instabilities but with favorable lithologies
+#### Slopes of zone without instabilities but with favorable lithologies
 
 We will now create a subset of our slope map, focusing only on the zones where we have no instabilities and with
 favorable lithologies.
@@ -511,7 +522,7 @@ pixel_count = np.sum(susceptible_inst == 1)
 print(f"Area susceptible to instabilities: {pixel_count * pixel_area:.0f} m²")
 ```
 
-**4. Susceptible areas inside the existing instability zones**
+### Susceptible areas inside the existing instability zones**
 
 &rarr; Repeat the slope subset over existing instabilities ('raster_inst') and calculate the area where the slope is greater
 than $\phi$.
@@ -529,7 +540,7 @@ pixel_count = np.sum(exist_inst_class == 1)
 print(f"Area of existing risk: {pixel_count * pixel_area} m²")
 ```
 
-**5. Total susceptible areas to rock instabilities**
+### Total susceptible areas to rock instabilities**
 
 &rarr; Using all of the results you obtained, calculate the total area where we have a susceptibility to instabilities.
 
@@ -551,7 +562,7 @@ print(
 )
 ```
 
-**Final questions:**
+### Final questions
 
 + What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
 + What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
