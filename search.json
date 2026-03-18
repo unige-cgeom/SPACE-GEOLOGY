@@ -317,7 +317,161 @@
     "href": "course/chapter1_intro.html",
     "title": "Chapter I: GIS in Earth Sciences",
     "section": "",
-    "text": "This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences",
+    "text": "Yellostone National Park (USA). Photo by Dan Meyers on Unsplash",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#remote-sensing",
+    "href": "course/chapter1_intro.html#remote-sensing",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Remote Sensing",
+    "text": "Remote Sensing\nRemote sensing allows Earth scientists to collect data about the planet’s surface without direct contact, using satellite or airborne sensors. Key applications include land use and land cover mapping, vegetation monitoring (e.g. NDVI), glacier retreat tracking, and urban expansion analysis.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#natural-resources-exploration",
+    "href": "course/chapter1_intro.html#natural-resources-exploration",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Natural Resources Exploration",
+    "text": "Natural Resources Exploration\nGIS plays a central role in the exploration of mineral, energy, and water resources. By integrating geological maps, geophysical surveys, and satellite imagery, scientists can identify prospective zones for mineral deposits, map aquifer extents, or assess the potential of geothermal and hydrocarbon reservoirs.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#natural-hazard-assessment-and-risk-mapping",
+    "href": "course/chapter1_intro.html#natural-hazard-assessment-and-risk-mapping",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Natural Hazard Assessment and Risk Mapping",
+    "text": "Natural Hazard Assessment and Risk Mapping\nGIS enables the spatial analysis of hazard-prone areas, combining topographic, geological, and climatic data to produce risk maps. Applications include landslide susceptibility mapping, flood inundation modelling, volcanic hazard zonation, and seismic risk assessment (which are often combined with population exposure data to evaluate societal vulnerability).",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#climate-and-environmental-monitoring",
+    "href": "course/chapter1_intro.html#climate-and-environmental-monitoring",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Climate and Environmental Monitoring",
+    "text": "Climate and Environmental Monitoring\nLong-term geospatial datasets allow scientists to track environmental change over time. This includes monitoring desertification, deforestation, coastal erosion, permafrost dynamics, and the impacts of extreme weather events: all critical inputs for climate modelling and environmental policy.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#geomorphology-and-landscape-analysis",
+    "href": "course/chapter1_intro.html#geomorphology-and-landscape-analysis",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Geomorphology and Landscape Analysis",
+    "text": "Geomorphology and Landscape Analysis\nDigital Elevation Models (DEMs) and terrain analysis tools allow geomorphologists to characterize landforms, derive drainage networks, compute slope and aspect, and study the evolution of landscapes over geological timescales.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#global-earth-science-geospatial-data",
+    "href": "course/chapter1_intro.html#global-earth-science-geospatial-data",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Global Earth Science Geospatial Data",
+    "text": "Global Earth Science Geospatial Data\n\nElevation & Topography\n\nETOPO — https://www.ncei.noaa.gov/products/etopo-global-relief-model Global relief model combining bathymetry and topography at 15 arc-second resolution.\nSRTM (Shuttle Radar Topography Mission) — https://www.earthdata.nasa.gov/data/instruments/srtm Near-global digital elevation model at 30m resolution.\nGEBCO — https://www.gebco.net General Bathymetric Chart of the Oceans; global ocean depth and land elevation.\n\n\n\nGeological Maps\n\nOneGeology — https://onegeology.org/ Global geological map data served via OGC web services, aggregated from national surveys.\nCGMW (Commission for the Geological Map of the World) — https://www.ccgm.org Global and continental-scale geological maps.\nGeoMapApp — https://www.geomapapp.org Interactive application for exploring global geoscience datasets.\n\n\n\nGeophysics\n\nEMAG2 / WDMAM — https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471 Global magnetic anomaly maps.\nCRUST1.0 — https://igppweb.ucsd.edu/~gabi/crust1.html Global crustal thickness and structure model.\nISC (International Seismological Centre) — https://www.isc.ac.uk Global earthquake catalogue and seismicity data.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#european-resources",
+    "href": "course/chapter1_intro.html#european-resources",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "European Resources",
+    "text": "European Resources\n\nEMODNET (European Marine Observation and Data Network) — https://emodnet.ec.europa.eu European marine geology, bathymetry, and seabed mapping.\nEGDI (European Geological Data Infrastructure) — https://www.europe-geology.eu Pan-European geological data from national geological surveys, served via OGC services.\nEuroGeoSurveys — https://www.eurogeosurveys.org Network of European geological surveys providing harmonised geospatial data.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#swiss-resources",
+    "href": "course/chapter1_intro.html#swiss-resources",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Swiss Resources",
+    "text": "Swiss Resources\n\nswisstopo — https://www.swisstopo.admin.ch/en/geodata-and-applications Swiss Federal Office of Topography; high-resolution DEMs, geological maps, and OGC web services.\nSwiss Geophysical Commission (SwissGeol) — https://www.swissgeol.ch National geological data portal with borehole, stratigraphy, and subsurface data.\nGeoMol — https://www.geomol.eu 3D geological models of the Alpine Foreland basins, including Switzerland.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#palaeontology",
+    "href": "course/chapter1_intro.html#palaeontology",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Palaeontology",
+    "text": "Palaeontology\n\nPaleobiology Database (PBDB) — https://paleobiodb.org Global compilation of paleontological occurrence data.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#lithology-stratigraphy",
+    "href": "course/chapter1_intro.html#lithology-stratigraphy",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Lithology & Stratigraphy",
+    "text": "Lithology & Stratigraphy\n\nMacrostrat — https://macrostrat.org Global database of stratigraphic columns, rock units, and geological time.\nOneStratigraphy — https://onestratigraphy.ddeworld.org/ Global stratigraphic database linking rock units across regions.\nSedimentary, Geochemistry and Paleoenvironments Project (SGP) — https://sgp.stanford.edu/ Global compilation of sedimentary, geochemical, and paleoenvironmental data.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#geochemistry",
+    "href": "course/chapter1_intro.html#geochemistry",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Geochemistry",
+    "text": "Geochemistry\n\nEarthChem — https://earthchem.org Portal for geochemical, geochronological, and petrological data.\nPetDB (Petrological Database of the Ocean Floor) — https://earthchem.org/petdb Geochemical and petrological data for ocean floor rocks, a subcomponent of EarthChem.\nGEOROC (Geochemistry of Rocks of the Oceans and Continents) — https://georoc.eu/georoc/ Global compilation of published analyses of igneous and metamorphic rocks.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#mineralogy",
+    "href": "course/chapter1_intro.html#mineralogy",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Mineralogy",
+    "text": "Mineralogy\n\nMindat — https://www.mindat.org World’s largest mineral database with locality and occurrence data.\nClay minerals global compilation — https://doi.org/10.1038/sdata.2017.103 Global dataset of clay mineral occurrences in marine sediments.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#geochronology",
+    "href": "course/chapter1_intro.html#geochronology",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Geochronology",
+    "text": "Geochronology\n\nZircon global compilation — https://doi.org/10.1038/s41597-023-02902- Global compilation of detrital and igneous zircon U-Pb ages.\nEarthTime — https://earthtime.org/ Initiative for improving the precision and accuracy of geochronological data.",
+    "crumbs": [
+      "Course",
+      "Chapter I: GIS in Earth Sciences"
+    ]
+  },
+  {
+    "objectID": "course/chapter1_intro.html#paleogeography",
+    "href": "course/chapter1_intro.html#paleogeography",
+    "title": "Chapter I: GIS in Earth Sciences",
+    "section": "Paleogeography",
+    "text": "Paleogeography\n\nPALEOMAP / PaleoDEMs — https://doi.org/10.5281/zenodo.5460860 Palaeo-Digital Elevation Models for the Phanerozoic (Scotese & Wright, 2018).\nPANALESIS — https://doi.org/10.5281/zenodo.15396265 Global quantified palaeogeographic maps for the Phanerozoic (Franziskakis et al., 2025).\nGPlates — https://www.gplates.org Open-source software and associated data for plate tectonic reconstructions.\nGPlates Portal — https://portal.gplates.org Web portal providing access to GPlates plate motion models and derived datasets.",
     "crumbs": [
       "Course",
       "Chapter I: GIS in Earth Sciences"

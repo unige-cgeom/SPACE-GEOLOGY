@@ -190,9 +190,155 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cover_dan-meyers-yellowstone.jpg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Yellostone National Park (USA). Photo by Dan Meyers on Unsplash</figcaption>
+</figure>
+</div>
+<p></p><div style="page-break-after: always;"></div> This chapter will introduce a few applications of GIS tools and analyses in the Earth sciences. For more details, you may refer to the introduction slides that will be provided as a supplementary material. We also provide a quick summary of how GIS is used in the domain of the geosciences and list data repositories that might be useful, grouped in categories at the global, european or national scale, on top of more targetted repositories.<p></p>
+<section id="geographic-information-systems-gis" class="level1">
+<h1>Geographic Information Systems (GIS)</h1>
+<p>According to the <a href="https://www.usgs.gov/faqs/what-a-geographic-information-system-gis">United States Geological Survey (USGS)</a>, a Geographic Information System (GIS) is “a computer system that analyzes and displays geographically referenced information. It uses data that is attached to a unique location”.</p>
+<p>We interact everyday with GIS: through our use of GPS for driving, finding places of interest on a map, even when we write our postal address or schedule a trip. Understanding our planet and the processes that shape it requires us to use GIS at various scales, from a global perspective (modelling of our climate, tectonic processes or the distribution of species), to regional processes (volcanic eruptions, mountain ranges formation, or the evolution of drainage basins systems), to even focused, local events such as landslides, forest fires or flooding events.</p>
+<p>Moreover, understanding how our society works is also dependent on GIS, for critical aspects such as managing how our cities are organized, understanding the amount of natural resources at our disposal, or to understand the population exposure to risk. Using GIS helps to add a spatial dimension to the socio-economic challenges faced by humanity. Geospatial data is in fact recognized by the United Nations as a useful source of information to <a href="https://www.un.org/geospatial/about/whatwedo">advance towards sustainable development</a>.</p>
+</section>
+<section id="gis-applications-in-earth-sciences" class="level1">
+<h1>GIS Applications in Earth Sciences</h1>
+<section id="remote-sensing" class="level2">
+<h2 class="anchored" data-anchor-id="remote-sensing">Remote Sensing</h2>
+<p>Remote sensing allows Earth scientists to collect data about the planet’s surface without direct contact, using satellite or airborne sensors. Key applications include land use and land cover mapping, vegetation monitoring (e.g.&nbsp;NDVI), glacier retreat tracking, and urban expansion analysis.</p>
+</section>
+<section id="natural-resources-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="natural-resources-exploration">Natural Resources Exploration</h2>
+<p>GIS plays a central role in the exploration of mineral, energy, and water resources. By integrating geological maps, geophysical surveys, and satellite imagery, scientists can identify prospective zones for mineral deposits, map aquifer extents, or assess the potential of geothermal and hydrocarbon reservoirs.</p>
+</section>
+<section id="natural-hazard-assessment-and-risk-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="natural-hazard-assessment-and-risk-mapping">Natural Hazard Assessment and Risk Mapping</h2>
+<p>GIS enables the spatial analysis of hazard-prone areas, combining topographic, geological, and climatic data to produce risk maps. Applications include landslide susceptibility mapping, flood inundation modelling, volcanic hazard zonation, and seismic risk assessment (which are often combined with population exposure data to evaluate societal vulnerability).</p>
+</section>
+<section id="climate-and-environmental-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="climate-and-environmental-monitoring">Climate and Environmental Monitoring</h2>
+<p>Long-term geospatial datasets allow scientists to track environmental change over time. This includes monitoring desertification, deforestation, coastal erosion, permafrost dynamics, and the impacts of extreme weather events: all critical inputs for climate modelling and environmental policy.</p>
+</section>
+<section id="geomorphology-and-landscape-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="geomorphology-and-landscape-analysis">Geomorphology and Landscape Analysis</h2>
+<p>Digital Elevation Models (DEMs) and terrain analysis tools allow geomorphologists to characterize landforms, derive drainage networks, compute slope and aspect, and study the evolution of landscapes over geological timescales.</p>
+</section>
+</section>
+<section id="key-geospatial-and-geological-data-sources" class="level1">
+<h1>Key Geospatial and Geological Data Sources</h1>
+<section id="global-earth-science-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="global-earth-science-geospatial-data">Global Earth Science Geospatial Data</h2>
+<section id="elevation-topography" class="level3">
+<h3 class="anchored" data-anchor-id="elevation-topography">Elevation &amp; Topography</h3>
+<ul>
+<li><strong>ETOPO</strong> — <a href="https://www.ncei.noaa.gov/products/etopo-global-relief-model">https://www.ncei.noaa.gov/products/etopo-global-relief-model</a> Global relief model combining bathymetry and topography at 15 arc-second resolution.</li>
+<li><strong>SRTM (Shuttle Radar Topography Mission)</strong> — <a href="https://www.earthdata.nasa.gov/data/instruments/srtm">https://www.earthdata.nasa.gov/data/instruments/srtm</a> Near-global digital elevation model at 30m resolution.</li>
+<li><strong>GEBCO</strong> — <a href="https://www.gebco.net">https://www.gebco.net</a> General Bathymetric Chart of the Oceans; global ocean depth and land elevation.</li>
+</ul>
+</section>
+<section id="geological-maps" class="level3">
+<h3 class="anchored" data-anchor-id="geological-maps">Geological Maps</h3>
+<ul>
+<li><strong>OneGeology</strong> — <a href="https://onegeology.org/">https://onegeology.org/</a> Global geological map data served via OGC web services, aggregated from national surveys.</li>
+<li><strong>CGMW (Commission for the Geological Map of the World)</strong> — <a href="https://www.ccgm.org">https://www.ccgm.org</a> Global and continental-scale geological maps.</li>
+<li><strong>GeoMapApp</strong> — <a href="https://www.geomapapp.org">https://www.geomapapp.org</a> Interactive application for exploring global geoscience datasets.</li>
+</ul>
+</section>
+<section id="geophysics" class="level3">
+<h3 class="anchored" data-anchor-id="geophysics">Geophysics</h3>
+<ul>
+<li><strong>EMAG2 / WDMAM</strong> — <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471">https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471</a> Global magnetic anomaly maps.</li>
+<li><strong>CRUST1.0</strong> — <a href="https://igppweb.ucsd.edu/~gabi/crust1.html">https://igppweb.ucsd.edu/~gabi/crust1.html</a> Global crustal thickness and structure model.</li>
+<li><strong>ISC (International Seismological Centre)</strong> — <a href="https://www.isc.ac.uk">https://www.isc.ac.uk</a> Global earthquake catalogue and seismicity data.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="european-resources" class="level2">
+<h2 class="anchored" data-anchor-id="european-resources">European Resources</h2>
+<ul>
+<li><strong>EMODNET (European Marine Observation and Data Network)</strong> — <a href="https://emodnet.ec.europa.eu">https://emodnet.ec.europa.eu</a> European marine geology, bathymetry, and seabed mapping.</li>
+<li><strong>EGDI (European Geological Data Infrastructure)</strong> — <a href="https://www.europe-geology.eu">https://www.europe-geology.eu</a> Pan-European geological data from national geological surveys, served via OGC services.</li>
+<li><strong>EuroGeoSurveys</strong> — <a href="https://www.eurogeosurveys.org">https://www.eurogeosurveys.org</a> Network of European geological surveys providing harmonised geospatial data.</li>
+</ul>
+<hr>
+</section>
+<section id="swiss-resources" class="level2">
+<h2 class="anchored" data-anchor-id="swiss-resources">Swiss Resources</h2>
+<ul>
+<li><strong>swisstopo</strong> — <a href="https://www.swisstopo.admin.ch/en/geodata-and-applications">https://www.swisstopo.admin.ch/en/geodata-and-applications</a> Swiss Federal Office of Topography; high-resolution DEMs, geological maps, and OGC web services.</li>
+<li><strong>Swiss Geophysical Commission (SwissGeol)</strong> — <a href="https://www.swissgeol.ch">https://www.swissgeol.ch</a> National geological data portal with borehole, stratigraphy, and subsurface data.</li>
+<li><strong>GeoMol</strong> — <a href="https://www.geomol.eu">https://www.geomol.eu</a> 3D geological models of the Alpine Foreland basins, including Switzerland.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="domain-specific-repositories" class="level1">
+<h1>Domain-specific repositories</h1>
+<section id="palaeontology" class="level2">
+<h2 class="anchored" data-anchor-id="palaeontology">Palaeontology</h2>
+<ul>
+<li><strong>Paleobiology Database (PBDB)</strong> — <a href="https://paleobiodb.org">https://paleobiodb.org</a> Global compilation of paleontological occurrence data.</li>
+</ul>
+<hr>
+</section>
+<section id="lithology-stratigraphy" class="level2">
+<h2 class="anchored" data-anchor-id="lithology-stratigraphy">Lithology &amp; Stratigraphy</h2>
+<ul>
+<li><strong>Macrostrat</strong> — <a href="https://macrostrat.org">https://macrostrat.org</a> Global database of stratigraphic columns, rock units, and geological time.</li>
+<li><strong>OneStratigraphy</strong> — <a href="https://onestratigraphy.ddeworld.org/">https://onestratigraphy.ddeworld.org/</a> Global stratigraphic database linking rock units across regions.</li>
+<li><strong>Sedimentary, Geochemistry and Paleoenvironments Project (SGP)</strong> — <a href="https://sgp.stanford.edu/">https://sgp.stanford.edu/</a> Global compilation of sedimentary, geochemical, and paleoenvironmental data.</li>
+</ul>
+<hr>
+</section>
+<section id="geochemistry" class="level2">
+<h2 class="anchored" data-anchor-id="geochemistry">Geochemistry</h2>
+<ul>
+<li><strong>EarthChem</strong> — <a href="https://earthchem.org">https://earthchem.org</a> Portal for geochemical, geochronological, and petrological data.</li>
+<li><strong>PetDB (Petrological Database of the Ocean Floor)</strong> — <a href="https://earthchem.org/petdb">https://earthchem.org/petdb</a> Geochemical and petrological data for ocean floor rocks, a subcomponent of EarthChem.</li>
+<li><strong>GEOROC (Geochemistry of Rocks of the Oceans and Continents)</strong> — <a href="https://georoc.eu/georoc/">https://georoc.eu/georoc/</a> Global compilation of published analyses of igneous and metamorphic rocks.</li>
+</ul>
+<hr>
+</section>
+<section id="mineralogy" class="level2">
+<h2 class="anchored" data-anchor-id="mineralogy">Mineralogy</h2>
+<ul>
+<li><strong>Mindat</strong> — <a href="https://www.mindat.org">https://www.mindat.org</a> World’s largest mineral database with locality and occurrence data.</li>
+<li><strong>Clay minerals global compilation</strong> — <a href="https://doi.org/10.1038/sdata.2017.103">https://doi.org/10.1038/sdata.2017.103</a> Global dataset of clay mineral occurrences in marine sediments.</li>
+</ul>
+<hr>
+</section>
+<section id="geochronology" class="level2">
+<h2 class="anchored" data-anchor-id="geochronology">Geochronology</h2>
+<ul>
+<li><strong>Zircon global compilation</strong> — <a href="https://doi.org/10.1038/s41597-023-02902-">https://doi.org/10.1038/s41597-023-02902-</a> Global compilation of detrital and igneous zircon U-Pb ages.</li>
+<li><strong>EarthTime</strong> — <a href="https://earthtime.org/">https://earthtime.org/</a> Initiative for improving the precision and accuracy of geochronological data.</li>
+</ul>
+<hr>
+</section>
+<section id="paleogeography" class="level2">
+<h2 class="anchored" data-anchor-id="paleogeography">Paleogeography</h2>
+<ul>
+<li><strong>PALEOMAP / PaleoDEMs</strong> — <a href="https://doi.org/10.5281/zenodo.5460860">https://doi.org/10.5281/zenodo.5460860</a> Palaeo-Digital Elevation Models for the Phanerozoic (Scotese &amp; Wright, 2018).</li>
+<li><strong>PANALESIS</strong> — <a href="https://doi.org/10.5281/zenodo.15396265">https://doi.org/10.5281/zenodo.15396265</a> Global quantified palaeogeographic maps for the Phanerozoic (Franziskakis et al., 2025).</li>
+<li><strong>GPlates</strong> — <a href="https://www.gplates.org">https://www.gplates.org</a> Open-source software and associated data for plate tectonic reconstructions.</li>
+<li><strong>GPlates Portal</strong> — <a href="https://portal.gplates.org">https://portal.gplates.org</a> Web portal providing access to GPlates plate motion models and derived datasets.</li>
+</ul>
+</section>
+</section>
+<section id="python-for-gis-and-geology" class="level1">
+<h1>Python for GIS and Geology</h1>
+<p>Here are a few open and useful resources to dive in Python programming in the geosciences.</p>
+<ul>
+<li>Tenkanen, H., Heikinheimo, V., &amp; Whipp, D. (2025). Geo-Python. University of Helsinki. Available online <a href="https://geo-python-site.readthedocs.io/en/latest/">https://geo-python-site.readthedocs.io/en/latest/</a></li>
+<li>Wu, Q. (2025). Introduction to GIS Programming: A Practical Python Guide to Open Source Geospatial Tools. Independently published. ISBN 979-8286979455. https://amazon.com/dp/B0FFW34LL3 Available oneline:<a href="https://gispro.gishub.org/">https://gispro.gishub.org/</a></li>
+<li>Gomez, A. (2026) Python for Geologists. Available Online: <a href="https://github.com/kevinalexandr19/python_for_geologists?tab=readme-ov-file">https://github.com/kevinalexandr19/python_for_geologists?tab=readme-ov-file</a></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
