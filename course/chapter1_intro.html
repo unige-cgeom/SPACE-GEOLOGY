@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter II: Setting up your environment</span></a>
+ <span class="menu-text">Chapter II: Setting up your Python environment and access data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -166,8 +166,43 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter1_intro.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page:</h2>
+   
+  <ul>
+  <li><a href="#geographic-information-systems-gis" id="toc-geographic-information-systems-gis" class="nav-link active" data-scroll-target="#geographic-information-systems-gis">Geographic Information Systems (GIS)</a></li>
+  <li><a href="#gis-applications-in-earth-sciences" id="toc-gis-applications-in-earth-sciences" class="nav-link" data-scroll-target="#gis-applications-in-earth-sciences">GIS Applications in Earth Sciences</a>
+  <ul class="collapse">
+  <li><a href="#remote-sensing" id="toc-remote-sensing" class="nav-link" data-scroll-target="#remote-sensing">Remote Sensing</a></li>
+  <li><a href="#natural-resources-exploration" id="toc-natural-resources-exploration" class="nav-link" data-scroll-target="#natural-resources-exploration">Natural Resources Exploration</a></li>
+  <li><a href="#natural-hazard-assessment-and-risk-mapping" id="toc-natural-hazard-assessment-and-risk-mapping" class="nav-link" data-scroll-target="#natural-hazard-assessment-and-risk-mapping">Natural Hazard Assessment and Risk Mapping</a></li>
+  <li><a href="#climate-and-environmental-monitoring" id="toc-climate-and-environmental-monitoring" class="nav-link" data-scroll-target="#climate-and-environmental-monitoring">Climate and Environmental Monitoring</a></li>
+  <li><a href="#geomorphology-and-landscape-analysis" id="toc-geomorphology-and-landscape-analysis" class="nav-link" data-scroll-target="#geomorphology-and-landscape-analysis">Geomorphology and Landscape Analysis</a></li>
+  </ul></li>
+  <li><a href="#key-geospatial-and-geological-data-sources" id="toc-key-geospatial-and-geological-data-sources" class="nav-link" data-scroll-target="#key-geospatial-and-geological-data-sources">Key Geospatial and Geological Data Sources</a>
+  <ul class="collapse">
+  <li><a href="#global-earth-science-geospatial-data" id="toc-global-earth-science-geospatial-data" class="nav-link" data-scroll-target="#global-earth-science-geospatial-data">Global Earth Science Geospatial Data</a>
+  <ul class="collapse">
+  <li><a href="#elevation-topography" id="toc-elevation-topography" class="nav-link" data-scroll-target="#elevation-topography">Elevation &amp; Topography</a></li>
+  <li><a href="#geological-maps" id="toc-geological-maps" class="nav-link" data-scroll-target="#geological-maps">Geological Maps</a></li>
+  <li><a href="#geophysics" id="toc-geophysics" class="nav-link" data-scroll-target="#geophysics">Geophysics</a></li>
+  </ul></li>
+  <li><a href="#european-resources" id="toc-european-resources" class="nav-link" data-scroll-target="#european-resources">European Resources</a></li>
+  <li><a href="#swiss-resources" id="toc-swiss-resources" class="nav-link" data-scroll-target="#swiss-resources">Swiss Resources</a></li>
+  </ul></li>
+  <li><a href="#domain-specific-repositories" id="toc-domain-specific-repositories" class="nav-link" data-scroll-target="#domain-specific-repositories">Domain-specific repositories</a>
+  <ul class="collapse">
+  <li><a href="#palaeontology" id="toc-palaeontology" class="nav-link" data-scroll-target="#palaeontology">Palaeontology</a></li>
+  <li><a href="#lithology-stratigraphy" id="toc-lithology-stratigraphy" class="nav-link" data-scroll-target="#lithology-stratigraphy">Lithology &amp; Stratigraphy</a></li>
+  <li><a href="#geochemistry" id="toc-geochemistry" class="nav-link" data-scroll-target="#geochemistry">Geochemistry</a></li>
+  <li><a href="#mineralogy" id="toc-mineralogy" class="nav-link" data-scroll-target="#mineralogy">Mineralogy</a></li>
+  <li><a href="#geochronology" id="toc-geochronology" class="nav-link" data-scroll-target="#geochronology">Geochronology</a></li>
+  <li><a href="#paleogeography" id="toc-paleogeography" class="nav-link" data-scroll-target="#paleogeography">Paleogeography</a></li>
+  </ul></li>
+  <li><a href="#python-for-gis-and-geology" id="toc-python-for-gis-and-geology" class="nav-link" data-scroll-target="#python-for-gis-and-geology">Python for GIS and Geology</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter1_intro.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -233,25 +268,25 @@ ul.task-list li input[type="checkbox"] {
 <section id="elevation-topography" class="level3">
 <h3 class="anchored" data-anchor-id="elevation-topography">Elevation &amp; Topography</h3>
 <ul>
-<li><strong>ETOPO</strong> — <a href="https://www.ncei.noaa.gov/products/etopo-global-relief-model">https://www.ncei.noaa.gov/products/etopo-global-relief-model</a> Global relief model combining bathymetry and topography at 15 arc-second resolution.</li>
-<li><strong>SRTM (Shuttle Radar Topography Mission)</strong> — <a href="https://www.earthdata.nasa.gov/data/instruments/srtm">https://www.earthdata.nasa.gov/data/instruments/srtm</a> Near-global digital elevation model at 30m resolution.</li>
-<li><strong>GEBCO</strong> — <a href="https://www.gebco.net">https://www.gebco.net</a> General Bathymetric Chart of the Oceans; global ocean depth and land elevation.</li>
+<li><strong>ETOPO</strong> <a href="https://www.ncei.noaa.gov/products/etopo-global-relief-model">https://www.ncei.noaa.gov/products/etopo-global-relief-model</a> Global relief model combining bathymetry and topography at 15 arc-second resolution.</li>
+<li><strong>SRTM (Shuttle Radar Topography Mission)</strong> <a href="https://www.earthdata.nasa.gov/data/instruments/srtm">https://www.earthdata.nasa.gov/data/instruments/srtm</a> Near-global digital elevation model at 30m resolution.</li>
+<li><strong>GEBCO</strong> <a href="https://www.gebco.net">https://www.gebco.net</a> General Bathymetric Chart of the Oceans; global ocean depth and land elevation.</li>
 </ul>
 </section>
 <section id="geological-maps" class="level3">
 <h3 class="anchored" data-anchor-id="geological-maps">Geological Maps</h3>
 <ul>
-<li><strong>OneGeology</strong> — <a href="https://onegeology.org/">https://onegeology.org/</a> Global geological map data served via OGC web services, aggregated from national surveys.</li>
-<li><strong>CGMW (Commission for the Geological Map of the World)</strong> — <a href="https://www.ccgm.org">https://www.ccgm.org</a> Global and continental-scale geological maps.</li>
-<li><strong>GeoMapApp</strong> — <a href="https://www.geomapapp.org">https://www.geomapapp.org</a> Interactive application for exploring global geoscience datasets.</li>
+<li><strong>OneGeology</strong> <a href="https://onegeology.org/">https://onegeology.org/</a> Global geological map data served via OGC web services, aggregated from national surveys.</li>
+<li><strong>CGMW (Commission for the Geological Map of the World)</strong> <a href="https://www.ccgm.org">https://www.ccgm.org</a> Global and continental-scale geological maps.</li>
+<li><strong>GeoMapApp</strong> <a href="https://www.geomapapp.org">https://www.geomapapp.org</a> Interactive application for exploring global geoscience datasets.</li>
 </ul>
 </section>
 <section id="geophysics" class="level3">
 <h3 class="anchored" data-anchor-id="geophysics">Geophysics</h3>
 <ul>
-<li><strong>EMAG2 / WDMAM</strong> — <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471">https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471</a> Global magnetic anomaly maps.</li>
-<li><strong>CRUST1.0</strong> — <a href="https://igppweb.ucsd.edu/~gabi/crust1.html">https://igppweb.ucsd.edu/~gabi/crust1.html</a> Global crustal thickness and structure model.</li>
-<li><strong>ISC (International Seismological Centre)</strong> — <a href="https://www.isc.ac.uk">https://www.isc.ac.uk</a> Global earthquake catalogue and seismicity data.</li>
+<li><strong>EMAG2 / WDMAM</strong> <a href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471">https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2009gc002471</a> Global magnetic anomaly maps.</li>
+<li><strong>CRUST1.0</strong> <a href="https://igppweb.ucsd.edu/~gabi/crust1.html">https://igppweb.ucsd.edu/~gabi/crust1.html</a> Global crustal thickness and structure model.</li>
+<li><strong>ISC (International Seismological Centre)</strong> <a href="https://www.isc.ac.uk">https://www.isc.ac.uk</a> Global earthquake catalogue and seismicity data.</li>
 </ul>
 <hr>
 </section>
@@ -259,18 +294,18 @@ ul.task-list li input[type="checkbox"] {
 <section id="european-resources" class="level2">
 <h2 class="anchored" data-anchor-id="european-resources">European Resources</h2>
 <ul>
-<li><strong>EMODNET (European Marine Observation and Data Network)</strong> — <a href="https://emodnet.ec.europa.eu">https://emodnet.ec.europa.eu</a> European marine geology, bathymetry, and seabed mapping.</li>
-<li><strong>EGDI (European Geological Data Infrastructure)</strong> — <a href="https://www.europe-geology.eu">https://www.europe-geology.eu</a> Pan-European geological data from national geological surveys, served via OGC services.</li>
-<li><strong>EuroGeoSurveys</strong> — <a href="https://www.eurogeosurveys.org">https://www.eurogeosurveys.org</a> Network of European geological surveys providing harmonised geospatial data.</li>
+<li><strong>EMODNET (European Marine Observation and Data Network)</strong> <a href="https://emodnet.ec.europa.eu">https://emodnet.ec.europa.eu</a> European marine geology, bathymetry, and seabed mapping.</li>
+<li><strong>EGDI (European Geological Data Infrastructure)</strong> <a href="https://www.europe-geology.eu">https://www.europe-geology.eu</a> Pan-European geological data from national geological surveys, served via OGC services.</li>
+<li><strong>EuroGeoSurveys</strong> <a href="https://www.eurogeosurveys.org">https://www.eurogeosurveys.org</a> Network of European geological surveys providing harmonised geospatial data.</li>
 </ul>
 <hr>
 </section>
 <section id="swiss-resources" class="level2">
 <h2 class="anchored" data-anchor-id="swiss-resources">Swiss Resources</h2>
 <ul>
-<li><strong>swisstopo</strong> — <a href="https://www.swisstopo.admin.ch/en/geodata-and-applications">https://www.swisstopo.admin.ch/en/geodata-and-applications</a> Swiss Federal Office of Topography; high-resolution DEMs, geological maps, and OGC web services.</li>
-<li><strong>Swiss Geophysical Commission (SwissGeol)</strong> — <a href="https://www.swissgeol.ch">https://www.swissgeol.ch</a> National geological data portal with borehole, stratigraphy, and subsurface data.</li>
-<li><strong>GeoMol</strong> — <a href="https://www.geomol.eu">https://www.geomol.eu</a> 3D geological models of the Alpine Foreland basins, including Switzerland.</li>
+<li><strong>swisstopo</strong> <a href="https://www.swisstopo.admin.ch/en/geodata-and-applications">https://www.swisstopo.admin.ch/en/geodata-and-applications</a> Swiss Federal Office of Topography; high-resolution DEMs, geological maps, and OGC web services.</li>
+<li><strong>Swiss Geophysical Commission (SwissGeol)</strong> <a href="https://www.swissgeol.ch">https://www.swissgeol.ch</a> National geological data portal with borehole, stratigraphy, and subsurface data.</li>
+<li><strong>GeoMol</strong> <a href="https://www.geomol.eu">https://www.geomol.eu</a> 3D geological models of the Alpine Foreland basins, including Switzerland.</li>
 </ul>
 <hr>
 </section>
@@ -280,51 +315,51 @@ ul.task-list li input[type="checkbox"] {
 <section id="palaeontology" class="level2">
 <h2 class="anchored" data-anchor-id="palaeontology">Palaeontology</h2>
 <ul>
-<li><strong>Paleobiology Database (PBDB)</strong> — <a href="https://paleobiodb.org">https://paleobiodb.org</a> Global compilation of paleontological occurrence data.</li>
+<li><strong>Paleobiology Database (PBDB)</strong> <a href="https://paleobiodb.org">https://paleobiodb.org</a> Global compilation of paleontological occurrence data.</li>
 </ul>
 <hr>
 </section>
 <section id="lithology-stratigraphy" class="level2">
 <h2 class="anchored" data-anchor-id="lithology-stratigraphy">Lithology &amp; Stratigraphy</h2>
 <ul>
-<li><strong>Macrostrat</strong> — <a href="https://macrostrat.org">https://macrostrat.org</a> Global database of stratigraphic columns, rock units, and geological time.</li>
-<li><strong>OneStratigraphy</strong> — <a href="https://onestratigraphy.ddeworld.org/">https://onestratigraphy.ddeworld.org/</a> Global stratigraphic database linking rock units across regions.</li>
-<li><strong>Sedimentary, Geochemistry and Paleoenvironments Project (SGP)</strong> — <a href="https://sgp.stanford.edu/">https://sgp.stanford.edu/</a> Global compilation of sedimentary, geochemical, and paleoenvironmental data.</li>
+<li><strong>Macrostrat</strong> <a href="https://macrostrat.org">https://macrostrat.org</a> Global database of stratigraphic columns, rock units, and geological time.</li>
+<li><strong>OneStratigraphy</strong> <a href="https://onestratigraphy.ddeworld.org/">https://onestratigraphy.ddeworld.org/</a> Global stratigraphic database linking rock units across regions.</li>
+<li><strong>Sedimentary, Geochemistry and Paleoenvironments Project (SGP)</strong> <a href="https://sgp.stanford.edu/">https://sgp.stanford.edu/</a> Global compilation of sedimentary, geochemical, and paleoenvironmental data.</li>
 </ul>
 <hr>
 </section>
 <section id="geochemistry" class="level2">
 <h2 class="anchored" data-anchor-id="geochemistry">Geochemistry</h2>
 <ul>
-<li><strong>EarthChem</strong> — <a href="https://earthchem.org">https://earthchem.org</a> Portal for geochemical, geochronological, and petrological data.</li>
-<li><strong>PetDB (Petrological Database of the Ocean Floor)</strong> — <a href="https://earthchem.org/petdb">https://earthchem.org/petdb</a> Geochemical and petrological data for ocean floor rocks, a subcomponent of EarthChem.</li>
-<li><strong>GEOROC (Geochemistry of Rocks of the Oceans and Continents)</strong> — <a href="https://georoc.eu/georoc/">https://georoc.eu/georoc/</a> Global compilation of published analyses of igneous and metamorphic rocks.</li>
+<li><strong>EarthChem</strong> <a href="https://earthchem.org">https://earthchem.org</a> Portal for geochemical, geochronological, and petrological data.</li>
+<li><strong>PetDB (Petrological Database of the Ocean Floor)</strong> <a href="https://earthchem.org/petdb">https://earthchem.org/petdb</a> Geochemical and petrological data for ocean floor rocks, a subcomponent of EarthChem.</li>
+<li><strong>GEOROC (Geochemistry of Rocks of the Oceans and Continents)</strong> <a href="https://georoc.eu/georoc/">https://georoc.eu/georoc/</a> Global compilation of published analyses of igneous and metamorphic rocks.</li>
 </ul>
 <hr>
 </section>
 <section id="mineralogy" class="level2">
 <h2 class="anchored" data-anchor-id="mineralogy">Mineralogy</h2>
 <ul>
-<li><strong>Mindat</strong> — <a href="https://www.mindat.org">https://www.mindat.org</a> World’s largest mineral database with locality and occurrence data.</li>
-<li><strong>Clay minerals global compilation</strong> — <a href="https://doi.org/10.1038/sdata.2017.103">https://doi.org/10.1038/sdata.2017.103</a> Global dataset of clay mineral occurrences in marine sediments.</li>
+<li><strong>Mindat</strong> <a href="https://www.mindat.org">https://www.mindat.org</a> World’s largest mineral database with locality and occurrence data.</li>
+<li><strong>Clay minerals global compilation</strong> <a href="https://doi.org/10.1038/sdata.2017.103">https://doi.org/10.1038/sdata.2017.103</a> Global dataset of clay mineral occurrences in marine sediments.</li>
 </ul>
 <hr>
 </section>
 <section id="geochronology" class="level2">
 <h2 class="anchored" data-anchor-id="geochronology">Geochronology</h2>
 <ul>
-<li><strong>Zircon global compilation</strong> — <a href="https://doi.org/10.1038/s41597-023-02902-">https://doi.org/10.1038/s41597-023-02902-</a> Global compilation of detrital and igneous zircon U-Pb ages.</li>
-<li><strong>EarthTime</strong> — <a href="https://earthtime.org/">https://earthtime.org/</a> Initiative for improving the precision and accuracy of geochronological data.</li>
+<li><strong>Zircon global compilation</strong> <a href="https://doi.org/10.1038/s41597-023-02902-">https://doi.org/10.1038/s41597-023-02902-</a> Global compilation of detrital and igneous zircon U-Pb ages.</li>
+<li><strong>EarthTime</strong> <a href="https://earthtime.org/">https://earthtime.org/</a> Initiative for improving the precision and accuracy of geochronological data.</li>
 </ul>
 <hr>
 </section>
 <section id="paleogeography" class="level2">
 <h2 class="anchored" data-anchor-id="paleogeography">Paleogeography</h2>
 <ul>
-<li><strong>PALEOMAP / PaleoDEMs</strong> — <a href="https://doi.org/10.5281/zenodo.5460860">https://doi.org/10.5281/zenodo.5460860</a> Palaeo-Digital Elevation Models for the Phanerozoic (Scotese &amp; Wright, 2018).</li>
-<li><strong>PANALESIS</strong> — <a href="https://doi.org/10.5281/zenodo.15396265">https://doi.org/10.5281/zenodo.15396265</a> Global quantified palaeogeographic maps for the Phanerozoic (Franziskakis et al., 2025).</li>
-<li><strong>GPlates</strong> — <a href="https://www.gplates.org">https://www.gplates.org</a> Open-source software and associated data for plate tectonic reconstructions.</li>
-<li><strong>GPlates Portal</strong> — <a href="https://portal.gplates.org">https://portal.gplates.org</a> Web portal providing access to GPlates plate motion models and derived datasets.</li>
+<li><strong>PALEOMAP / PaleoDEMs</strong> <a href="https://doi.org/10.5281/zenodo.5460860">https://doi.org/10.5281/zenodo.5460860</a> Palaeo-Digital Elevation Models for the Phanerozoic (Scotese &amp; Wright, 2018).</li>
+<li><strong>PANALESIS</strong> <a href="https://doi.org/10.5281/zenodo.15396265">https://doi.org/10.5281/zenodo.15396265</a> Global quantified palaeogeographic maps for the Phanerozoic (Franziskakis et al., 2025).</li>
+<li><strong>GPlates</strong> <a href="https://www.gplates.org">https://www.gplates.org</a> Open-source software and associated data for plate tectonic reconstructions.</li>
+<li><strong>GPlates Portal</strong> <a href="https://portal.gplates.org">https://portal.gplates.org</a> Web portal providing access to GPlates plate motion models and derived datasets.</li>
 </ul>
 </section>
 </section>

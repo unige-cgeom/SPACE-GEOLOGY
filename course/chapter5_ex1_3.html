@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter II: Setting up your environment</span></a>
+ <span class="menu-text">Chapter II: Setting up your Python environment and access data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -201,8 +201,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter5_ex1_3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="chapter5_ex1_3.ipynb" download="chapter5_ex1_3.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page:</h2>
+   
+  <ul>
+  <li><a href="#palaeogeography-meets-palaeoclimatology" id="toc-palaeogeography-meets-palaeoclimatology" class="nav-link active" data-scroll-target="#palaeogeography-meets-palaeoclimatology">Palaeogeography Meets Palaeoclimatology</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-instructions" id="toc-step-by-step-instructions" class="nav-link" data-scroll-target="#step-by-step-instructions">Step-by-step instructions</a>
+  <ul class="collapse">
+  <li><a href="#install-libraries" id="toc-install-libraries" class="nav-link" data-scroll-target="#install-libraries">Install libraries</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
+  <li><a href="#inspect-data" id="toc-inspect-data" class="nav-link" data-scroll-target="#inspect-data">Inspect data</a></li>
+  <li><a href="#process-into-climate-zones" id="toc-process-into-climate-zones" class="nav-link" data-scroll-target="#process-into-climate-zones">Process into climate zones</a></li>
+  </ul></li>
+  <li><a href="#links-to-useful-libraries-and-tools" id="toc-links-to-useful-libraries-and-tools" class="nav-link" data-scroll-target="#links-to-useful-libraries-and-tools">Links to useful libraries and tools</a>
+  <ul class="collapse">
+  <li><a href="#python-libraries" id="toc-python-libraries" class="nav-link" data-scroll-target="#python-libraries">Python libraries</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter5_ex1_3.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="chapter5_ex1_3.ipynb" download="chapter5_ex1_3.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -300,9 +319,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</section>
-<section id="step-by-step-instructions" class="level1">
-<h1>Step-by-step instructions</h1>
+<section id="step-by-step-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="step-by-step-instructions">Step-by-step instructions</h2>
 <p>In the second part of the exercise, we extended our analysis on other maps beyond palaeogeography:</p>
 <ul>
 <li>Defined functions to easily request a WCS for a given layer name and reconstruction age, and plot the map</li>
@@ -361,19 +379,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>We will learn how to read NetCDF files, understand their metadata, and turn input data related to precipitation and temperature into climate zones maps (Köppen-Geiger) for the entire Phanerozoic.</p>
-<p>Let’s first load a file from the <code>data/climate</code> folder. We have one file per reconstruction age. The last 4 digits in the filename represents the age in millions of years (Ma), written to 4 digits style. For example, 0 Ma → <code>0000</code>, 100 Ma → <code>0100</code>, 444 Ma → <code>0444</code>. By using a regular expression (regex) from the <code>re</code> library, selecting an age can be done like:</p>
-<div id="1a9ca716" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nc_path <span class="op">=</span> <span class="ss">f"data/climate/panalesis_version_0_plasim-genie_tas_pr_</span><span class="sc">{</span><span class="bu">str</span>(age)<span class="sc">.</span>zfill(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">Ma.nc"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.open_dataset(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    nc_path,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    engine<span class="op">=</span><span class="st">"netcdf4"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="install-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="install-libraries">Install libraries</h3>
+<p>This tutorial requires the following libraries:</p>
+<ul>
+<li><code>xarray</code></li>
+<li><code>numpy</code></li>
+<li><code>matplotlib</code></li>
+<li><code>requests</code></li>
+<li><code>rasterio</code></li>
+<li><code>scipy</code></li>
+</ul>
+<p>You can check if they are installed (and check which version you have) by running:</p>
+<div id="f3fdf2e9" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>libs <span class="op">=</span> [<span class="st">"xarray"</span>, <span class="st">"numpy"</span>, <span class="st">"matplotlib"</span>, <span class="st">"requests"</span>, <span class="st">"rasterio"</span>, <span class="st">"scipy"</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lib <span class="kw">in</span> libs:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        module <span class="op">=</span> <span class="bu">__import__</span>(lib)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(lib <span class="op">+</span> <span class="st">" is installed"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">ImportError</span>:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(lib <span class="op">+</span> <span class="st">" is NOT installed"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>xarray is installed
+numpy is installed
+matplotlib is installed
+requests is installed
+rasterio is installed
+scipy is installed</code></pre>
+</div>
+</div>
+<p>If you encounter an error, come back to <a href="https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html">Chapter II: Setting up your Python environment</a> and follow the instructions.</p>
+</section>
+<section id="load-data" class="level3">
+<h3 class="anchored" data-anchor-id="load-data">Load data</h3>
+<p>Let’s first load a file from the <a href="https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate">data/climate</a> folder. We have one file per reconstruction age. The last 4 digits in the filename represents the age in millions of years (Ma), written to 4 digits style. For example, 0 Ma → <code>0000</code>, 100 Ma → <code>0100</code>, 444 Ma → <code>0444</code>. By using a regular expression (regex) from the <code>re</code> library, selecting an age can be done like:</p>
+<div id="6e3c0d42" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>nc_path <span class="op">=</span> <span class="ss">f"data/climate/panalesis_version_0_plasim-genie_tas_pr_</span><span class="sc">{</span><span class="bu">str</span>(age)<span class="sc">.</span>zfill(<span class="dv">4</span>)<span class="sc">}</span><span class="ss">Ma.nc"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.open_dataset(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    nc_path,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    engine<span class="op">=</span><span class="st">"netcdf4"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.Dataset&gt; Size: 197kB
 Dimensions:                  (month: 12, latitude: 32, longitude: 64)
@@ -400,17 +452,20 @@ Attributes:
 </div>
 <p>→ Have a look at the metadata: how is the data organized ? What is the resolution ?</p>
 <p>→ Does this give you enough information about the data source ?</p>
+</section>
+<section id="inspect-data" class="level3">
+<h3 class="anchored" data-anchor-id="inspect-data">Inspect data</h3>
 <p>Every variable in a NetCDF file carries <strong>attributes</strong>: metadata describing what the variable is, its units, and more. This follows the <strong>CF Conventions</strong> standard. Let’s have a look at the air surface temperature variable:</p>
-<div id="614106ba" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds[<span class="st">"temperature_surface_air"</span>].attrs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="61253537" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ds[<span class="st">"temperature_surface_air"</span>].attrs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{'standard_name': 'air_temperature', 'long_name': 'Near-surface air temperature', 'units': 'K'}</code></pre>
 </div>
 </div>
 <p>Thanks to the structure of the input data and how we read it using <code>xarray</code>, it is possible to access only selected slices of the entire dataset. For instance, we can select only one variable:</p>
-<div id="73fcf37b" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="59f30ff2" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>temp <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray 'temperature_surface_air' (month: 12, latitude: 32,
                                              longitude: 64)&gt; Size: 98kB
@@ -426,9 +481,9 @@ Attributes:
 </div>
 </div>
 <p>We can also select a single month, using <code>.sel()</code> which selects data by label (e.g.&nbsp;<code>month=1</code>):</p>
-<div id="9e39e41b" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>temp_jan <span class="op">=</span> temp.sel(month<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_jan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="72f5fd5e" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>temp_jan <span class="op">=</span> temp.sel(month<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_jan)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray 'temperature_surface_air' (latitude: 32, longitude: 64)&gt; Size: 8kB
 [2048 values with dtype=float32]
@@ -443,10 +498,10 @@ Attributes:
 </div>
 </div>
 <p>Or even a given location. For instance, if we take the approximate location of Geneva (lat/lon). The <code>method="nearest"</code> finds the grid cell with the centroid that is closest to your input coordinates:</p>
-<div id="6691372c" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>temp_geneva <span class="op">=</span> temp.sel(latitude<span class="op">=</span><span class="fl">46.2</span>, longitude<span class="op">=</span><span class="fl">6.1</span>, method<span class="op">=</span><span class="st">"nearest"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva.values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e7aada65" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>temp_geneva <span class="op">=</span> temp.sel(latitude<span class="op">=</span><span class="fl">46.2</span>, longitude<span class="op">=</span><span class="fl">6.1</span>, method<span class="op">=</span><span class="st">"nearest"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temp_geneva.values)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;xarray.DataArray 'temperature_surface_air' (month: 12)&gt; Size: 48B
 [12 values with dtype=float32]
@@ -467,170 +522,173 @@ Attributes:
 <p>→ What were the temperatures 100 millions years ago at this location?</p>
 <p>→ What does this tell you about the model resolution ?</p>
 <p>Let’s now have a look at our data by plotting it, reusing the January subset we did before.</p>
-<div id="1506a8df" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>temp_jan.plot()</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"January mean surface air temperature (K)"</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d21aec28" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>temp_jan.plot()</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"January mean surface air temperature (K)"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter5_ex1_3_files/figure-html/cell-7-output-1.png" width="604" height="449" class="figure-img"></p>
+<p><img src="chapter5_ex1_3_files/figure-html/cell-8-output-1.png" width="604" height="449" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="process-into-climate-zones" class="level3">
+<h3 class="anchored" data-anchor-id="process-into-climate-zones">Process into climate zones</h3>
 <p>As you noticed, the units for temperature are in Kelvin and precipitation are in meters per seconds. Before any analysis, we need to convert both variables to standard units, in our case this would be degrees Celsius and millimeters per month.</p>
-<div id="b92b830b" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_c <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>] <span class="op">-</span> <span class="fl">273.15</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>temp_c.attrs[<span class="st">"units"</span>] <span class="op">=</span> <span class="st">"°C"</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>seconds_per_day <span class="op">=</span> <span class="dv">86400</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>days_per_month <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>]</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>days <span class="op">=</span> xr.DataArray(days_per_month, coords<span class="op">=</span>[ds.month], dims<span class="op">=</span>[<span class="st">"month"</span>])</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>precip_mm <span class="op">=</span> ds[<span class="st">"precipitation_total"</span>] <span class="op">*</span> seconds_per_day <span class="op">*</span> days <span class="op">*</span> <span class="dv">1000</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>precip_mm.attrs[<span class="st">"units"</span>] <span class="op">=</span> <span class="st">"mm/month"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="410cfe97" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>temp_c <span class="op">=</span> ds[<span class="st">"temperature_surface_air"</span>] <span class="op">-</span> <span class="fl">273.15</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>temp_c.attrs[<span class="st">"units"</span>] <span class="op">=</span> <span class="st">"°C"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>seconds_per_day <span class="op">=</span> <span class="dv">86400</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>days_per_month <span class="op">=</span> [<span class="dv">31</span>, <span class="dv">28</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>, <span class="dv">30</span>, <span class="dv">31</span>]</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>days <span class="op">=</span> xr.DataArray(days_per_month, coords<span class="op">=</span>[ds.month], dims<span class="op">=</span>[<span class="st">"month"</span>])</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>precip_mm <span class="op">=</span> ds[<span class="st">"precipitation_total"</span>] <span class="op">*</span> seconds_per_day <span class="op">*</span> days <span class="op">*</span> <span class="dv">1000</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>precip_mm.attrs[<span class="st">"units"</span>] <span class="op">=</span> <span class="st">"mm/month"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We now have everything we need to classify each grid cell into a climate zone.</p>
 <p>For the classification we need to know how warm or cold each grid cell gets. The coldest and warmest month determine whether a climate is polar, temperate, or continental. The number of months above 10°C is a proxy for the growing season.</p>
-<div id="cd9cd555" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>t_annual <span class="op">=</span> temp_c.mean(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>t_min <span class="op">=</span> temp_c.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>t_max <span class="op">=</span> temp_c.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>months_above_10 <span class="op">=</span> (temp_c <span class="op">&gt;</span> <span class="dv">10</span>).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="22b04e90" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>t_annual <span class="op">=</span> temp_c.mean(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>t_min <span class="op">=</span> temp_c.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>t_max <span class="op">=</span> temp_c.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>months_above_10 <span class="op">=</span> (temp_c <span class="op">&gt;</span> <span class="dv">10</span>).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Precipitation seasonality is just as important as the total amount. A climate with dry summers behaves very differently from one with dry winters, even if the annual total is the same. We split the year into summer (Apr–Sep) and winter (Oct–Mar) halves to detect this seasonality.</p>
-<div id="0e424863" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p_annual <span class="op">=</span> precip_mm.<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p_min <span class="op">=</span> precip_mm.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>p_max <span class="op">=</span> precip_mm.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>p_summer <span class="op">=</span> precip_mm.sel(month<span class="op">=</span>[<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>]).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>p_winter <span class="op">=</span> precip_mm.sel(month<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>]).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ee77b666" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p_annual <span class="op">=</span> precip_mm.<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p_min <span class="op">=</span> precip_mm.<span class="bu">min</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>p_max <span class="op">=</span> precip_mm.<span class="bu">max</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p_summer <span class="op">=</span> precip_mm.sel(month<span class="op">=</span>[<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>]).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>p_winter <span class="op">=</span> precip_mm.sel(month<span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>]).<span class="bu">sum</span>(dim<span class="op">=</span><span class="st">"month"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Group B (arid) climates are defined by precipitation being too low relative to evaporation demand. Evaporation increases with temperature, so the threshold is not a fixed number but depends on the annual mean temperature. We will use a simplified version of the standard formula:</p>
-<div id="8a6cb31e" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p_threshold <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> t_annual <span class="op">+</span> <span class="dv">28</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="48d688aa" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p_threshold <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> t_annual <span class="op">+</span> <span class="dv">28</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The full Köppen formula adjusts <code>p_threshold</code> based on precipitation seasonality (adding 0 to 28 mm depending on whether rain falls in summer or winter). Here we use a fixed offset of +28 for simplicity.</p>
 <p>Let’s write a function that takes the pre-computed quantities for a single grid cell and returns its 2-letter Köppen-Geiger code. The logic follows the standard hierarchical order: polar first, then arid, tropical, temperate and continental.</p>
-<div id="00398fcd" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_koppen(t_ann, t_mn, t_mx, p_ann, p_mn, p_sum, p_win, p_thr):</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E: Polar (warmest month too cold for tree growth)</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mx <span class="op">&lt;</span> <span class="dv">0</span>:</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"EF"</span>   <span class="co"># ice cap</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mx <span class="op">&lt;</span> <span class="dv">10</span>:</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"ET"</span>   <span class="co"># tundra</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># B: Arid (precipitation too low relative to evaporation)</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_ann <span class="op">&lt;</span> p_thr:</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_ann <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="op">*</span> p_thr:</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"BW"</span>   <span class="co"># desert</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"BS"</span>       <span class="co"># steppe</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A: Tropical (coldest month still warm (&gt;= 18°C))</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mn <span class="op">&gt;=</span> <span class="dv">18</span>:</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_mn <span class="op">&gt;=</span> <span class="dv">60</span>:</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Af"</span>   <span class="co"># rainforest</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_mn <span class="op">&gt;=</span> <span class="dv">100</span> <span class="op">-</span> p_ann <span class="op">/</span> <span class="dv">25</span>:</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Am"</span>   <span class="co"># monsoon</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Aw"</span>       <span class="co"># savanna</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># C: Temperate (coldest month between -3°C and 18°C)</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mn <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>:</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_sum <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> p_win:</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Cs"</span>   <span class="co"># dry summer</span></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_win <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">*</span> p_sum:</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Cw"</span>   <span class="co"># dry winter</span></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Cf"</span>       <span class="co"># no dry season</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D: Continental (coldest month below -3°C)</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_sum <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> p_win:</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Ds"</span>       <span class="co"># dry summer</span></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_win <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">*</span> p_sum:</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Dw"</span>       <span class="co"># dry winter</span></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Df"</span>           <span class="co"># no dry season</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3d8de1ca" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_koppen(t_ann, t_mn, t_mx, p_ann, p_mn, p_sum, p_win, p_thr):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E: Polar (warmest month too cold for tree growth)</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mx <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"EF"</span>   <span class="co"># ice cap</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mx <span class="op">&lt;</span> <span class="dv">10</span>:</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"ET"</span>   <span class="co"># tundra</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># B: Arid (precipitation too low relative to evaporation)</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_ann <span class="op">&lt;</span> p_thr:</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_ann <span class="op">&lt;</span> <span class="fl">0.5</span> <span class="op">*</span> p_thr:</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"BW"</span>   <span class="co"># desert</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"BS"</span>       <span class="co"># steppe</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># A: Tropical (coldest month still warm (&gt;= 18°C))</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mn <span class="op">&gt;=</span> <span class="dv">18</span>:</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_mn <span class="op">&gt;=</span> <span class="dv">60</span>:</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Af"</span>   <span class="co"># rainforest</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_mn <span class="op">&gt;=</span> <span class="dv">100</span> <span class="op">-</span> p_ann <span class="op">/</span> <span class="dv">25</span>:</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Am"</span>   <span class="co"># monsoon</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Aw"</span>       <span class="co"># savanna</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># C: Temperate (coldest month between -3°C and 18°C)</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> t_mn <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>:</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_sum <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> p_win:</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Cs"</span>   <span class="co"># dry summer</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> p_win <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">*</span> p_sum:</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Cw"</span>   <span class="co"># dry winter</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Cf"</span>       <span class="co"># no dry season</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D: Continental (coldest month below -3°C)</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_sum <span class="op">&gt;</span> <span class="dv">10</span> <span class="op">*</span> p_win:</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Ds"</span>       <span class="co"># dry summer</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> p_win <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">*</span> p_sum:</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Dw"</span>       <span class="co"># dry winter</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Df"</span>           <span class="co"># no dry season</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We now loop over every grid cell and apply the function. This will give us a <code>numpy</code> array (2D) with the two-letters classes for each cell.</p>
-<div id="2f8401b8" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n_lat <span class="op">=</span> <span class="bu">len</span>(ds.latitude)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n_lon <span class="op">=</span> <span class="bu">len</span>(ds.longitude)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>koppen <span class="op">=</span> np.full((n_lat, n_lon), <span class="st">""</span>, dtype<span class="op">=</span><span class="bu">object</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_lat):</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_lon):</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        koppen[i, j] <span class="op">=</span> classify_koppen(</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>            t_ann <span class="op">=</span> <span class="bu">float</span>(t_annual[i, j]),</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            t_mn  <span class="op">=</span> <span class="bu">float</span>(t_min[i, j]),</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>            t_mx  <span class="op">=</span> <span class="bu">float</span>(t_max[i, j]),</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>            p_ann <span class="op">=</span> <span class="bu">float</span>(p_annual[i, j]),</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>            p_mn  <span class="op">=</span> <span class="bu">float</span>(p_min[i, j]),</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>            p_sum <span class="op">=</span> <span class="bu">float</span>(p_summer[i, j]),</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>            p_win <span class="op">=</span> <span class="bu">float</span>(p_winter[i, j]),</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>            p_thr <span class="op">=</span> <span class="bu">float</span>(p_threshold[i, j])</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.unique(koppen))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8739ff13" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>n_lat <span class="op">=</span> <span class="bu">len</span>(ds.latitude)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>n_lon <span class="op">=</span> <span class="bu">len</span>(ds.longitude)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>koppen <span class="op">=</span> np.full((n_lat, n_lon), <span class="st">""</span>, dtype<span class="op">=</span><span class="bu">object</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_lat):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_lon):</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        koppen[i, j] <span class="op">=</span> classify_koppen(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            t_ann <span class="op">=</span> <span class="bu">float</span>(t_annual[i, j]),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            t_mn  <span class="op">=</span> <span class="bu">float</span>(t_min[i, j]),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            t_mx  <span class="op">=</span> <span class="bu">float</span>(t_max[i, j]),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>            p_ann <span class="op">=</span> <span class="bu">float</span>(p_annual[i, j]),</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            p_mn  <span class="op">=</span> <span class="bu">float</span>(p_min[i, j]),</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            p_sum <span class="op">=</span> <span class="bu">float</span>(p_summer[i, j]),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            p_win <span class="op">=</span> <span class="bu">float</span>(p_winter[i, j]),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            p_thr <span class="op">=</span> <span class="bu">float</span>(p_threshold[i, j])</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.unique(koppen))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['Af' 'Am' 'Aw' 'BS' 'BW' 'Cf' 'Cw' 'Df' 'Dw' 'EF' 'ET']</code></pre>
 </div>
 </div>
 <p>Let’s now plot our map to inspect the results.</p>
-<div id="7ede5544" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>koppen_classes <span class="op">=</span> {</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ET"</span>: (<span class="dv">1</span>,  <span class="st">"#C0C0C0"</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EF"</span>: (<span class="dv">2</span>,  <span class="st">"#FFFFFF"</span>),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dw"</span>: (<span class="dv">3</span>,  <span class="st">"#8B0000"</span>),</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ds"</span>: (<span class="dv">4</span>,  <span class="st">"#B22222"</span>),</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Df"</span>: (<span class="dv">5</span>,  <span class="st">"#CD5C5C"</span>),</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cw"</span>: (<span class="dv">6</span>,  <span class="st">"#2E8B57"</span>),</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cs"</span>: (<span class="dv">7</span>,  <span class="st">"#87CEFA"</span>),</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cf"</span>: (<span class="dv">8</span>,  <span class="st">"#1E90FF"</span>),</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BW"</span>: (<span class="dv">9</span>,  <span class="st">"#DAA520"</span>),</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BS"</span>: (<span class="dv">10</span>, <span class="st">"#F4A460"</span>),</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Aw"</span>: (<span class="dv">11</span>, <span class="st">"#9ACD32"</span>),</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Am"</span>: (<span class="dv">12</span>, <span class="st">"#32CD32"</span>),</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Af"</span>: (<span class="dv">13</span>, <span class="st">"#006400"</span>),</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>koppen_num <span class="op">=</span> np.zeros((n_lat, n_lon))</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_lat):</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_lon):</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> koppen[i, j] <span class="kw">in</span> koppen_classes:</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>            koppen_num[i, j] <span class="op">=</span> koppen_classes[koppen[i, j]][<span class="dv">0</span>]</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap, BoundaryNorm</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>codes  <span class="op">=</span> <span class="bu">list</span>(koppen_classes.keys())</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [koppen_classes[k][<span class="dv">1</span>] <span class="cf">for</span> k <span class="kw">in</span> codes]</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>cmap   <span class="op">=</span> ListedColormap(colors)</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>norm   <span class="op">=</span> BoundaryNorm(boundaries<span class="op">=</span>np.arange(<span class="fl">0.5</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="fl">1.5</span>), ncolors<span class="op">=</span><span class="bu">len</span>(codes))</span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.pcolormesh(</span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    ds.longitude.values,</span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    ds.latitude.values,</span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    koppen_num,</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>cmap,</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    norm<span class="op">=</span>norm</span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im, ax<span class="op">=</span>ax, ticks<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>cbar.ax.set_yticklabels(codes)</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"Köppen-Geiger zone"</span>)</span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Köppen-Geiger Climate Classification </span><span class="sc">{</span><span class="bu">int</span>(ds.attrs[<span class="st">'age'</span>])<span class="sc">}</span><span class="ss"> Ma"</span>)</span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Longitude (°)"</span>)</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Latitude (°)"</span>)</span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="93668988" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>koppen_classes <span class="op">=</span> {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ET"</span>: (<span class="dv">1</span>,  <span class="st">"#C0C0C0"</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EF"</span>: (<span class="dv">2</span>,  <span class="st">"#FFFFFF"</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dw"</span>: (<span class="dv">3</span>,  <span class="st">"#8B0000"</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ds"</span>: (<span class="dv">4</span>,  <span class="st">"#B22222"</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Df"</span>: (<span class="dv">5</span>,  <span class="st">"#CD5C5C"</span>),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cw"</span>: (<span class="dv">6</span>,  <span class="st">"#2E8B57"</span>),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cs"</span>: (<span class="dv">7</span>,  <span class="st">"#87CEFA"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cf"</span>: (<span class="dv">8</span>,  <span class="st">"#1E90FF"</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BW"</span>: (<span class="dv">9</span>,  <span class="st">"#DAA520"</span>),</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BS"</span>: (<span class="dv">10</span>, <span class="st">"#F4A460"</span>),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Aw"</span>: (<span class="dv">11</span>, <span class="st">"#9ACD32"</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Am"</span>: (<span class="dv">12</span>, <span class="st">"#32CD32"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Af"</span>: (<span class="dv">13</span>, <span class="st">"#006400"</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>koppen_num <span class="op">=</span> np.zeros((n_lat, n_lon))</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_lat):</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(n_lon):</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> koppen[i, j] <span class="kw">in</span> koppen_classes:</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>            koppen_num[i, j] <span class="op">=</span> koppen_classes[koppen[i, j]][<span class="dv">0</span>]</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap, BoundaryNorm</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>codes  <span class="op">=</span> <span class="bu">list</span>(koppen_classes.keys())</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [koppen_classes[k][<span class="dv">1</span>] <span class="cf">for</span> k <span class="kw">in</span> codes]</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>cmap   <span class="op">=</span> ListedColormap(colors)</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>norm   <span class="op">=</span> BoundaryNorm(boundaries<span class="op">=</span>np.arange(<span class="fl">0.5</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="fl">1.5</span>), ncolors<span class="op">=</span><span class="bu">len</span>(codes))</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.pcolormesh(</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    ds.longitude.values,</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    ds.latitude.values,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    koppen_num,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>cmap,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    norm<span class="op">=</span>norm</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im, ax<span class="op">=</span>ax, ticks<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>cbar.ax.set_yticklabels(codes)</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"Köppen-Geiger zone"</span>)</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Köppen-Geiger Climate Classification </span><span class="sc">{</span><span class="bu">int</span>(ds.attrs[<span class="st">'age'</span>])<span class="sc">}</span><span class="ss"> Ma"</span>)</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Longitude (°)"</span>)</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Latitude (°)"</span>)</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter5_ex1_3_files/figure-html/cell-14-output-1.png" width="720" height="374" class="figure-img"></p>
+<p><img src="chapter5_ex1_3_files/figure-html/cell-15-output-1.png" width="720" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -714,45 +772,45 @@ Attributes:
 </table>
 <p>The climate model runs over the full grid including ocean cells. To show only land areas in our Köppen-Geiger map, we will create a land mask directly from the PANALESIS GeoServer, as we used in the first two parts of this exercise.</p>
 <p>The time convention is the same as before: geological age in Ma is added to the year 2000 (e.g.&nbsp;100 Ma → <code>2100-01-01T00:00:00.000Z</code>).</p>
-<div id="9af6baf2" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> zoom</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"palaeogeography_4326"</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> <span class="st">"EPSG:4326"</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-180,-90,180,90"</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>resx <span class="op">=</span> <span class="st">"0.1"</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>resy <span class="op">=</span> <span class="st">"0.1"</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span><span class="dv">2000</span> <span class="op">+</span> age<span class="sc">}</span><span class="ss">-01-01T00:00:00.000Z"</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="ss">/wcs?"</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;"</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">&amp;"</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="ss">&amp;bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="ss">&amp;resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="ss">&amp;resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="ss">&amp;"</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">&amp;format=GEOTIFF"</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>        mask_raw <span class="op">=</span> dataset.read(<span class="dv">1</span>).astype(<span class="bu">float</span>)</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>        nodata   <span class="op">=</span> dataset.nodata</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> nodata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>            mask_raw[mask_raw <span class="op">==</span> nodata] <span class="op">=</span> np.nan</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>land_mask_hires <span class="op">=</span> mask_raw <span class="op">&gt;=</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="58e82c9b" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> zoom</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>layer_name <span class="op">=</span> <span class="st">"palaeogeography_4326"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> <span class="st">"EPSG:4326"</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-180,-90,180,90"</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>resx <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>resy <span class="op">=</span> <span class="st">"0.1"</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span><span class="dv">2000</span> <span class="op">+</span> age<span class="sc">}</span><span class="ss">-01-01T00:00:00.000Z"</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"</span><span class="sc">{</span>base_url<span class="sc">}{</span>workspace<span class="sc">}</span><span class="ss">/wcs?"</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;"</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"coverage=</span><span class="sc">{</span>workspace<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>layer_name<span class="sc">}</span><span class="ss">&amp;"</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"crs=</span><span class="sc">{</span>crs<span class="sc">}</span><span class="ss">&amp;bbox=</span><span class="sc">{</span>bbox<span class="sc">}</span><span class="ss">&amp;resx=</span><span class="sc">{</span>resx<span class="sc">}</span><span class="ss">&amp;resy=</span><span class="sc">{</span>resy<span class="sc">}</span><span class="ss">&amp;"</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"time=</span><span class="sc">{</span>time<span class="sc">}</span><span class="ss">&amp;format=GEOTIFF"</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        mask_raw <span class="op">=</span> dataset.read(<span class="dv">1</span>).astype(<span class="bu">float</span>)</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        nodata   <span class="op">=</span> dataset.nodata</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> nodata <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>            mask_raw[mask_raw <span class="op">==</span> nodata] <span class="op">=</span> np.nan</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>land_mask_hires <span class="op">=</span> mask_raw <span class="op">&gt;=</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Our elevation data (from palaeogeography) has a resolution of 0.1°, which is much more higher resolution than the climate data (approx 5.6°). We need to resample it down using <code>scipy.ndimage.zoom</code> with <code>order=0</code> (nearest neighbour) and keep a cell as land if more than 50% of the high-resolution pixels are land. This is an approximation but will give us an overview globally.</p>
-<div id="4fd20789" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>zoom_factors <span class="op">=</span> (n_lat <span class="op">/</span> land_mask_hires.shape[<span class="dv">0</span>],</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                n_lon <span class="op">/</span> land_mask_hires.shape[<span class="dv">1</span>])</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>land_mask <span class="op">=</span> zoom(land_mask_hires.astype(<span class="bu">float</span>), zoom_factors, order<span class="op">=</span><span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.5</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mask shape: </span><span class="sc">{</span>land_mask<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5562353d" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>zoom_factors <span class="op">=</span> (n_lat <span class="op">/</span> land_mask_hires.shape[<span class="dv">0</span>],</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                n_lon <span class="op">/</span> land_mask_hires.shape[<span class="dv">1</span>])</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>land_mask <span class="op">=</span> zoom(land_mask_hires.astype(<span class="bu">float</span>), zoom_factors, order<span class="op">=</span><span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.5</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mask shape: </span><span class="sc">{</span>land_mask<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Mask shape: (32, 64)</code></pre>
 </div>
@@ -760,61 +818,53 @@ Attributes:
 <p>→ Does the land mask shape matches the climate data ?</p>
 <p>→ What other method could we use to have mathing resolutions accross both maps?</p>
 <p>Now that we have our land mask, we need to apply it to our Köppen-Geiger classes, by converting all pixels not on land as <code>np.nan</code>. This implies converting the original data type (integers) to float numbers, because integers cannot describe <code>np.nan</code>.</p>
-<div id="a7f0411a" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>koppen_num_masked <span class="op">=</span> koppen_num.astype(<span class="bu">float</span>).copy()</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>koppen_num_masked[<span class="op">~</span>land_mask] <span class="op">=</span> np.nan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="77e88e57" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>koppen_num_masked <span class="op">=</span> koppen_num.astype(<span class="bu">float</span>).copy()</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>koppen_num_masked[<span class="op">~</span>land_mask] <span class="op">=</span> np.nan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we can plot the updated map:</p>
-<div id="f593cc43" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.pcolormesh(</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    ds.longitude.values,</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    ds.latitude.values,</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    koppen_num_masked,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>cmap,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    norm<span class="op">=</span>norm</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im, ax<span class="op">=</span>ax, ticks<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="dv">1</span>))</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>cbar.ax.set_yticklabels(codes)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"Köppen-Geiger zone"</span>)</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Köppen-Geiger Climate Classification </span><span class="sc">{</span><span class="bu">int</span>(ds.attrs[<span class="st">'age'</span>])<span class="sc">}</span><span class="ss"> Ma"</span>)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Longitude (°)"</span>)</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Latitude (°)"</span>)</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="aebfeb38" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ax.pcolormesh(</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    ds.longitude.values,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    ds.latitude.values,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    koppen_num_masked,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span>cmap,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    norm<span class="op">=</span>norm</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> plt.colorbar(im, ax<span class="op">=</span>ax, ticks<span class="op">=</span>np.arange(<span class="dv">1</span>, <span class="bu">len</span>(codes) <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>cbar.ax.set_yticklabels(codes)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>cbar.set_label(<span class="st">"Köppen-Geiger zone"</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Köppen-Geiger Climate Classification </span><span class="sc">{</span><span class="bu">int</span>(ds.attrs[<span class="st">'age'</span>])<span class="sc">}</span><span class="ss"> Ma"</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Longitude (°)"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Latitude (°)"</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter5_ex1_3_files/figure-html/cell-18-output-1.png" width="720" height="374" class="figure-img"></p>
+<p><img src="chapter5_ex1_3_files/figure-html/cell-19-output-1.png" width="720" height="374" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" data-jupyter="false">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Links to useful libraries and tools
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<section id="python-libraries" class="level3 callout-body-container callout-body">
+</section>
+</section>
+<section id="links-to-useful-libraries-and-tools" class="level2">
+<h2 class="anchored" data-anchor-id="links-to-useful-libraries-and-tools">Links to useful libraries and tools</h2>
+<section id="python-libraries" class="level3">
 <h3 class="anchored" data-anchor-id="python-libraries">Python libraries</h3>
 <ul>
 <li><a href="https://scipy.org/"><code>scipy</code></a> A Python library for scientific computing, providing tools for statistics, optimization, interpolation, and signal processing built on top of <code>numpy</code></li>
 </ul>
+
+
 </section>
-</div>
-</div>
-
-
+</section>
 </section>
 
 </main> <!-- /main -->

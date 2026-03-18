@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter II: Setting up your environment – SPACE GEOLOGY</title>
+<title>Chapter II: Setting up your Python environment and access data – SPACE GEOLOGY</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter2_setup.html">Chapter II: Setting up your environment</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../course/chapter2_setup.html">Chapter II: Setting up your Python environment and access data</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../course/chapter2_setup.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter II: Setting up your environment</span></a>
+ <span class="menu-text">Chapter II: Setting up your Python environment and access data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -166,14 +166,37 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter2_setup.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">On this page:</h2>
+   
+  <ul>
+  <li><a href="#python" id="toc-python" class="nav-link active" data-scroll-target="#python">Python</a>
+  <ul class="collapse">
+  <li><a href="#installing-python" id="toc-installing-python" class="nav-link" data-scroll-target="#installing-python">Installing Python</a></li>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries">Libraries</a></li>
+  </ul></li>
+  <li><a href="#code-editors" id="toc-code-editors" class="nav-link" data-scroll-target="#code-editors">Code editors</a>
+  <ul class="collapse">
+  <li><a href="#visual-studio-vs-code" id="toc-visual-studio-vs-code" class="nav-link" data-scroll-target="#visual-studio-vs-code">Visual Studio (VS) Code</a></li>
+  <li><a href="#pycharm" id="toc-pycharm" class="nav-link" data-scroll-target="#pycharm">PyCharm</a></li>
+  <li><a href="#google-colab" id="toc-google-colab" class="nav-link" data-scroll-target="#google-colab">Google Colab</a></li>
+  <li><a href="#qgis-notebook" id="toc-qgis-notebook" class="nav-link" data-scroll-target="#qgis-notebook">QGIS Notebook</a></li>
+  </ul></li>
+  <li><a href="#access-data" id="toc-access-data" class="nav-link" data-scroll-target="#access-data">Access data</a>
+  <ul class="collapse">
+  <li><a href="#exercise-i" id="toc-exercise-i" class="nav-link" data-scroll-target="#exercise-i">Exercise I</a></li>
+  <li><a href="#exercise-ii" id="toc-exercise-ii" class="nav-link" data-scroll-target="#exercise-ii">Exercise II</a></li>
+  </ul></li>
+  <li><a href="#organizing-your-workspace" id="toc-organizing-your-workspace" class="nav-link" data-scroll-target="#organizing-your-workspace">Organizing your workspace</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="chapter2_setup.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter II: Setting up your environment</h1>
+<h1 class="title">Chapter II: Setting up your Python environment and access data</h1>
 </div>
 
 
@@ -190,6 +213,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><img src="images/cover_tim-mossholder_montana.jpg" class="img-fluid" style="width:100.0%" alt="Montaña de Oro State Park (USA). Photo by Tim Mossholder on Unsplash"> </p><div style="page-break-after: always;"></div><p></p>
 <p>This chapter will help you get started with Python and set your environment up. There are a few different options available to run the scripts that are provided in this course.</p>
 <p>We will dedicate time during the first day to make sure all students have their environment and code editors installed on their machines. It is advised however to try and install one before the course starts.</p>
 <p>Each exercise is available in numerous formats. First, you may access them on the <a href="https://unige-cgeom.github.io/SPACE-GEOLOGY">SPACE-GEOLOGY course website</a>, under the tab <code>Course</code>. In this webpage, if you go to a specific exercise (or part) chapter, you can access it in pdf or in a JupyterNotebook (.ipynb) format.</p>
@@ -216,6 +240,7 @@ ul.task-list li input[type="checkbox"] {
 <li><p><a href="https://geopandas.org/"><code>geopandas</code></a> An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.</p></li>
 <li><p><a href="https://docs.python.org/3/library/os.html"><code>os</code></a> A Python standard library module for interacting with the operating system, including file and directory management.</p></li>
 <li><p><a href="https://docs.python.org/3/library/xml.etree.elementtree.html"><code>xml.etree.ElementTree</code></a> A Python standard library module for parsing and navigating XML documents as a tree structure, where each element’s tag, attributes, and text are accessible as nodes.</p></li>
+<li><p><a href="https://scipy.org/"><code>scipy</code></a> A Python library for scientific computing, providing tools for statistics, optimization, interpolation, and signal processing built on top of <code>numpy</code></p></li>
 </ul>
 </section>
 </section>
@@ -279,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Google Colab is an online service for running Jupyter Notebooks without the need for local code editor installation. It can simply be accessed from <a href="https://colab.research.google.com/">your browser</a> and already contains most of the required libraries.</p>
 <p>To use Colab, you will require a Google account. Go to the website and login. Once logged in, you may simply select the “Upload” option and click on “Browse” to load the notebook from your computer.</p>
 <p><img src="images/Colab_upload_notebook.png" class="img-fluid" style="width:60.0%"></p>
-<p><strong>You are not ready to run your code !</strong></p>
+<p><strong>You are now ready to run your code !</strong></p>
 </section>
 <section id="qgis-notebook" class="level2">
 <h2 class="anchored" data-anchor-id="qgis-notebook">QGIS Notebook</h2>
@@ -291,10 +316,39 @@ ul.task-list li input[type="checkbox"] {
 <p>If successfully installed, you should see a message pop up in the top of this window, and some icons appearing in your toolbar : <img src="images/QGIS_notebook_icons.png" class="img-fluid" style="width:10.0%">. Clicking on the first icon will open the notebook user interface.</p>
 <p><img src="images/QGIS_notebook_ui.png" class="img-fluid" style="width:60.0%"></p>
 <p>The notebooks from the exercise can be opened by just clicking on “Open” and load your notebooks.</p>
-<p><strong>You are not ready to run your code !</strong></p>
-
-
+<p><strong>You are now ready to run your code !</strong></p>
 </section>
+</section>
+<section id="access-data" class="level1">
+<h1>Access data</h1>
+<section id="exercise-i" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-i">Exercise I</h2>
+<p>The first exercise is based on data that can be accessed to the <a href="https://github.com/florianfranz/palaeo-data-cube">Palaeo Data Cube (PDC)</a>. The PDC provides global maps of the Earth in deep-time (currently of the last 545 million years, in 45 steps). It is inspired by the present-day Earth Observations (EO) Data Cubes, and provides access to data products in high-resolution of the Earth system long-term evolution.</p>
+<p>For the two first part of this exercise, you do not need to download or make a local copy of the data, we will access it directly using the <a href="https://www.ogc.org/standards/wcs/">Web Coverage Services</a> standard from the Open Geospatial Consortium (OGC). For the third part, we will use outputs from climate simulations (courtesy of N. Werner, ETH Zürich), which can be accessed from the <code>data/climate</code> folder directly in the course repository<a href="https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate">https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate</a>.</p>
+<p>To save the climate folder to your local machine, go to <a href="https://download-directory.github.io/">https://download-directory.github.io/</a> and insert the URL. This will download a <code>zip</code> folder with all Phanerozoic climate files.</p>
+<p>The climate data is in NetCDF and is self described, which means it already contains the metadata. All other maps we will use (palaeogeography, seafloor ages, crustal and lithospheric thickness) are described in the Palaeo Data Cube <a href="https://geonetwork.panalesis.org/geonetwork/srv/eng/catalog.search#/home">Metadata Catalogue</a>.</p>
+</section>
+<section id="exercise-ii" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-ii">Exercise II</h2>
+<p>The second exercises focuses on the Sion region in Valais. We provide the Digital Elevation Model (DEM) for our area of interest in the <code>data/DEM</code> folder <a href="https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/DEM">https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/DEM</a>. We also provide shapefiles of lithologies and instabilities in the <code>data/shapefiles</code> folder <a href="https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/shapefiles">https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/shapefiles</a>.</p>
+<p>You may use the same tool as above to download the folder.</p>
+</section>
+</section>
+<section id="organizing-your-workspace" class="level1">
+<h1>Organizing your workspace</h1>
+<p>All noteookooks can be downloaded from each exercise webpage. They are, by default, configured to retrieve local data inside a <code>data</code> folder that is in the same directory as the notebook. We therefore recomment following this practice and configure your workspace as:</p>
+<pre><code>SPACE-GEOLOGY-2026/
+├── venv/
+├── data/
+│   ├── DEM/
+│   ├── shapefiles/
+│   └── climate/
+├── chapter3_ex1_1.ipynb
+├── chapter4_ex1_2.ipynb
+├── chapter5_ex1_3.ipynb
+└── chapter6_ex2.ipynb</code></pre>
+
+
 </section>
 
 </main> <!-- /main -->
