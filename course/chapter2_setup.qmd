@@ -1,9 +1,17 @@
 ---
-title: "Chapter II: Setting up your environment"
+title: "Chapter II: Setting up your Python environment and access data"
 format:
-  html: default
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
   pdf: default
 ---
+
+![Montaña de Oro State Park (USA). Photo by Tim Mossholder on Unsplash](images/cover_tim-mossholder_montana.jpg){width=100%}
+{{< pagebreak >}}
+
 
 This chapter will help you get started with Python and set your environment up. There are a few different options
 available to run the scripts that are provided in this course.
@@ -53,6 +61,9 @@ In this course, we will require the following libraries:
 - [`os`](https://docs.python.org/3/library/os.html) A Python standard library module for interacting with the operating system, including file and directory management.
 
 - [`xml.etree.ElementTree`](https://docs.python.org/3/library/xml.etree.elementtree.html) A Python standard library module for parsing and navigating XML documents as a tree structure, where each element's tag, attributes, and text are accessible as nodes.
+
+- [`scipy`](https://scipy.org/) A Python library for scientific computing, providing tools for statistics, optimization, interpolation, and signal processing built on top of `numpy`
+
 
 # Code editors
 
@@ -194,7 +205,7 @@ To use Colab, you will require a Google account. Go to the website and login. On
 
 ![](images/Colab_upload_notebook.png){width=60%}
 
-**You are not ready to run your code !**
+**You are now ready to run your code !**
 
 ## QGIS Notebook
 
@@ -216,5 +227,54 @@ toolbar : ![](images/QGIS_notebook_icons.png){width=10%}. Clicking on the first 
 
 The notebooks from the exercise can be opened by just clicking on "Open" and load your notebooks.
 
-**You are not ready to run your code !**
+**You are now ready to run your code !**
+
+# Access data
+
+## Exercise I
+
+The first exercise is based on data that can be accessed to the [Palaeo Data Cube (PDC)](https://github.com/florianfranz/palaeo-data-cube).
+The PDC  provides global maps of the Earth in deep-time (currently of the last 545 million years, in 45 steps). It is
+inspired by the present-day Earth Observations (EO) Data Cubes, and provides access to data products in high-resolution
+of the Earth system long-term evolution.
+
+For the two first part of this exercise, you do not need to download or make a local copy of the data, we will access it
+directly using the [Web Coverage Services](https://www.ogc.org/standards/wcs/) standard from the Open Geospatial Consortium
+(OGC). For the third part, we will use outputs from climate simulations (courtesy of N. Werner, ETH Zürich), which can be
+accessed from the `data/climate` folder directly in the course repository[https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate](https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate).
+
+To save the climate folder to your local machine, go to [https://download-directory.github.io/](https://download-directory.github.io/)
+and insert the URL. This will download a `zip` folder with all Phanerozoic climate files.
+
+The climate data is in NetCDF and is self described, which means it already contains the metadata. All other maps we will
+use (palaeogeography, seafloor ages, crustal and lithospheric thickness) are described in the Palaeo Data Cube
+[Metadata Catalogue](https://geonetwork.panalesis.org/geonetwork/srv/eng/catalog.search#/home).
+
+## Exercise II
+
+The second exercises focuses on the Sion region in Valais. We provide the Digital Elevation Model (DEM) for our area of
+interest in the `data/DEM` folder [https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/DEM](https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/DEM).
+We also provide shapefiles of lithologies and instabilities in
+the `data/shapefiles` folder [https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/shapefiles](https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/shapefiles).
+
+You may use the same tool as above to download the folder.
+
+# Organizing your workspace
+
+All noteookooks can be downloaded from each exercise webpage. They are, by default, configured to retrieve local data
+inside a `data` folder that is in the same directory as the notebook. We therefore recomment following this practice and
+configure your workspace as:
+
+```
+SPACE-GEOLOGY-2026/
+├── venv/
+├── data/
+│   ├── DEM/
+│   ├── shapefiles/
+│   └── climate/
+├── chapter3_ex1_1.ipynb
+├── chapter4_ex1_2.ipynb
+├── chapter5_ex1_3.ipynb
+└── chapter6_ex2.ipynb
+```
 

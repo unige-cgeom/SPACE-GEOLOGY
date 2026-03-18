@@ -1,7 +1,11 @@
 ---
 title: "Chapter III: Exercise 1 - Part 1"
 format:
-  html: default
+  html:
+    toc: true
+    toc-depth: 4
+    toc-title: "On this page:"
+    toc-expand: true
   pdf:
     execute:
       eval: false
@@ -9,9 +13,17 @@ format:
     execute:
       eval: false
 ---
-# Reconstructing Earth’s Past – From a Snapshot to Deep Time
+## Reconstructing Earth’s Past – From a Snapshot to Deep Time
+
+![Richat Structure - Guelb er Richât (Mauritania). Photo by USGS on Unsplash](images/cover_usgs-mauritania.jpg){width=60%}
+
+{{< pagebreak >}}
+
+
+
 ::: {.callout-note collapse="true"}
-# This exercise in brief
+
+## This exercise in brief
 
 ### Big Question
 *How did Earth look 100 million years ago, and how has its geography changed over hundreds of millions of years?*
@@ -66,9 +78,34 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
 :::
 
-# Step-by-step instructions
+## Step-by-step instructions
 
-**1. Find the data**
+### Install libraries
+
+This tutorial requires the following libraries:
+
++ `requests`
++ `matplotlib`
++ `rasterio`
++ `numpy`
+
+You can check if they are installed (and check which version you have) by running:
+
+```{python}
+libs = ["requests", "matplotlib", "rasterio", "numpy"]
+
+for lib in libs:
+    try:
+        module = __import__(lib)
+        print(lib + " is installed")
+    except ImportError:
+        print(lib + " is NOT installed")
+```
+
+If you encounter an error, come back to [Chapter II: Setting up your Python environment](https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html) and follow the instructions.
+
+
+### Find the data
 
 You want to learn what the Earth looked like 100 millions of years ago. Where do you look for such kind of data ?
 
@@ -116,7 +153,7 @@ Franziskakis, F., Vérard, C., Castelltort, S., & Giuliani, G. (2025). Global Qu
 ![100Ma map from PANALESIS (2026) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
 
 
-**2. Load and inspect**
+### Load and inspect
 
 In the two examples above, we manually downloaded maps from an open data archive, and opened a single one with a dekstop
 GIS software. This may be useful to have a first look at some data, yet, if we want to get a deeper understanding of what
@@ -162,15 +199,19 @@ resy = "0.1"
 time = "2100-01-01T00:00:00.000Z"
 format = "GEOTIFF"
 
-wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-                       rf"request={request_type}&"
-                       fr"coverage={workspace}:{layer_name}&"
-                       fr"crs={crs}&"
-                       rf"bbox={bbox}&"
-                       rf"resx={resx}&"
-                       rf"resy={resy}&"
-                       rf"time={time}&"
-                       rf"format={format}")
+wcs_url = (
+    rf"{base_url}{workspace}/{service_type.lower()}?"
+    rf"service={service_type}&"
+    rf"version={service_version}&"
+    rf"request={request_type}&"
+    rf"coverage={workspace}:{layer_name}&"
+    rf"crs={crs}&"
+    rf"bbox={bbox}&"
+    rf"resx={resx}&"
+    rf"resy={resy}&"
+    rf"time={time}&"
+    rf"format={format}"
+)
 print(wcs_url)
 
 ```
@@ -189,7 +230,10 @@ from rasterio.io import MemoryFile
 data = requests.get(wcs_url).content
 with MemoryFile(data) as memfile:
     with memfile.open() as dataset:
-        plt.imshow(dataset.read(1), cmap='terrain')
+        plt.imshow(
+            dataset.read(1),
+            cmap='terrain'
+        )
         plt.colorbar()
         plt.show()
 ```
@@ -221,13 +265,19 @@ colormap_entries = [
     (-11000, "#000050", "-11000"),
 ]
 
-colormap_entries_sorted = sorted(colormap_entries, key=lambda x: x[0])
+colormap_entries_sorted = sorted(
+    colormap_entries,
+    key=lambda x: x[0]
+)
 elevations = [e[0] for e in colormap_entries_sorted]
 colors = [e[1] for e in colormap_entries_sorted]
 
 vmin, vmax = elevations[0], elevations[-1]
 norm_values = [(e - vmin) / (vmax - vmin) for e in elevations]
-cmap = mcolors.LinearSegmentedColormap.from_list("palaeogeography", list(zip(norm_values, colors)))
+cmap = mcolors.LinearSegmentedColormap.from_list(
+    "palaeogeography",
+    list(zip(norm_values, colors))
+)
 norm = mcolors.Normalize(vmin=vmin, vmax=vmax)
 
 data = requests.get(wcs_url).content
@@ -243,7 +293,13 @@ with MemoryFile(data) as memfile:
         extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
 
         fig, ax = plt.subplots()
-        img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+        img = ax.imshow(
+            raster,
+            cmap=cmap,
+            norm=norm,
+            extent=extent,
+            origin="upper"
+        )
         cbar = plt.colorbar(img, ax=ax)
         cbar.set_label("Elevation (m)")
         ax.set_xlabel("Longitude (°)")
@@ -278,7 +334,7 @@ will inform you about the full list of attributes, including the data format, ty
 + From a GIS perspective, what are the key properties of the dataset ?
 + Finally, from a geological point of view, what do you observe in the map, compared to our present-day Earth ?
 
-**3. Compute basic statistics**
+### Compute basic statistics
 
 As you might have observed, we can immediately spot differences between the world at 100Ma compared to the world we know
 today. We however need a way to quantify these differences objectively. Fortunately for us, this ca be performed quite
@@ -305,15 +361,19 @@ resy = "10000"
 time = "2100-01-01T00:00:00.000Z"
 format = "GEOTIFF"
 
-wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-                       rf"request={request_type}&"
-                       fr"coverage={workspace}:{layer_name}&"
-                       fr"crs={crs}&"
-                       rf"bbox={bbox}&"
-                       rf"resx={resx}&"
-                       rf"resy={resy}&"
-                       rf"time={time}&"
-                       rf"format={format}")
+wcs_url = (
+    rf"{base_url}{workspace}/{service_type.lower()}?"
+    rf"service={service_type}&"
+    rf"version={service_version}&"
+    rf"request={request_type}&"
+    rf"coverage={workspace}:{layer_name}&"
+    rf"crs={crs}&"
+    rf"bbox={bbox}&"
+    rf"resx={resx}&"
+    rf"resy={resy}&"
+    rf"time={time}&"
+    rf"format={format}"
+)
 data = requests.get(wcs_url).content
 with MemoryFile(data) as memfile:
     with memfile.open() as dataset:
@@ -327,7 +387,13 @@ with MemoryFile(data) as memfile:
         extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
 
         fig, ax = plt.subplots()
-        img = ax.imshow(raster, cmap=cmap, norm=norm, extent=extent, origin="upper")
+        img = ax.imshow(
+            raster,
+            cmap=cmap,
+            norm=norm,
+            extent=extent,
+            origin="upper"
+        )
         cbar = plt.colorbar(img, ax=ax)
         cbar.set_label("Elevation (m)")
         ax.set_xlabel("Longitude (m)")
@@ -336,7 +402,7 @@ with MemoryFile(data) as memfile:
 ```
 
 Notice how the bounds value changed: everything is not expressed in meters, which are much better units than decimal
-degrees when calculating areas. In our example, we will have a quick look at the land and oceanic area, which are simply
+degrees when calculating areas.In our example, we will have a quick look at the land and oceanic area, which are simply
 defined as the count of pixels respectively above, and below or equal to 0m of elevation, multiplied by the area of
 pixels.
 
@@ -384,7 +450,12 @@ You can call this function on the raster we previously loaded:
 
 ```{python}
 
-land_area, ocean_area = get_land_ocean_area(raster,dataset.transform,extent, plot=True)
+land_area, ocean_area = get_land_ocean_area(
+    raster,
+    dataset.transform,
+    extent,
+    plot=True
+)
 print("Land area =", land_area, "m²")
 print("Ocean area =", ocean_area, "m²")
 
@@ -405,28 +476,39 @@ statistics as we did for 100Ma:
 
 time = "2000-01-01T00:00:00.000Z"
 
-wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-                       rf"request={request_type}&"
-                       fr"coverage={workspace}:{layer_name}&"
-                       fr"crs={crs}&"
-                       rf"bbox={bbox}&"
-                       rf"resx={resx}&"
-                       rf"resy={resy}&"
-                       rf"time={time}&"
-                       rf"format={format}")
+wcs_url = (
+    rf"{base_url}{workspace}/{service_type.lower()}?"
+    rf"service={service_type}&"
+    rf"version={service_version}&"
+    rf"request={request_type}&"
+    rf"coverage={workspace}:{layer_name}&"
+    rf"crs={crs}&"
+    rf"bbox={bbox}&"
+    rf"resx={resx}&"
+    rf"resy={resy}&"
+    rf"time={time}&"
+    rf"format={format}"
+)
 
 data = requests.get(wcs_url).content
 with MemoryFile(data) as memfile:
     with memfile.open() as dataset:
         raster = dataset.read(1).astype(float)
 
-land_area, ocean_area = get_land_ocean_area(raster,dataset.transform,extent, plot=True)
+land_area, ocean_area = get_land_ocean_area(
+    raster,
+    dataset.transform,
+    extent,
+    plot=True
+)
 print("Land area =", land_area, "m²")
 print("Ocean area =", ocean_area, "m²")
 
 ```
 
 &rarr; Are these number realistic ? Search for the actual land and ocean areas and compare them with your results.
+
+### Deep-time trends
 
 Finally, we are going to extend this analysis to all our available maps. For this, we will simply create a loop that
 iterates through all time steps and extract the values for land and ocean areas. First, we can define a function that
@@ -438,17 +520,24 @@ accessible as a node.
 ```{python}
 from xml.etree import ElementTree as ET
 
-def get_available_times(base_url, workspace, service_type, service_version, layer_name):
+def get_available_times(base_url, workspace,
+                        service_type, service_version,
+                        layer_name):
     describe_url = (
-        f"{base_url}{workspace}/{service_type.lower()}"
-        f"?service={service_type}&version={service_version}"
-        f"&request=DescribeCoverage&coverage={workspace}:{layer_name}"
+        f"{base_url}{workspace}/{service_type.lower()}?"
+        f"service={service_type}&"
+        f"version={service_version}&"
+        f"request=DescribeCoverage&"
+        f"coverage={workspace}:{layer_name}"
     )
 
     response = requests.get(describe_url)
     root = ET.fromstring(response.content)
 
-    times = sorted(set(el.text for el in root.iter() if el.tag.endswith('timePosition') and el.text))
+    times = sorted(set(
+        el.text for el in root.iter()
+        if el.tag.endswith('timePosition') and el.text
+    ))
     return sorted(times)
 
 ```
@@ -462,7 +551,13 @@ If we call the function:
 
 ```{python}
 
-times = get_available_times(base_url, workspace, service_type, service_version, layer_name)
+times = get_available_times(
+    base_url,
+    workspace,
+    service_type,
+    service_version,
+    layer_name
+)
 print(times)
 
 ```
@@ -477,15 +572,19 @@ age value, create a WCS request and get the data, calculate its land and ocean a
 results = {}
 for time in times:
     geological_age = int(time[:4]) - 2000
-    wcs_url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-               rf"request={request_type}&"
-               fr"coverage={workspace}:{layer_name}&"
-               fr"crs={crs}&"
-               rf"bbox={bbox}&"
-               rf"resx={resx}&"
-               rf"resy={resy}&"
-               rf"time={time}&"
-               rf"format={format}")
+    wcs_url = (
+        rf"{base_url}{workspace}/{service_type.lower()}?"
+        rf"service={service_type}&"
+        rf"version={service_version}&"
+        rf"request={request_type}&"
+        rf"coverage={workspace}:{layer_name}&"
+        rf"crs={crs}&"
+        rf"bbox={bbox}&"
+        rf"resx={resx}&"
+        rf"resy={resy}&"
+        rf"time={time}&"
+        rf"format={format}"
+    )
 
     data = requests.get(wcs_url).content
     with MemoryFile(data) as memfile:
@@ -498,8 +597,16 @@ for time in times:
 
             bounds = dataset.bounds
             extent = [bounds.left, bounds.right, bounds.bottom, bounds.top]
-    land_area, ocean_area = get_land_ocean_area(raster, dataset.transform, False)
-    results[geological_age] = {'land_area': float(land_area), 'ocean_area': float(ocean_area)}
+
+    land_area, ocean_area = get_land_ocean_area(
+        raster,
+        dataset.transform,
+        False
+    )
+    results[geological_age] = {
+        'land_area': float(land_area),
+        'ocean_area': float(ocean_area)
+    }
     del raster, data
 
 print(results)
@@ -539,8 +646,8 @@ plt.show()
 statistics we could easily plot ? Try it !
 
 
-::: {.callout-tip collapse="true"}
-# Links to useful libraries and tools
+
+## Links to useful libraries and tools
 
 
 ### Geospatial tools
@@ -562,4 +669,3 @@ statistics we could easily plot ? Try it !
 
 - [`xml.etree.ElementTree`](https://docs.python.org/3/library/xml.etree.elementtree.html) A Python standard library module for parsing and navigating XML documents as a tree structure, where each element's tag, attributes, and text are accessible as nodes.
 
-:::

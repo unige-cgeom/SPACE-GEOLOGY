@@ -1,7 +1,11 @@
 ---
 title: "Chapter VI: Exercise 2"
 format:
-  html: default
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
   pdf:
     execute:
       eval: false
@@ -11,8 +15,12 @@ format:
 ---
 
 ## Landslide risk assessement in an Alpine context
+![Sion and surrounding mountains (Switzerland). Photo by Matthias Kastner on Unsplash](images/cover_matthias-kastner_sion.jpg){width=90%}
+
+{{< pagebreak >}}
 
 ::: {.callout-note collapse="true"}
+
 ## This exercise in brief
 
 ### Big Question
@@ -75,11 +83,35 @@ transparency, and export summary statistics (areas).
 
 ## Step-by-step instructions
 
+### Install libraries
+
+This tutorial requires the following libraries:
+
++ `rasterio`
++ `geopandas`
++ `matplotlib`
++ `numpy`
+
+You can check if they are installed (and check which version you have) by running:
+
+```{python}
+libs = ["rasterio", "geopandas", "matplotlib", "numpy"]
+
+for lib in libs:
+    try:
+        module = __import__(lib)
+        print(lib + " is installed")
+    except ImportError:
+        print(lib + " is NOT installed")
+```
+
+If you encounter an error, come back to [Chapter II: Setting up your Python environment](https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html) and follow the instructions.
+
 ### Data preparation
 
 #### Lithologies favorable to rock instabilities
 
-We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25), but we will use a subset over the region of Sion, Canton of Valais. The data is already provided and available in the `data` folder as a GeoTiFF, and we open it using the [rasterio.open](https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open) function.
+We will first prepare our data. The first step is to load the DEM at 25m from the Swiss Federal Office of Topography (swisstopo). The entire dataset is described on the [swisstopo website](https://www.swisstopo.admin.ch/fr/modele-altimetrique-mnt25), but we will use a subset over the region of Sion, Canton of Valais. The DEM is already provided and available in the [data](https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data) folder as a GeoTiFF, and we open it using the [rasterio.open](https://rasterio.readthedocs.io/en/latest/api/rasterio.html#rasterio.open) function.
 
 &rarr; With the knowledge you have from the previous exercise, load the GeoTiff file and display its metadata.
 
@@ -453,7 +485,7 @@ plt.legend()
 plt.show()
 ```
 
-### Identify new areas susceptible to instabilities**
+### Identify new areas susceptible to instabilities
 
 #### Existing instabilities on favorable lithologies
 
@@ -522,7 +554,7 @@ pixel_count = np.sum(susceptible_inst == 1)
 print(f"Area susceptible to instabilities: {pixel_count * pixel_area:.0f} m²")
 ```
 
-### Susceptible areas inside the existing instability zones**
+### Susceptible areas inside the existing instability zones
 
 &rarr; Repeat the slope subset over existing instabilities ('raster_inst') and calculate the area where the slope is greater
 than $\phi$.
@@ -540,7 +572,7 @@ pixel_count = np.sum(exist_inst_class == 1)
 print(f"Area of existing risk: {pixel_count * pixel_area} m²")
 ```
 
-### Total susceptible areas to rock instabilities**
+### Total susceptible areas to rock instabilities
 
 &rarr; Using all of the results you obtained, calculate the total area where we have a susceptibility to instabilities.
 
@@ -562,7 +594,7 @@ print(
 )
 ```
 
-### Final questions
+## Final questions
 
 + What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
 + What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
@@ -570,8 +602,8 @@ print(
 + What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.
 + What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.
 
-::: {.callout-tip collapse="true"}
-# Links to useful libraries and tools
+
+## Links to useful libraries and tools
 
 ### Python libraries
 
@@ -579,5 +611,3 @@ print(
 - [`geopandas`](https://geopandas.org/) An extension of pandas for working with geospatial vector data, adding geometry support and spatial operations to DataFrames.
 
 - [`os`](https://docs.python.org/3/library/os.html) A Python standard library module for interacting with the operating system, including file and directory management.
-
-:::

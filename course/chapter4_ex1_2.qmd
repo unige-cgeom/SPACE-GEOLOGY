@@ -1,7 +1,11 @@
 ---
 title: "Chapter IV: Exercise 1 - Part 2 "
 format:
-  html: default
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
   pdf:
     execute:
       eval: false
@@ -12,12 +16,15 @@ format:
 
 # How Fast Was Earth’s Engine Running?
 
+![Thingvellir National Park (Iceland). Photo by Alex He on Unsplash](images/cover_alex-he_iceland.jpg){width=100%}
+
+
 ::: {.callout-note collapse="true"}
 # This exercise in brief
 
 ## Big Question
 
-*Did faster spreading rates in the past lead to younger seafloor and thinner lithosphere? How did crustal architecture evolve through time?*
+*Is younger oceanic seafloor associated with thinner lithosphere? How did crustal architecture evolve through time?*
 
 ## What You Will Do
 You will test a geodynamic hypothesis using multiple datasets from the Palaeo Data Cube. Starting with one time slice, you will:
@@ -88,7 +95,7 @@ The age and thickness of the Earth's oceanic crust and lithosphere reflect plate
 *What uncertainties exist in these reconstructions?*
 :::
 
-# Step-by-step instructions
+## Step-by-step instructions
 
 In the first part of this exercise, we focused on palaeogeography, and learned basic tools to:
 
@@ -109,7 +116,38 @@ As we did before, we will use the `panalesis_atlas` data sore on GeoServer, whic
 area (WCEA), using the ESRI:54034 projection. This is done to ensure proper area calculations, as opposed to data in more
 common CRS such as EPSG:4326, which use degrees units.
 
-**1. Single Snapshot Analysis**
+### Install libraries
+
+This tutorial requires the following libraries:
+
++ `requests`
++ `matplotlib`
++ `rasterio`
++ `numpy`
++ `xarray`
++ `rioxarray`
++ `pandas`
++ `imageio`
+
+You can check if they are installed (and check which version you have) by running:
+
+```{python}
+libs = ["requests", "matplotlib",
+        "rasterio", "numpy",
+        "xarray", "rioxarray",
+        "pandas", "imageio"]
+for lib in libs:
+    try:
+        module = __import__(lib)
+        print(lib + " is installed")
+    except ImportError:
+        print(lib + " is NOT installed")
+```
+
+If you encounter an error, come back to [Chapter II: Setting up your Python environment](https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html) and follow the instructions.
+
+### Single Snapshot Analysis
+
 We will first load the three layers for one single age, similar to what we did in the previous part (100 Ma). You have
 noticed that we used the WCS url request format quite a few times. Instead of repeating the entire code every time, we
 can define a quick function that we can call with the correct parameters.
@@ -127,16 +165,19 @@ def construct_wcs_url(layer_name,
                       resx = "10000",
                       resy = "10000",
                       format = "GEOTIFF"):
-
-    url = (rf"{base_url}{workspace}/{service_type.lower()}?service={service_type}&version={service_version}&"
-               rf"request={request_type}&"
-               fr"coverage={workspace}:{layer_name}&"
-               fr"crs={crs}&"
-               rf"bbox={bbox}&"
-               rf"resx={resx}&"
-               rf"resy={resy}&"
-               rf"time={time}&"
-               rf"format={format}")
+    url = (
+        rf"{base_url}{workspace}/{service_type.lower()}?"
+        rf"service={service_type}&"
+        rf"version={service_version}&"
+        rf"request={request_type}&"
+        rf"coverage={workspace}:{layer_name}&"
+        rf"crs={crs}&"
+        rf"bbox={bbox}&"
+        rf"resx={resx}&"
+        rf"resy={resy}&"
+        rf"time={time}&"
+        rf"format={format}"
+    )
 
     return url
 ```
@@ -258,11 +299,12 @@ at 0Ma ? Try it !
 
 Another very quick insights we can get is to calculate the mean value for a given age, by simply calling:
 
-
 ```{python}
 mean_age = raster.mean()
 print(f"Mean seafloor age is {mean_age}")
 ```
+
+### Deep-time trends
 
 We are now going to check this for the entire Phanerozoic, as we did for the land and ocean areas. Again, we will simply
 create a loop that will calculate the mean value of every available raster. Let us use the same function as before, with
@@ -287,7 +329,10 @@ def get_available_times(
     response = requests.get(describe_url)
     root = ET.fromstring(response.content)
 
-    times = sorted(set(el.text for el in root.iter() if el.tag.endswith('timePosition') and el.text))
+    times = sorted(set(
+        el.text for el in root.iter()
+        if el.tag.endswith('timePosition') and el.text
+    ))
     return sorted(times)
 
 ```
@@ -344,6 +389,8 @@ plt.tight_layout()
 plt.show()
 ```
 &rarr; What do you observe ? Can you guess the reason for these variations ?
+
+### Multi-layer analysis
 
 In the last two time-series we plotted (land/ocean area , seafloor ages), we only considered one input map at a time with
 the `rasterio` library. This is good, but what if we want to "pack" different sources together and derive insights from
@@ -438,10 +485,10 @@ Taking advantage of this simple structure, it is now easier to have a glance at 
 ```{python}
 for var in ds.data_vars:
     print(f"\n{var}:")
-    print(f"  mean : {float(ds[var].mean()):.2f}")
-    print(f"  std  : {float(ds[var].std()):.2f}")
-    print(f"  min  : {float(ds[var].min()):.2f}")
-    print(f"  max  : {float(ds[var].max()):.2f}")
+    print(f"mean: {float(ds[var].mean()):.2f}")
+    print(f"std: {float(ds[var].std()):.2f}")
+    print(f"min: {float(ds[var].min()):.2f}")
+    print(f"max: {float(ds[var].max()):.2f}")
 ```
 
 Now, we will have a look at the relationship between the seafloor age and the thickness of the lithosphere. Let's
@@ -560,12 +607,12 @@ for time in times:
     continental_mask_litho = ~ocean_mask & np.isfinite(litho_vals)
 
     results.append({
-        "age":                      geological_age,
-        "mean_seafloor_age":        float(np.nanmean(age_vals[ocean_mask])),
-        "mean_crustal_ocean":       float(np.nanmean(crustal_vals[ocean_mask])),
-        "mean_crustal_continental": float(np.nanmean(crustal_vals[continental_mask_crustal])),
-        "mean_litho_ocean":         float(np.nanmean(litho_vals[ocean_mask])),
-        "mean_litho_continental":   float(np.nanmean(litho_vals[continental_mask_litho]))
+        "age": geological_age,
+        "mean_seafloor_age": float(np.nanmean(age_vals[ocean_mask])),
+        "mean_crustal_ocean": float(np.nanmean(crustal_vals[ocean_mask])),
+        "mean_crustal_continental":float(np.nanmean(crustal_vals[continental_mask_crustal])),
+        "mean_litho_ocean": float(np.nanmean(litho_vals[ocean_mask])),
+        "mean_litho_continental": float(np.nanmean(litho_vals[continental_mask_litho]))
     })
 
     del ds, sf_age, crustal, litho
@@ -647,7 +694,8 @@ plt.show()
 supercontinents, do you see these cycles linked with the data we have ?
 
 
-**Bonus**
+### Bonus: Create a GIF with your maps
+
 Finally, we will learn how to create an animated GIF to visualize one layer evolution through the Phanerozoic. For this we
 will need another two libraries called `io` and `imageio`, designed to deal with files management, and images and video
 files, respectively.
@@ -737,8 +785,7 @@ print(f"GIF saved as: {output_gif}")
 oldest age to present, adjust the duration of each map display, change the layer and symbology).
 
 
-::: {.callout-tip collapse="true" jupyter="false"}
-# Links to useful libraries and tools
+## Links to useful libraries and tools
 
 ### Python libraries
 
@@ -751,5 +798,5 @@ oldest age to present, adjust the duration of each map display, change the layer
 - [`io`](https://docs.python.org/3/library/io.html) A Python standard library module for handling Input/Output (I/O) operations, such as reading data in or writing data out.
 
 - [`imageio`](https://imageio.readthedocs.io/) A Python library for reading and writing a wide range of image and video formats, offering a simple interface to load image data as NumPy arrays.
-:::
+
 

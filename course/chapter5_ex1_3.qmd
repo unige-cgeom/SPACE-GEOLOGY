@@ -1,7 +1,11 @@
 ---
 title: "Chapter V: Exercise 1 - Part 3"
 format:
-  html: default
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
   pdf:
     execute:
       eval: false
@@ -102,7 +106,7 @@ What geological or astronomical factors might explain the differences?*
 
 :::
 
-# Step-by-step instructions
+## Step-by-step instructions
 
 In the second part of the exercise, we extended our analysis on other maps beyond palaeogeography:
 
@@ -130,7 +134,36 @@ hold many variables (temperature, precipitation…) each with their own dimensio
 We will learn how to read NetCDF files, understand their metadata, and turn input data related to precipitation and
 temperature into climate zones maps (Köppen-Geiger) for the entire Phanerozoic.
 
-Let's first load a file from the `data/climate` folder. We have one file per reconstruction age. The last 4 digits in the
+### Install libraries
+
+This tutorial requires the following libraries:
+
+
++ `xarray`
++ `numpy`
++ `matplotlib`
++ `requests`
++ `rasterio`
++ `scipy`
+
+You can check if they are installed (and check which version you have) by running:
+
+```{python}
+libs = ["xarray", "numpy", "matplotlib", "requests", "rasterio", "scipy"]
+
+for lib in libs:
+    try:
+        module = __import__(lib)
+        print(lib + " is installed")
+    except ImportError:
+        print(lib + " is NOT installed")
+```
+
+If you encounter an error, come back to [Chapter II: Setting up your Python environment](https://unige-cgeom.github.io/SPACE-GEOLOGY/course/chapter2_setup.html) and follow the instructions.
+
+### Load data
+
+Let's first load a file from the [data/climate](https://github.com/unige-cgeom/SPACE-GEOLOGY/tree/main/course/data/climate) folder. We have one file per reconstruction age. The last 4 digits in the
 filename represents the age in millions of years (Ma), written to 4 digits style. For example, 0 Ma → `0000`, 100 Ma →
 `0100`, 444 Ma → `0444`. By using a regular expression (regex) from the `re` library, selecting an age can be done like:
 
@@ -151,6 +184,8 @@ print(ds)
 &rarr; Have a look at the metadata: how is the data organized ? What is the resolution ?
 
 &rarr; Does this give you enough information about the data source ?
+
+### Inspect data
 
 Every variable in a NetCDF file carries **attributes**: metadata describing
 what the variable is, its units, and more. This follows the **CF Conventions** standard.
@@ -201,6 +236,8 @@ temp_jan.plot()
 plt.title("January mean surface air temperature (K)")
 plt.show()
 ```
+
+### Process into climate zones
 
 As you noticed, the units for temperature are in Kelvin and precipitation are in meters per seconds. Before any analysis,
 we need to convert both variables to standard units, in our case this would be degrees Celsius and millimeters per
@@ -484,10 +521,8 @@ plt.tight_layout()
 plt.show()
 ```
 
-::: {.callout-tip collapse="true" jupyter="false"}
-# Links to useful libraries and tools
+## Links to useful libraries and tools
 
 ### Python libraries
 
 - [`scipy`](https://scipy.org/) A Python library for scientific computing, providing tools for statistics, optimization, interpolation, and signal processing built on top of `numpy`
-:::

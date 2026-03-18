@@ -4,7 +4,6 @@ format:
   html: default
   pdf: default
 ---
-# License Information
 
 This repository contains two types of materials:
 1. Educational content (text, figures, narrative explanations)
