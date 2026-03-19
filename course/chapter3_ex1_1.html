@@ -214,6 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#compute-basic-statistics" id="toc-compute-basic-statistics" class="nav-link" data-scroll-target="#compute-basic-statistics">Compute basic statistics</a></li>
   <li><a href="#deep-time-trends" id="toc-deep-time-trends" class="nav-link" data-scroll-target="#deep-time-trends">Deep-time trends</a></li>
   </ul></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions">Final questions</a></li>
   <li><a href="#links-to-useful-libraries-and-tools" id="toc-links-to-useful-libraries-and-tools" class="nav-link" data-scroll-target="#links-to-useful-libraries-and-tools">Links to useful libraries and tools</a>
   <ul>
   <li><a href="#geospatial-tools" id="toc-geospatial-tools" class="nav-link" data-scroll-target="#geospatial-tools">Geospatial tools</a></li>
@@ -307,9 +308,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="points-for-discussion" class="level3">
 <h3 class="anchored" data-anchor-id="points-for-discussion">Points for Discussion</h3>
-<p><em>What assumptions did you make when defining land vs.&nbsp;ocean?</em></p>
-<p><em>How does using pixel counts vs.&nbsp;area-aware calculations affect your results?</em></p>
-<p><em>What patterns do you see in land fraction across the Phanerozoic? Any surprises?</em></p>
+<ul>
+<li>When we loaded the data and metadata from the GeoServer, we found a <code>transform</code> attribute. What does this attribute describe ?</li>
+<li>What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?</li>
+<li>We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?</li>
+<li>What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?</li>
+</ul>
 </section>
 </div>
 </div>
@@ -327,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>numpy</code></li>
 </ul>
 <p>You can check if they are installed (and check which version you have) by running:</p>
-<div id="5b45ee06" class="cell" data-execution_count="1">
+<div id="0fe63620" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>libs <span class="op">=</span> [<span class="st">"requests"</span>, <span class="st">"matplotlib"</span>, <span class="st">"rasterio"</span>, <span class="st">"numpy"</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lib <span class="kw">in</span> libs:</span>
@@ -355,11 +359,25 @@ numpy is installed</code></pre>
 <figcaption>Example of Google Searcn results with the Earth’s geography 100 millions of years ago</figcaption>
 </figure>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ Have a look at the various results, how many are actual maps (e.g.&nbsp;with formats that are compatible with geographic information systems (GIS) software ?</p>
+</div>
+</div>
+</div>
 <p>Do some maps look similar ? Do they share a common course ? Or, on the contrary, do they look drastically different ?</p>
 <p>In our exercise, we are particularly interested in having maps of the entire Earth, and we we will see further, not only one (unique) map but a series of maps showing us the evolution of the Earth for hundreds of millions of years.</p>
-<p>Among the most well known sources of data, you have a dataset created by C. Scotese &amp; N. Wright</p>
-<p>Scotese, C. R., &amp; Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic [Data set]. Zenodo. https://doi.org/10.5281/zenodo.5460860</p>
+<p>Among the most well known sources of data, you have a dataset created by C. Scotese &amp; N. Wright as part of the PALEOMAP project, accessible here <a href="https://doi.org/10.5281/zenodo.5460860">https://doi.org/10.5281/zenodo.5460860</a></p>
 <p>This dataset contains 88 maps showing the palaeo Digital Elevation Model (palaeo-DEM) over the Phanerozoic (from 541 Ma to present-day).</p>
 <p>For 100Ma, the map would look like (with map resolution at 1x1°):</p>
 <div class="quarto-figure quarto-figure-center">
@@ -368,18 +386,46 @@ numpy is installed</code></pre>
 <figcaption>100Ma map from Scotese &amp; Wright (2018) at 1x1° resolution</figcaption>
 </figure>
 </div>
-<p>→ Try and display the same map in your Desktop GIS. <br></p>
-<p>It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the original record.</p>
-<p>→ Explore the map. Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>→ Try and display the same map in your Desktop GIS. <br> → Explore the map. → Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?</p>
+<p>It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the Zenodo webpage record.</p>
+</div>
+</div>
+</div>
 <p>We found our first example very useful to get a sense of how the Earth looked like 100 millions of years ago. However, we noticed some limitations. We also want to benefit from the experience we have at the University of Geneva in this domain.</p>
 <p>We are going to use the PANALESIS plate tectonic model and its derived palaeogeographic maps, that were developed at UNIGE.</p>
-<p>The data is available at:</p>
-<p>Franziskakis, F., Vérard, C., Castelltort, S., &amp; Giuliani, G. (2025). Global Quantified Palaeogeographic Maps and Associated Sea-level Variations for the Phanerozoic using the PANALESIS Model [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15396265</p>
+<p>The data is also available on Zenodo at <a href="https://doi.org/10.5281/zenodo.15396265">https://doi.org/10.5281/zenodo.15396265</a></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ Load the 100Ma map and compare it to the Scotese &amp; Wright map. The PANALESIS map should look something like:</p>
+</div>
+</div>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/100Ma_PANALESIS.png" class="img-fluid figure-img"></p>
-<figcaption>100Ma map from PANALESIS (2026) at 0.1x0.1° resolution</figcaption>
+<figcaption>100Ma map from PANALESIS (Franziskakis et al.&nbsp;(2026)) at 0.1x0.1° resolution</figcaption>
 </figure>
 </div>
 </section>
@@ -388,20 +434,94 @@ numpy is installed</code></pre>
 <p>In the two examples above, we manually downloaded maps from an open data archive, and opened a single one with a dekstop GIS software. This may be useful to have a first look at some data, yet, if we want to get a deeper understanding of what our data can reveal, we need a simpler (more direct) way to access and most importantly, to analyze our data.</p>
 <p>Fortunately for us, there are some easy ways to serve geospatial data directly to users via the web, to avoid downloading data on your local machine each time you need it. To do this, we will have a look at the Open Geospatial Consortium (OGC) web services, that include the Web Map Servives (WMS), or the Web Coverage Services (WCS). These two types of services are used on raster data. For vector data, the dedicated service is the Web Feature Services (WFS).</p>
 <p>We will use the OGC web services to get data that is stored in a server dedicated to serve geospatial data (GeoServer). The common way to get data is through a request using an URL that contains all elements required by the web services. In our case, we will need to specify some information on the following elements:</p>
-<ul>
-<li>The base URL where the server is hosted</li>
-<li>The name of the data store inside the server that contains the data</li>
-<li>The name of the layer we want to access</li>
-<li>The coordinate reference system (CRS) of the layer</li>
-<li>The desired bounding box (spatial extent) of the layer</li>
-<li>The resolution of the map</li>
-<li>The time step that we want to access (optionnal)</li>
-<li>The output format we want (e.g.&nbsp;GeoTIFF).</li>
-</ul>
-<p>We are going to retrieve the data from the PANALESIS server, which is hosted at the following URL: https://geoserver.panalesis.org/geoserver/web/?2</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 26%">
+<col style="width: 30%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th>Example value</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>base_url</code></td>
+<td>Root URL of the GeoServer instance hosting the data</td>
+<td><code>https://geoserver.panalesis.org/geoserver/</code></td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>workspace</code></td>
+<td>Name of the data store (workspace) inside the server</td>
+<td><code>panalesis_atlas_epsg_4326</code></td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>service_type</code></td>
+<td>OGC service to use — WMS or WCS for raster data, WFS for vector data</td>
+<td><code>WCS</code></td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>service_version</code></td>
+<td>Version of the OGC service protocol</td>
+<td><code>1.0.0</code></td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>request_type</code></td>
+<td>Type of request sent to the service (e.g.&nbsp;GetCoverage, GetMap, GetFeature)</td>
+<td><code>GetCoverage</code></td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>layer_name</code></td>
+<td>Name of the specific layer to access within the workspace</td>
+<td><code>palaeogeography_4326</code></td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>crs</code></td>
+<td>Coordinate Reference System — defines the spatial projection</td>
+<td><code>EPSG:4326</code></td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>bbox</code></td>
+<td>Bounding box as minLon, minLat, maxLon, maxLat — defines the spatial extent</td>
+<td><code>-180,-90,180,90</code></td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td><code>resx</code> / <code>resy</code></td>
+<td>Spatial resolution in CRS units (degrees for EPSG:4326)</td>
+<td><code>0.1</code></td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><code>time</code></td>
+<td>ISO 8601 timestamp to select a specific time step from a temporal dataset</td>
+<td><code>2100-01-01T00:00:00.000Z</code></td>
+<td>Optional</td>
+</tr>
+<tr class="odd">
+<td><code>format</code></td>
+<td>Desired output format for the downloaded data</td>
+<td><code>GEOTIFF</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>We are going to retrieve the data from the PANALESIS server, which is hosted by the University of Geneva, and available at <a href="https://geoserver.panalesis.org/geoserver/web/?2">https://geoserver.panalesis.org/geoserver/web/?2</a>.</p>
 <p>If you open this link in your browser, and click on “Layer Preview”, you will see all available layers. We will try and explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.</p>
 <p>Typically, in our example, a correct URL for a web coverage service (WCS), which will return a full map will look like:</p>
-<div id="97ab2079" class="cell" data-execution_count="2">
+<div id="2ea7636b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -433,9 +553,24 @@ numpy is installed</code></pre>
 <pre><code>https://geoserver.panalesis.org/geoserver/panalesis_atlas_epsg_4326/wcs?service=WCS&amp;version=1.0.0&amp;request=GetCoverage&amp;coverage=panalesis_atlas_epsg_4326:palaeogeography_4326&amp;crs=EPSG:4326&amp;bbox=-180,-90,180,90&amp;resx=0.1&amp;resy=0.1&amp;time=2100-01-01T00:00:00.000Z&amp;format=GEOTIFF</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ Test what happens when you copy and paste this link in your browser.</p>
+</div>
+</div>
+</div>
 <p>Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and visualize it.</p>
-<div id="a66fc2cf" class="cell" data-execution_count="3">
+<div id="3da96706" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
@@ -459,7 +594,7 @@ numpy is installed</code></pre>
 </div>
 <p>You can now recognize the same kind of map as shown above, with two major differences. What are they ?</p>
 <p>We are going to resolve this by adding a correct color ramp and setting the axes to reflect longitude and latitude instead of pixel index.</p>
-<div id="dab57292" class="cell" data-execution_count="4">
+<div id="305659f7" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -530,7 +665,7 @@ numpy is installed</code></pre>
 </div>
 </div>
 <p>We now have the same result as the one above, and all elements making it a comprehensive map are present (realistic colors, legend, axes labels). However, we can go further and read some basic metadata from the WCS request itself.</p>
-<div id="0b688635" class="cell" data-execution_count="5">
+<div id="a6f3176b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
@@ -549,6 +684,18 @@ EPSG:4326
 </div>
 </div>
 <p>These few lines will give you useful information to understand the nature of the data you are dealing with. the result will inform you about the full list of attributes, including the data format, type, how no-data value pixels are represented, the raster dimensions, the coordinate reference system, and the “transform” which is the affine transformation matrix to match the pixel position (x and y) in the original file with their corresponding longitude and latitude.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ Before going to the next part, write a quick summary about the data we just discuss:</p>
 <ul>
 <li>Where does it come from ?</li>
@@ -556,13 +703,16 @@ EPSG:4326
 <li>From a GIS perspective, what are the key properties of the dataset ?</li>
 <li>Finally, from a geological point of view, what do you observe in the map, compared to our present-day Earth ?</li>
 </ul>
+</div>
+</div>
+</div>
 </section>
 <section id="compute-basic-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="compute-basic-statistics">Compute basic statistics</h3>
 <p>As you might have observed, we can immediately spot differences between the world at 100Ma compared to the world we know today. We however need a way to quantify these differences objectively. Fortunately for us, this ca be performed quite easily with a few functions that we will explore now.</p>
 <p>Before diving into the analysis of our map, we however need to recognize a limit with its dimensions. As noted before, the current CRS are the “traditional” EPSG:4326 (WGS 1984), with units expressed in decimal degrees. This is not useful if we want to compute areas. For this reason, we will switch to the same map that are represented using an equal area projection. In our case, we will use an equal area projection.</p>
 <p>The new WCS url is defined as follows:</p>
-<div id="22618b33" class="cell" data-execution_count="6">
+<div id="1e838cce" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas"</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -624,7 +774,7 @@ EPSG:4326
 </div>
 <p>Notice how the bounds value changed: everything is not expressed in meters, which are much better units than decimal degrees when calculating areas.In our example, we will have a quick look at the land and oceanic area, which are simply defined as the count of pixels respectively above, and below or equal to 0m of elevation, multiplied by the area of pixels.</p>
 <p>This can be implemented using a very simple function:</p>
-<div id="f7af83c8" class="cell" data-execution_count="7">
+<div id="b3fdd24a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_land_ocean_area(data, transform, extent, plot<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    pixel_area <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">0</span>] <span class="op">*</span> transform[<span class="dv">4</span>])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -655,7 +805,7 @@ EPSG:4326
 </div>
 <p>This function will take the input raster data and simply look for pixels above sea-level to define them as land, and do the same with pixels at or below sea-level and define in the ocean mask. Then, it will calculate the respective areas by multiplying them by the pixel area.</p>
 <p>You can call this function on the raster we previously loaded:</p>
-<div id="e6c07ab9" class="cell" data-execution_count="8">
+<div id="a181572f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>land_area, ocean_area <span class="op">=</span> get_land_ocean_area(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    raster,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    dataset.transform,</span>
@@ -676,10 +826,25 @@ EPSG:4326
 Ocean area = 374453636909075.7 m²</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ What do these number mean ? Are they realistic ?</p>
+</div>
+</div>
+</div>
 <p>We want to compare this value to the present-day world. Now, we know how to do it, we simply need to change the data source and set it to the present-day reconstruction. You might have observed how the time dimension was defined in the previous requests. For instance, the 100Ma map was obtained using <code>time = "2100-01-01T00:00:00.000Z"</code>. This is a trick to follow the ISO 8601 standard. We simply add the geological age (in millions of years) to the year 2000. For the 100Ma map, the code is therefore 2<strong>100</strong>-01-01T00:00:00.000Z.</p>
 <p>To obtain the map at present-day, we can create a new WCS request with an updated <code>time</code> value and calculate the same statistics as we did for 100Ma:</p>
-<div id="4979168d" class="cell" data-execution_count="9">
+<div id="10dece3d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2000-01-01T00:00:00.000Z"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (</span>
@@ -721,12 +886,27 @@ Ocean area = 374453636909075.7 m²</code></pre>
 Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ Are these number realistic ? Search for the actual land and ocean areas and compare them with your results.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="deep-time-trends" class="level3">
 <h3 class="anchored" data-anchor-id="deep-time-trends">Deep-time trends</h3>
 <p>Finally, we are going to extend this analysis to all our available maps. For this, we will simply create a loop that iterates through all time steps and extract the values for land and ocean areas. First, we can define a function that lists all available reconstructions. We can do this using the The <code>xml.etree.ElementTree</code> module, a Python standard library tool for parsing and navigating XML documents as a tree structure, where each element (tag, attributes, text) is accessible as a node.</p>
-<div id="637e9d7b" class="cell" data-execution_count="10">
+<div id="a3f4de99" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xml.etree <span class="im">import</span> ElementTree <span class="im">as</span> ET</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_available_times(base_url, workspace,</span>
@@ -751,7 +931,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 <p>The response from the request we send to the server comes back as XML, a nested syntax with tags that is very useful for machines to read text, but not so much for us. In our case, we sent a <code>DescribeCoverage</code> for a given layer, which yields back information about spatial and temporal coverage of the layer. We are only interested in the <code>time</code> property so this is why we filter out only values inserted inside the <code>timePosition</code> tag.</p>
 <p>If we call the function:</p>
-<div id="1eed2864" class="cell" data-execution_count="11">
+<div id="d94973a4" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> get_available_times(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    base_url,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    workspace,</span>
@@ -766,7 +946,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 <p>You can see that we have the times displayed here in the same format as we have used before (tweaked time values, not the geological age in millions of years). Now that we have a list with all available ages, it is possible to iterate through this list and analyze the map associated with every time step.</p>
 <p>In the code snippet below, we create a <code>for</code> loop that will use each value in the times list, extract the geological age value, create a WCS request and get the data, calculate its land and ocean area, and store them in a dictionary.</p>
-<div id="2338dcc4" class="cell" data-execution_count="12">
+<div id="8747d568" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> time <span class="kw">in</span> times:</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    geological_age <span class="op">=</span> <span class="bu">int</span>(time[:<span class="dv">4</span>]) <span class="op">-</span> <span class="dv">2000</span></span>
@@ -813,7 +993,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 </div>
 <p>Finally, we can plot the evolution of these two variables through time. In the example below, we create two separate plots, one for land, another for oceans with a reversed x-axis value (0Ma = present-day is on the right-side).</p>
-<div id="827fa4e6" class="cell" data-execution_count="13">
+<div id="bfe3c223" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> <span class="bu">list</span>(results.keys())</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>land_areas <span class="op">=</span> [results[age][<span class="st">'land_area'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ocean_areas <span class="op">=</span> [results[age][<span class="st">'ocean_area'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
@@ -842,9 +1022,33 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Caution</span>Task
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
 <p>→ What do you observe ?</p>
 <p>→ You have seen what we can do with simple masks representing land and ocean. Do you have any ideas about other statistics we could easily plot ? Try it !</p>
+</div>
+</div>
+</div>
 </section>
+</section>
+<section id="final-questions" class="level2">
+<h2 class="anchored" data-anchor-id="final-questions">Final questions</h2>
+<ul>
+<li>When we loaded the data and metadata from the GeoServer, we found a <code>transform</code> attribute. What does this attribute describe ?</li>
+<li>What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?</li>
+<li>We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?</li>
+<li>What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?</li>
+</ul>
 </section>
 <section id="links-to-useful-libraries-and-tools" class="level2">
 <h2 class="anchored" data-anchor-id="links-to-useful-libraries-and-tools">Links to useful libraries and tools</h2>

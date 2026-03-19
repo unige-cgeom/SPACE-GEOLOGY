@@ -198,29 +198,37 @@ window.Quarto = {
 <p>Refer to the “Points for Discussion” in each part of the exercise I. You may answer with text ( a few paragraphs) and/or by adding references to scientific articles from the literature.</p>
 <section id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time-1" class="level3">
 <h3 class="anchored" data-anchor-id="part-i-reconstructing-earths-past-from-a-snapshot-to-deep-time-1">Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time</h3>
-<p>What assumptions did you make when defining land vs.&nbsp;ocean?</p>
-<p>How does using pixel counts vs.&nbsp;area-aware calculations affect your results?</p>
-<p>What patterns do you see in land fraction across the Phanerozoic? Any surprises?</p>
+<ul>
+<li>When we loaded the data and metadata from the GeoServer, we found a <code>transform</code> attribute. What does this attribute describe ?</li>
+<li>What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?</li>
+<li>We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?</li>
+<li>What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?</li>
+</ul>
 </section>
 <section id="part-ii-how-fast-was-earths-engine-running-1" class="level3">
 <h3 class="anchored" data-anchor-id="part-ii-how-fast-was-earths-engine-running-1">Part II: How Fast Was Earth’s Engine Running?</h3>
-<p>How do crustal and lithospheric thickness trends relate to supercontinent cycles?</p>
-<p>Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?</p>
-<p>What assumptions did you make about data interpretation and resolution?</p>
-<p>What uncertainties exist in these reconstructions?</p>
+<ul>
+<li>What is the rationale behind writing functions to automate workflows ?</li>
+<li>What does the histograms of 0Ma versus 100Ma tell us about the rate of oceanic seafloor production ?</li>
+<li>Compare the properties of the data handling structures we usedinthis exercise: <code>xr.DataArray</code>, <code>xr.DataSet</code>, and <code>pd.DataFrame</code>. How are these complementary to handle geospatial layers and key stats ? Are you awayre about other structures ?</li>
+<li>Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these supercontinents, do you see these cycles linked with the data we have ?</li>
+</ul>
 </section>
 <section id="part-iii-palaeogeography-meets-palaeoclimatology-1" class="level3">
 <h3 class="anchored" data-anchor-id="part-iii-palaeogeography-meets-palaeoclimatology-1">Part III: Palaeogeography Meets Palaeoclimatology</h3>
-<p>The climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?</p>
-<p>The land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs.&nbsp;ocean?</p>
-<p>We used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?</p>
-<p>How would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?</p>
+<ul>
+<li>What do you think is the role of palaeogeography for climate modelling of the past ?</li>
+<li>What are the advantages of having NetCDF file formats versus GeoTiFF ?</li>
+<li>Why aren’t NetCDF files more used in the traditional geospatial world? Why is GeoTiFF still dominant ?</li>
+<li>How could the Köppen-Geiger maps be used to understand deep-time evolution of the Earth in future studies ?</li>
+<li>Do you see risks and/or limitations about combining maps that have vers different resolutions ?</li>
+</ul>
 </section>
 </section>
 <section id="perspectives" class="level2">
 <h2 class="anchored" data-anchor-id="perspectives">Perspectives</h2>
 <p>Add a brief conclusion about limitations of the tools we used in this exercise.</p>
-<p>How does this exercise compared to the traditional “Dekstop”-based workflows you are used to, for instance with QGIS and/or ArcGIS</p>
+<p>How does this exercise compared to the traditional “Dekstop”-based workflows you are used to, for instance with QGIS and/or ArcGIS ?</p>
 </section>
 </section>
 <section id="exercise-ii-landslide-susceptibility-analysis" class="level1">
@@ -240,9 +248,19 @@ window.Quarto = {
 <section id="discussion-1" class="level2">
 <h2 class="anchored" data-anchor-id="discussion-1">Discussion</h2>
 <p>Refer to the “Points for Discussion”. You may answer with text ( a few paragraphs) and/or by adding references to scientific articles from the literature.</p>
-<p>The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle (<span class="math inline">\(\phi\)</span>). How valid is this assumption across different lithological units?</p>
-<p>Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?</p>
-<p>Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?</p>
+<ul>
+<li>The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle (<span class="math inline">\(\phi\)</span>). How valid is this assumption across different lithological units?</li>
+<li>Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?</li>
+<li>Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?</li>
+<li>List your results:
+<ul>
+<li>What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.</li>
+<li>What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.</li>
+<li>What proportion (in %) of the study area is affected by instabilities ? Provide all the necessary numbers used for the calculation.</li>
+<li>What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.</li>
+<li>What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.</li>
+</ul></li>
+</ul>
 </section>
 <section id="perspectives-1" class="level2">
 <h2 class="anchored" data-anchor-id="perspectives-1">Perspectives</h2>
