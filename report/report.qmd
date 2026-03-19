@@ -38,38 +38,32 @@ by adding references to scientific articles from the literature.
 
 ### Part I: Reconstructing Earth’s Past – From a Snapshot to Deep Time
 
-What assumptions did you make when defining land vs. ocean?
-
-How does using pixel counts vs. area-aware calculations affect your results?
-
-What patterns do you see in land fraction across the Phanerozoic? Any surprises?
++ When we loaded the data and metadata from the GeoServer, we found a `transform` attribute. What does this attribute describe ?
++ What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?
++ We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?
++ What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?
 
 ### Part II: How Fast Was Earth’s Engine Running?
 
-How do crustal and lithospheric thickness trends relate to supercontinent cycles?
-
-Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?
-
-What assumptions did you make about data interpretation and resolution?
-
-What uncertainties exist in these reconstructions?
++ What is the rationale behind writing functions to automate workflows ?
++ What does the histograms of 0Ma versus 100Ma tell us about the rate of oceanic seafloor production ?
++ Compare the properties of the data handling structures we usedinthis exercise: `xr.DataArray`, `xr.DataSet`, and `pd.DataFrame`. How are these complementary to handle geospatial layers and key stats ? Are you awayre about other structures ?
++ Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these supercontinents, do you see these cycles linked with the data we have ?
 
 ### Part III: Palaeogeography Meets Palaeoclimatology
 
-The climate grid has a resolution of ~5.6°. How does this affect the reliability of the Köppen-Geiger classification, particularly near coastlines or mountain ranges?
-
-The land mask is derived from elevation data (≥ 0 m = land). What are the limitations of this approach for defining land vs. ocean?
-
-We used a simplified aridity threshold for group B climates. How might results differ if you used the full seasonality-dependent formula?
-
-How would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma? What geological or astronomical factors might explain the differences?
++ What do you think is the role of palaeogeography for climate modelling of the past ?
++ What are the advantages of having NetCDF file formats versus GeoTiFF ?
++ Why aren't NetCDF files more used in the traditional geospatial world? Why is GeoTiFF still dominant ?
++ How could the Köppen-Geiger maps be used to understand deep-time evolution of the Earth in future studies ?
++ Do you see risks and/or limitations about combining maps that have vers different resolutions ?
 
 ## Perspectives
 
 Add a brief conclusion about limitations of the tools we used in this exercise.
 
 How does this exercise compared to the traditional "Dekstop"-based workflows you are used to, for instance with QGIS
-and/or ArcGIS
+and/or ArcGIS ?
 
 # Exercise II: Landslide Susceptibility Analysis
 
@@ -90,11 +84,15 @@ Breakdown your results (screenshots and code you modified or added).
 Refer to the "Points for Discussion". You may answer with text ( a few paragraphs) and/or
 by adding references to scientific articles from the literature.
 
-The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?
-
-Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?
-
-Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?
++ The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?
++ Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?
++ Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?
++ List your results:
+    + What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the study area is affected by instabilities ? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.
 
 ## Perspectives
 

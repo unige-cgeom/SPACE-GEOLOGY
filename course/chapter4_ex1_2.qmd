@@ -86,13 +86,11 @@ The age and thickness of the Earth's oceanic crust and lithosphere reflect plate
 
 ## Points for Discussion
 
-*How do crustal and lithospheric thickness trends relate to supercontinent cycles?*
++ What is the rationale behind writing functions to automate workflows ?
++ What does the histograms of 0Ma versus 100Ma tell us about the rate of oceanic seafloor production ?
++ Compare the properties of the data handling structures we usedinthis exercise: `xr.DataArray`, `xr.DataSet`, and `pd.DataFrame`. How are these complementary to handle geospatial layers and key stats ? Are you awayre about other structures ?
++ Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these supercontinents, do you see these cycles linked with the data we have ?
 
-*Is the relationship between seafloor age and lithospheric thickness what you would expect theoretically?*
-
-*What assumptions did you make about data interpretation and resolution?*
-
-*What uncertainties exist in these reconstructions?*
 :::
 
 ## Step-by-step instructions
@@ -184,7 +182,12 @@ def construct_wcs_url(layer_name,
 
 The idea is to simplify the next steps where we will handle multiple layers at the same time, for a given age.
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Notice the function parameters order and syntax, what do you observe ?
+
+:::
 
 We will use this function on our layers of interest, and see if we can plot them easily. For this, we can also create a
 function to load and plot the maps with a proper color ramp, using the URL, the defined color ramp and a title.
@@ -292,10 +295,15 @@ rasterio.plot.show_hist(
 
 ```
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; What do you observe on the histogram ? How are the ages distributed ?
 
 &rarr;Given your knowledge about the present-day world, can you guess what the distribution will be if we do a querry
 at 0Ma ? Try it !
+
+:::
 
 Another very quick insights we can get is to calculate the mean value for a given age, by simply calling:
 
@@ -388,7 +396,13 @@ plt.gca().set_box_aspect(1)
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; What do you observe ? Can you guess the reason for these variations ?
+
+:::
 
 ### Multi-layer analysis
 
@@ -527,10 +541,15 @@ plt.show()
 del litho, crustal, sf_age, age_flat, litho_flat, ocean_mask, age_valid, litho_valid
 ```
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; What do you observe ? Is the relationship coherent with what you would expect from your knowledge ?
 
 &rarr; Can you find a mathematical function that describes this trend? Try using `numpy.polyfit` to fit a curve to the
 data.
+
+:::
 
 Now that we understand the relationship between seafloor age and oceanic lithosphere, we will extend our time-series
 visualization to continental crust and lithosphere thickness. As we will plot the entire Phanerozoic evolution, our
@@ -688,11 +707,16 @@ for ax in axes.flat:
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Are there any interesting trends ? Do you notice some odd results ?
 
 &rarr; Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these
 supercontinents, do you see these cycles linked with the data we have ?
 
+:::
 
 ### Bonus: Create a GIF with your maps
 
@@ -781,9 +805,21 @@ imageio.mimsave(
 )
 print(f"GIF saved as: {output_gif}")
 ```
+
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Play around with the code above and try to change some parameters (revert the time to have something going from the
 oldest age to present, adjust the duration of each map display, change the layer and symbology).
 
+:::
+
+## Final questions
+
++ What is the rationale behind writing functions to automate workflows ?
++ What does the histograms of 0Ma versus 100Ma tell us about the rate of oceanic seafloor production ?
++ Compare the properties of the data handling structures we usedinthis exercise: `xr.DataArray`, `xr.DataSet`, and `pd.DataFrame`. How are these complementary to handle geospatial layers and key stats ? Are you awayre about other structures ?
++ Using your knowledge about the supercontinent cycles, and the timing for formation/break-up of these supercontinents, do you see these cycles linked with the data we have ?
 
 ## Links to useful libraries and tools
 

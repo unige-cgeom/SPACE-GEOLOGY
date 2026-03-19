@@ -91,18 +91,12 @@ climate information into a simple, interpretable map.
 
 ## Points for Discussion
 
-*The climate grid has a resolution of ~5.6°. How does this affect the
-reliability of the Köppen-Geiger classification, particularly near coastlines
-or mountain ranges?*
++ What do you think is the role of palaeogeography for climate modelling of the past ?
++ What are the advantages of having NetCDF file formats versus GeoTiFF ?
++ Why aren't NetCDF files more used in the traditional geospatial world? Why is GeoTiFF still dominant ?
++ How could the Köppen-Geiger maps be used to understand deep-time evolution of the Earth in future studies ?
++ Do you see risks and/or limitations about combining maps that have vers different resolutions ?
 
-*The land mask is derived from elevation data (≥ 0 m = land). What are the
-limitations of this approach for defining land vs. ocean?*
-
-*We used a simplified aridity threshold for group B climates. How might
-results differ if you used the full seasonality-dependent formula?*
-
-*How would you expect the Köppen-Geiger map to change between 0 Ma and 100 Ma?
-What geological or astronomical factors might explain the differences?*
 
 :::
 
@@ -180,10 +174,14 @@ ds = xr.open_dataset(
 )
 print(ds)
 ```
+::: {.callout-caution collapse="false"}
+## Task
 
 &rarr; Have a look at the metadata: how is the data organized ? What is the resolution ?
 
 &rarr; Does this give you enough information about the data source ?
+
+:::
 
 ### Inspect data
 
@@ -219,6 +217,9 @@ print(temp_geneva)
 print(temp_geneva.values)
 ```
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Notice how the basic print returns the entire subset structure with the new dimensions and attributes. If you want
 to print the values, you need to specify it, but **be careful" to do this only when you have a small subset.
 
@@ -227,6 +228,8 @@ to print the values, you need to specify it, but **be careful" to do this only w
 &rarr; What were the temperatures 100 millions years ago at this location?
 
 &rarr; What does this tell you about the model resolution ?
+
+:::
 
 Let's now have a look at our data by plotting it, reusing the January subset we did before.
 
@@ -483,9 +486,14 @@ land_mask = zoom(land_mask_hires.astype(float), zoom_factors, order=0) > 0.5
 print(f"Mask shape: {land_mask.shape}")
 ```
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Does the land mask shape matches the climate data ?
 
 &rarr; What other method could we use to have mathing resolutions accross both maps?
+
+:::
 
 Now that we have our land mask, we need to apply it to our Köppen-Geiger classes, by converting all pixels not on land
 as `np.nan`. This implies converting the original data type (integers) to float numbers, because integers cannot
@@ -520,6 +528,25 @@ ax.set_ylabel("Latitude (°)")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.callout-caution collapse="false"}
+## Task
+
+&rarr; Extend this analysis to the entire Phanerozoic.
+
+&rarr; How could such a time-series be used in future studies to understand long-term evolution of the Earth surface ?
+
+:::
+
+## Final questions
+
++ What do you think is the role of palaeogeography for climate modelling of the past ?
++ What are the advantages of having NetCDF file formats versus GeoTiFF ?
++ Why aren't NetCDF files more used in the traditional geospatial world? Why is GeoTiFF still dominant ?
++ How could the Köppen-Geiger maps be used to understand deep-time evolution of the Earth in future studies ?
++ Do you see risks and/or limitations about combining maps that have vers different resolutions ?
+
+
 
 ## Links to useful libraries and tools
 

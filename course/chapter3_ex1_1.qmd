@@ -70,11 +70,11 @@ Earth’s geography controls climate, ocean circulation, and biodiversity. By re
 
 ### Points for Discussion
 
-*What assumptions did you make when defining land vs. ocean?*
++ When we loaded the data and metadata from the GeoServer, we found a `transform` attribute. What does this attribute describe ?
++ What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?
++ We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?
++ What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?
 
-*How does using pixel counts vs. area-aware calculations affect your results?*
-
-*What patterns do you see in land fraction across the Phanerozoic? Any surprises?*
 
 :::
 
@@ -113,17 +113,21 @@ Using a search engine, results will typically yield something like:
 
 ![Example of Google Searcn results with the Earth's geography 100 millions of years ago](images/search_maps.png)
 
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; Have a look at the various results, how many are actual maps (e.g. with formats that are compatible with geographic
 information systems (GIS) software ?
+
+:::
 
 Do some maps look similar ? Do they share a common course ? Or, on the contrary, do they look drastically different ?
 
 In our exercise, we are particularly interested in having maps of the entire Earth, and we we will see further, not only
 one (unique) map but a series of maps showing us the evolution of the Earth for hundreds of millions of years.
 
-Among the most well known sources of data, you have a dataset created by C. Scotese & N. Wright
-
-Scotese, C. R., & Wright, N. M. (2018). PALEOMAP Paleodigital Elevation Models (PaleoDEMS) for the Phanerozoic [Data set]. Zenodo. https://doi.org/10.5281/zenodo.5460860
+Among the most well known sources of data, you have a dataset created by C. Scotese & N. Wright as part of the PALEOMAP project,
+accessible here [https://doi.org/10.5281/zenodo.5460860](https://doi.org/10.5281/zenodo.5460860)
 
 This dataset contains 88 maps showing the palaeo Digital Elevation Model (palaeo-DEM) over the Phanerozoic (from 541 Ma to present-day).
 
@@ -131,26 +135,37 @@ For 100Ma, the map would look like (with map resolution at 1x1°):
 
 ![100Ma map from Scotese & Wright (2018) at 1x1° resolution](images/100Ma_Scotese_Wright.png)
 
+::: {.callout-caution collapse="false"}
+## Task
+
 
 &rarr; Try and display the same map in your Desktop GIS. <br>
-
-It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the original record.
-
 &rarr; Explore the map.
-Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?
+&rarr; Particularly, pay attention to the rendering of the topography. What do you observe on continents ? What about oceans ?
+
+It is easier to get the maps at 1x1° resolution from the EarthByte webpage listed in the Zenodo webpage record.
+
+:::
+
+
+
 
 We found our first example very useful to get a sense of how the Earth looked like 100 millions of years ago. However,
 we noticed some limitations. We also want to benefit from the experience we have at the University of Geneva in this domain.
 
 We are going to use the PANALESIS plate tectonic model and its derived palaeogeographic maps, that were developed at UNIGE.
 
-The data is available at:
+The data is also available on Zenodo at [https://doi.org/10.5281/zenodo.15396265](https://doi.org/10.5281/zenodo.15396265)
 
-Franziskakis, F., Vérard, C., Castelltort, S., & Giuliani, G. (2025). Global Quantified Palaeogeographic Maps and Associated Sea-level Variations for the Phanerozoic using the PANALESIS Model [Data set]. Zenodo. https://doi.org/10.5281/zenodo.15396265
+::: {.callout-caution collapse="false"}
+## Task
+
 
 &rarr; Load the 100Ma map and compare it to the Scotese & Wright map. The PANALESIS map should look something like:
 
-![100Ma map from PANALESIS (2026) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
+:::
+
+![100Ma map from PANALESIS (Franziskakis et al. (2026)) at 0.1x0.1° resolution](images/100Ma_PANALESIS.png)
 
 
 ### Load and inspect
@@ -168,17 +183,22 @@ We will use the OGC web services to get data that is stored in a server dedicate
 The common way to get data is through a request using an URL that contains all elements required by the web services. In
 our case, we will need to specify some information on the following elements:
 
-+ The base URL where the server is hosted
-+ The name of the data store inside the server that contains the data
-+ The name of the layer we want to access
-+ The coordinate reference system (CRS) of the layer
-+ The desired bounding box (spatial extent) of the layer
-+ The resolution of the map
-+ The time step that we want to access (optionnal)
-+ The output format we want (e.g. GeoTIFF).
+| Parameter | Description | Example value | Required |
+|-----------|-------------|---------------|----------|
+| `base_url` | Root URL of the GeoServer instance hosting the data | `https://geoserver.panalesis.org/geoserver/` | Yes |
+| `workspace` | Name of the data store (workspace) inside the server | `panalesis_atlas_epsg_4326` | Yes |
+| `service_type` | OGC service to use — WMS or WCS for raster data, WFS for vector data | `WCS` | Yes |
+| `service_version` | Version of the OGC service protocol | `1.0.0` | Yes |
+| `request_type` | Type of request sent to the service (e.g. GetCoverage, GetMap, GetFeature) | `GetCoverage` | Yes |
+| `layer_name` | Name of the specific layer to access within the workspace | `palaeogeography_4326` | Yes |
+| `crs` | Coordinate Reference System — defines the spatial projection | `EPSG:4326` | Yes |
+| `bbox` | Bounding box as minLon, minLat, maxLon, maxLat — defines the spatial extent | `-180,-90,180,90` | Yes |
+| `resx` / `resy` | Spatial resolution in CRS units (degrees for EPSG:4326) | `0.1` | Yes |
+| `time` | ISO 8601 timestamp to select a specific time step from a temporal dataset | `2100-01-01T00:00:00.000Z` | Optional |
+| `format` | Desired output format for the downloaded data | `GEOTIFF` | Yes |
 
-We are going to retrieve the data from the PANALESIS server, which is hosted at the following URL:
-https://geoserver.panalesis.org/geoserver/web/?2
+We are going to retrieve the data from the PANALESIS server, which is hosted by the University of Geneva, and available
+at [https://geoserver.panalesis.org/geoserver/web/?2](https://geoserver.panalesis.org/geoserver/web/?2).
 
 If you open this link in your browser, and click on "Layer Preview", you will see all available layers. We will try and
 explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.
@@ -215,8 +235,13 @@ wcs_url = (
 print(wcs_url)
 
 ```
+::: {.callout-caution collapse="false"}
+## Task
+
 
 &rarr; Test what happens when you copy and paste this link in your browser.
+
+:::
 
 Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and
 visualize it.
@@ -327,12 +352,18 @@ will inform you about the full list of attributes, including the data format, ty
  transformation matrix to match the pixel position (x and y) in the original file with their corresponding longitude and
  latitude.
 
+::: {.callout-caution collapse="false"}
+## Task
+
+
 &rarr; Before going to the next part, write a quick summary about the data we just discuss:
 
 + Where does it come from ?
 + What does it represent ?
 + From a GIS perspective, what are the key properties of the dataset ?
 + Finally, from a geological point of view, what do you observe in the map, compared to our present-day Earth ?
+
+:::
 
 ### Compute basic statistics
 
@@ -460,7 +491,12 @@ print("Land area =", land_area, "m²")
 print("Ocean area =", ocean_area, "m²")
 
 ```
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; What do these number mean ? Are they realistic ?
+
+:::
 
 We want to compare this value to the present-day world. Now, we know how to do it, we simply need to change the data
 source and set it to the present-day reconstruction. You might have observed how the time dimension was defined in the
@@ -505,8 +541,12 @@ print("Land area =", land_area, "m²")
 print("Ocean area =", ocean_area, "m²")
 
 ```
+::: {.callout-caution collapse="false"}
+## Task
 
 &rarr; Are these number realistic ? Search for the actual land and ocean areas and compare them with your results.
+
+:::
 
 ### Deep-time trends
 
@@ -640,12 +680,23 @@ plt.tight_layout()
 plt.show()
 
 ```
+
+::: {.callout-caution collapse="false"}
+## Task
+
 &rarr; What do you observe ?
 
 &rarr; You have seen what we can do with simple masks representing land and ocean. Do you have any ideas about other
 statistics we could easily plot ? Try it !
 
+:::
 
+## Final questions
+
++ When we loaded the data and metadata from the GeoServer, we found a `transform` attribute. What does this attribute describe ?
++ What are the pros and cons of using WCS requests, compared with traditional ways, to access data ?
++ We got familiar with the masking function to discriminate land and ocean. Could this mask be used to generate new statistics ? Which ones ?
++ What is the use of these statistics in understanding the evolving palaeogeography throughout the Phanerozoic ?
 
 ## Links to useful libraries and tools
 

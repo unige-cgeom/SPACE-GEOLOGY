@@ -73,12 +73,10 @@ transparency, and export summary statistics (areas).
 
 ### Points for Discussion
 
-*The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?*
-
-*Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?*
-
-*Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?*
-
++ The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?
++ Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?
++ Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?
++ List your results (see list in the Final questions section at the end).
 :::
 
 ## Step-by-step instructions
@@ -595,12 +593,15 @@ print(
 ```
 
 ## Final questions
-
-+ What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
-+ What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
-+ What proportion (in %) of the study area is affected by instabilities ? Provide all the necessary numbers used for the calculation.
-+ What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.
-+ What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.
++ The Threshold Assumption: We assume the mean slope of existing instabilities represents the internal friction angle ($\phi$). How valid is this assumption across different lithological units?
++ Data Resolution: How does the 25m pixel size affect the precision of the slope calculation and the resulting hazard boundaries?
++ Model Limitations: This model relies solely on slope and lithology. How would you integrate dynamic triggers (e.g., precipitation data, seismic history) into this Python workflow?
++ List your results:
+    + What proportion (in %) of the area of the favorable lithologies is currently instable ? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the zones situated on favorable lithologies could be more likely destabilized in the future? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the study area is affected by instabilities ? Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the area of the existing instabilities is susceptible to new instabilities. Provide all the necessary numbers used for the calculation.
+    + What proportion (in %) of the study area is still susceptible to instabilities? Provide all the necessary numbers used for the calculation.
 
 
 ## Links to useful libraries and tools
