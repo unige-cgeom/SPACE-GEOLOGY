@@ -74,7 +74,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 
 ::: {.callout-note icon=false}
 ### Thursday March 26 - Rue des Maraîchers Building - Room 201 (all day)
-**9:00 - 10:00** Lecture (TBA)
+**9:00 - 10:00** Introduction to GIS for Landslide Susceptibility Assessement (S. Biass)
 
 **10:00 - 12:30** Exercise 2: Landslide Susceptibility Assessment
 
