@@ -27,6 +27,8 @@ website:
         href: course/chapter1_intro.qmd
       - text: "Report Template"
         href: report/report.qmd
+      - text: "Cheat Sheets"
+        href: cheat_sheets/cheat_sheet_chapter3_ex1_1.qmd
 
   sidebar:
     - title: "Course Chapters"
@@ -41,3 +43,6 @@ website:
       contents:
         - info/license.qmd
         - info/use_of_AI_declaration.qmd
+    - title: "Cheat Sheets"
+      contents:
+        - cheat_sheets/cheat_sheet_chapter3_ex1_1.qmd
