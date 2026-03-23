@@ -36,7 +36,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 ## Course Structure
 
 ::: {.callout-note icon=false}
-### Monday March 23 - Rue des Maraîchers Building - Room 605 (morning) & 102 (afternoon)
+### Monday March 23 - Rue des Maraîchers Building - Room 102 (morning) & 605 (afternoon)
 **09:00 - 09:15** Intro to SPACE-GEOLOGY
 
 **09:15 - 10:00** Lecture: GIS & Remote Sensing in Earth Sciences (G. Giuliani)
@@ -84,7 +84,7 @@ This course enables students to learn new ways to explore, process, analyze, and
 :::
 
 ::: {.callout-note icon=false}
-### Friday March 27 - Rue des Maraîchers Building - Room 201 (morning) & 102 (afternoon)
+### Friday March 27 - Rue des Maraîchers Building - Room 102 (all day)
 **9:00 - 12:30** Exercise 2 (continued)
 
 **12:30 - 13:30** Lunch
