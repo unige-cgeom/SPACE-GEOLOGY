@@ -427,8 +427,8 @@ with MemoryFile(data) as memfile:
         )
         cbar = plt.colorbar(img, ax=ax)
         cbar.set_label("Elevation (m)")
-        ax.set_xlabel("Longitude (m)")
-        ax.set_ylabel("Latitude (m)")
+        ax.set_xlabel("Easting (m)")
+        ax.set_ylabel("Northing (m)")
         plt.show()
 ```
 
