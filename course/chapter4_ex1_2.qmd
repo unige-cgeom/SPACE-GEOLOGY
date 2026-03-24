@@ -515,7 +515,7 @@ discard any invalid pixels:
 age_flat = ds["seafloor_age"].values.flatten()
 litho_flat = ds["lithospheric_thickness"].values.flatten()
 
-ocean_mask = np.isfinite(age_flat) & (age_flat > 0)
+ocean_mask = np.isfinite(age_flat) & (age_flat >= 0)
 age_valid = age_flat[ocean_mask]
 litho_valid = litho_flat[ocean_mask]
 
