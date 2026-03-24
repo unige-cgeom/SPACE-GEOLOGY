@@ -195,12 +195,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Chapter V: Exercise 1 - Part 3</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../course/chapter6_ex2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter VI: Exercise 2</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -337,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>numpy</code></li>
 </ul>
 <p>You can check if they are installed (and check which version you have) by running:</p>
-<div id="5f938f7c" class="cell" data-execution_count="1">
+<div id="01d0cdf6" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>libs <span class="op">=</span> [<span class="st">"requests"</span>, <span class="st">"matplotlib"</span>, <span class="st">"rasterio"</span>, <span class="st">"numpy"</span>]</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lib <span class="kw">in</span> libs:</span>
@@ -527,7 +521,7 @@ numpy is installed</code></pre>
 <p>We are going to retrieve the data from the PANALESIS server, which is hosted by the University of Geneva, and available at <a href="https://geoserver.panalesis.org/geoserver/web/?2">https://geoserver.panalesis.org/geoserver/web/?2</a>.</p>
 <p>If you open this link in your browser, and click on “Layer Preview”, you will see all available layers. We will try and explore (almost) all of them in this course. For now, our goal is still to access the palaeogeographic map at 100Ma.</p>
 <p>Typically, in our example, a correct URL for a web coverage service (WCS), which will return a full map will look like:</p>
-<div id="a4456c76" class="cell" data-execution_count="2">
+<div id="1ab3ba55" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas_epsg_4326"</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -576,7 +570,7 @@ numpy is installed</code></pre>
 </div>
 </div>
 <p>Now we would like to directly retrieve the data, we can simply associate it to a temporary layer and visualize it.</p>
-<div id="7ec4d2b8" class="cell" data-execution_count="3">
+<div id="2f40dde6" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
@@ -600,7 +594,7 @@ numpy is installed</code></pre>
 </div>
 <p>You can now recognize the same kind of map as shown above, with two major differences. What are they ?</p>
 <p>We are going to resolve this by adding a correct color ramp and setting the axes to reflect longitude and latitude instead of pixel index.</p>
-<div id="ac755894" class="cell" data-execution_count="4">
+<div id="0a199ece" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -671,7 +665,7 @@ numpy is installed</code></pre>
 </div>
 </div>
 <p>We now have the same result as the one above, and all elements making it a comprehensive map are present (realistic colors, legend, axes labels). However, we can go further and read some basic metadata from the WCS request itself.</p>
-<div id="a65a2790" class="cell" data-execution_count="5">
+<div id="ca2d3d23" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> requests.get(wcs_url).content</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> MemoryFile(data) <span class="im">as</span> memfile:</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> memfile.<span class="bu">open</span>() <span class="im">as</span> dataset:</span>
@@ -718,7 +712,7 @@ EPSG:4326
 <p>As you might have observed, we can immediately spot differences between the world at 100Ma compared to the world we know today. We however need a way to quantify these differences objectively. Fortunately for us, this ca be performed quite easily with a few functions that we will explore now.</p>
 <p>Before diving into the analysis of our map, we however need to recognize a limit with its dimensions. As noted before, the current CRS are the “traditional” EPSG:4326 (WGS 1984), with units expressed in decimal degrees. This is not useful if we want to compute areas. For this reason, we will switch to the same map that are represented using an equal area projection. In our case, we will use an equal area projection.</p>
 <p>The new WCS url is defined as follows:</p>
-<div id="8fdedc3f" class="cell" data-execution_count="6">
+<div id="f392f808" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>base_url <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>workspace <span class="op">=</span> <span class="st">"panalesis_atlas"</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>service_type <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -780,7 +774,7 @@ EPSG:4326
 </div>
 <p>Notice how the bounds value changed: everything is not expressed in meters, which are much better units than decimal degrees when calculating areas.In our example, we will have a quick look at the land and oceanic area, which are simply defined as the count of pixels respectively above, and below or equal to 0m of elevation, multiplied by the area of pixels.</p>
 <p>This can be implemented using a very simple function:</p>
-<div id="ef01f161" class="cell" data-execution_count="7">
+<div id="abfd38fb" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_land_ocean_area(data, transform, extent, plot<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    pixel_area <span class="op">=</span> <span class="bu">abs</span>(transform[<span class="dv">0</span>] <span class="op">*</span> transform[<span class="dv">4</span>])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -811,7 +805,7 @@ EPSG:4326
 </div>
 <p>This function will take the input raster data and simply look for pixels above sea-level to define them as land, and do the same with pixels at or below sea-level and define in the ocean mask. Then, it will calculate the respective areas by multiplying them by the pixel area.</p>
 <p>You can call this function on the raster we previously loaded:</p>
-<div id="95c5eaba" class="cell" data-execution_count="8">
+<div id="7d501b7a" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>land_area, ocean_area <span class="op">=</span> get_land_ocean_area(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    raster,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    dataset.transform,</span>
@@ -850,7 +844,7 @@ Ocean area = 374453636909075.7 m²</code></pre>
 </div>
 <p>We want to compare this value to the present-day world. Now, we know how to do it, we simply need to change the data source and set it to the present-day reconstruction. You might have observed how the time dimension was defined in the previous requests. For instance, the 100Ma map was obtained using <code>time = "2100-01-01T00:00:00.000Z"</code>. This is a trick to follow the ISO 8601 standard. We simply add the geological age (in millions of years) to the year 2000. For the 100Ma map, the code is therefore 2<strong>100</strong>-01-01T00:00:00.000Z.</p>
 <p>To obtain the map at present-day, we can create a new WCS request with an updated <code>time</code> value and calculate the same statistics as we did for 100Ma:</p>
-<div id="20d54dcf" class="cell" data-execution_count="9">
+<div id="93b1dd59" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="st">"2000-01-01T00:00:00.000Z"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>wcs_url <span class="op">=</span> (</span>
@@ -912,7 +906,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 <section id="deep-time-trends" class="level3">
 <h3 class="anchored" data-anchor-id="deep-time-trends">Deep-time trends</h3>
 <p>Finally, we are going to extend this analysis to all our available maps. For this, we will simply create a loop that iterates through all time steps and extract the values for land and ocean areas. First, we can define a function that lists all available reconstructions. We can do this using the The <code>xml.etree.ElementTree</code> module, a Python standard library tool for parsing and navigating XML documents as a tree structure, where each element (tag, attributes, text) is accessible as a node.</p>
-<div id="e1c12617" class="cell" data-execution_count="10">
+<div id="1a392a05" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xml.etree <span class="im">import</span> ElementTree <span class="im">as</span> ET</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_available_times(base_url, workspace,</span>
@@ -937,7 +931,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 <p>The response from the request we send to the server comes back as XML, a nested syntax with tags that is very useful for machines to read text, but not so much for us. In our case, we sent a <code>DescribeCoverage</code> for a given layer, which yields back information about spatial and temporal coverage of the layer. We are only interested in the <code>time</code> property so this is why we filter out only values inserted inside the <code>timePosition</code> tag.</p>
 <p>If we call the function:</p>
-<div id="a8fde19b" class="cell" data-execution_count="11">
+<div id="8e92155f" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> get_available_times(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    base_url,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    workspace,</span>
@@ -952,7 +946,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 <p>You can see that we have the times displayed here in the same format as we have used before (tweaked time values, not the geological age in millions of years). Now that we have a list with all available ages, it is possible to iterate through this list and analyze the map associated with every time step.</p>
 <p>In the code snippet below, we create a <code>for</code> loop that will use each value in the times list, extract the geological age value, create a WCS request and get the data, calculate its land and ocean area, and store them in a dictionary.</p>
-<div id="306ebb70" class="cell" data-execution_count="12">
+<div id="3157f013" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> time <span class="kw">in</span> times:</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    geological_age <span class="op">=</span> <span class="bu">int</span>(time[:<span class="dv">4</span>]) <span class="op">-</span> <span class="dv">2000</span></span>
@@ -999,7 +993,7 @@ Ocean area = 351871900996932.5 m²</code></pre>
 </div>
 </div>
 <p>Finally, we can plot the evolution of these two variables through time. In the example below, we create two separate plots, one for land, another for oceans with a reversed x-axis value (0Ma = present-day is on the right-side).</p>
-<div id="cb7f401f" class="cell" data-execution_count="13">
+<div id="4b69ab63" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> <span class="bu">list</span>(results.keys())</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>land_areas <span class="op">=</span> [results[age][<span class="st">'land_area'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ocean_areas <span class="op">=</span> [results[age][<span class="st">'ocean_area'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
