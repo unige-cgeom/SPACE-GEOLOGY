@@ -235,8 +235,8 @@ def plot_map(wcs_url,colormap,title):
                 origin="upper")
             cbar = plt.colorbar(img, ax=ax)
             cbar.set_label(title)
-            ax.set_xlabel("Longitude (m)")
-            ax.set_ylabel("Latitude (m)")
+            ax.set_xlabel("Easting (m)")
+            ax.set_ylabel("Northing (m)")
             plt.show()
             return raster
 ```
