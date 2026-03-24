@@ -488,9 +488,9 @@ properties. The structure of our dataset will look something like:
 
 ```
 Dataset
-├── seafloor_age          (y: 1273, x: 4018)
-├── crustal_thickness     (y: 1273, x: 4018)
-└── lithospheric_thickness (y: 1273, x: 4018)
+├── seafloor_age          (y: 1273, x: 4008)
+├── crustal_thickness     (y: 1273, x: 4008)
+└── lithospheric_thickness (y: 1273, x: 4008)
 coordinates: x, y (shared)
 ```
 
