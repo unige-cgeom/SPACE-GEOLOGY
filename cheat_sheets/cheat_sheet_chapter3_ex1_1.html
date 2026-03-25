@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="constructing-the-url-in-python" class="level3">
 <h3 class="anchored" data-anchor-id="constructing-the-url-in-python">Constructing the URL in Python</h3>
-<div id="7c27984e" class="cell" data-execution_count="1">
+<div id="e0d8af55" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>base_url      <span class="op">=</span> <span class="st">"https://geoserver.panalesis.org/geoserver/"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>workspace     <span class="op">=</span> <span class="st">"panalesis_atlas"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>service_type  <span class="op">=</span> <span class="st">"WCS"</span></span>
@@ -377,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-a-wcs-layer-and-its-metadata" class="level2">
 <h2 class="anchored" data-anchor-id="loading-a-wcs-layer-and-its-metadata">2. Loading a WCS Layer and Its Metadata</h2>
 <p>When you load a layer from a WCS, you receive not only pixel values you also get a rich set of metadata describing the spatial properties of the raster.</p>
-<div id="7e46314d" class="cell" data-execution_count="2">
+<div id="a412a661" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The origin of the raster (top-left corner coordinates)</li>
 <li>Any rotation (usually zero for north-up rasters)</li>
 </ul>
-<div id="7c3cbf79" class="cell" data-execution_count="3">
+<div id="67d7b2a3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example transform output:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | pixel_width   0          x_origin |</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># | 0            -pixel_height y_origin |</span></span>
@@ -508,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="minimal-example-of-a-well-formed-map" class="level3">
 <h3 class="anchored" data-anchor-id="minimal-example-of-a-well-formed-map">Minimal example of a well-formed map</h3>
-<div id="a9b60e86" class="cell" data-execution_count="4">
+<div id="45b2782a" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> mcolors</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -566,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="solution-use-an-equal-area-projection" class="level3">
 <h3 class="anchored" data-anchor-id="solution-use-an-equal-area-projection">Solution: use an equal-area projection</h3>
 <p>Switch to a CRS that preserves area (e.g.ESRI:54034: World Cylindrical Equal Area). In this CRS, all pixel sizes are equal in square metres, so multiplying pixel count by pixel area gives a correct result.</p>
-<div id="7efd850f" class="cell" data-execution_count="5">
+<div id="87bd6918" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equal-area WCS request</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>crs  <span class="op">=</span> <span class="st">"EPSG:54034"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> <span class="st">"-20037508.34,-6363885.33,20037508.34,6363885.33"</span>  <span class="co"># in metres</span></span>
@@ -605,7 +605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Body: what it does</li>
 <li>Return value: what it gives back when called</li>
 </ol>
-<div id="0761b4d5" class="cell" data-execution_count="6">
+<div id="dfcdc213" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_land_ocean_area(data, transform, extent, plot<span class="op">=</span><span class="va">False</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute land and ocean areas from an elevation raster.</span></span>
@@ -647,7 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="calling-the-function" class="level3">
 <h3 class="anchored" data-anchor-id="calling-the-function">Calling the function</h3>
-<div id="34df46ce" class="cell" data-execution_count="7">
+<div id="f95e0c81" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>land_area, ocean_area <span class="op">=</span> get_land_ocean_area(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span> raster,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    transform<span class="op">=</span> dataset.transform,</span>
@@ -707,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>In Python, the response is raw bytes, which <code>rasterio.MemoryFile</code> can open without writing to disk:</p>
-<div id="233f67d9" class="cell" data-execution_count="8">
+<div id="7819ac59" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.io <span class="im">import</span> MemoryFile</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>response_bytes <span class="op">=</span> requests.get(wcs_url).content   <span class="co"># download</span></span>
@@ -725,7 +725,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Once your code works for a single map, it is very easy to repeat it for all available time steps using a <code>for</code> loop.</p>
 <section id="step-1-discover-available-time-steps" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-discover-available-time-steps">Step 1: Discover available time steps</h3>
-<div id="9705d46b" class="cell" data-execution_count="9">
+<div id="1348c78a" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xml.etree <span class="im">import</span> ElementTree <span class="im">as</span> ET</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_available_times(base_url, workspace, service_type, service_version, layer_name):</span>
@@ -750,7 +750,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-2-loop-over-time-steps-and-accumulate-results" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-loop-over-time-steps-and-accumulate-results">Step 2: Loop over time steps and accumulate results</h3>
-<div id="6be3cb1d" class="cell" data-execution_count="10">
+<div id="973de56b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}   <span class="co"># dictionary to store results keyed by age</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> time <span class="kw">in</span> times:</span>
@@ -793,7 +793,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="storing-results-in-a-dictionary" class="level2">
 <h2 class="anchored" data-anchor-id="storing-results-in-a-dictionary">8. Storing Results in a Dictionary</h2>
 <p>A dictionary (<code>dict</code>) maps keys to values. It is ideal for accumulating results inside a loop when each iteration produces one record.</p>
-<div id="68ff86b0" class="cell" data-execution_count="11">
+<div id="d426decc" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empty dictionary — created before the loop</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -809,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="extracting-lists-for-plotting" class="level3">
 <h3 class="anchored" data-anchor-id="extracting-lists-for-plotting">Extracting lists for plotting</h3>
-<div id="37790695" class="cell" data-execution_count="12">
+<div id="f244adc3" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> <span class="bu">list</span>(results.keys())</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>land_areas <span class="op">=</span> [results[age][<span class="st">'land_area'</span>]  <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ocean_areas <span class="op">=</span> [results[age][<span class="st">'ocean_area'</span>] <span class="cf">for</span> age <span class="kw">in</span> ages]</span>
