@@ -1,0 +1,52 @@
+/.quarto/
+.quarto/
+/_site/
+/scripts/
+/_freeze/
+.Rproj.user
+.Rhistory
+
+# macOS hidden files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.env
+*.venv
+env/
+venv/
+ENV/
+.Python
+.mypy_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ignore quarto generated files
+**/*.quarto_ipynb
+
+# ignore site
+_site/
+.quarto-cache/
+*.html
+
+# ignore course outputs
+/course/data/outputs/
+cell-*-*output-*.png
+
+
+
+
