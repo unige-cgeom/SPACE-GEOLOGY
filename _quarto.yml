@@ -38,7 +38,6 @@ website:
         - course/chapter3_ex1_1.qmd
         - course/chapter4_ex1_2.qmd
         - course/chapter5_ex1_3.qmd
-        - course/chapter6_ex2.qmd
     - title: "More Information"
       contents:
         - info/license.qmd
@@ -46,3 +45,4 @@ website:
     - title: "Cheat Sheets"
       contents:
         - cheat_sheets/cheat_sheet_chapter3_ex1_1.qmd
+        - cheat_sheets/cheat_sheet_chapter4_ex1_2.qmd

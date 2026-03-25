@@ -235,8 +235,8 @@ def plot_map(wcs_url,colormap,title):
                 origin="upper")
             cbar = plt.colorbar(img, ax=ax)
             cbar.set_label(title)
-            ax.set_xlabel("Longitude (m)")
-            ax.set_ylabel("Latitude (m)")
+            ax.set_xlabel("Easting (m)")
+            ax.set_ylabel("Northing (m)")
             plt.show()
             return raster
 ```
@@ -488,9 +488,9 @@ properties. The structure of our dataset will look something like:
 
 ```
 Dataset
-├── seafloor_age          (y: 1273, x: 4018)
-├── crustal_thickness     (y: 1273, x: 4018)
-└── lithospheric_thickness (y: 1273, x: 4018)
+├── seafloor_age          (y: 1273, x: 4008)
+├── crustal_thickness     (y: 1273, x: 4008)
+└── lithospheric_thickness (y: 1273, x: 4008)
 coordinates: x, y (shared)
 ```
 
@@ -515,7 +515,7 @@ discard any invalid pixels:
 age_flat = ds["seafloor_age"].values.flatten()
 litho_flat = ds["lithospheric_thickness"].values.flatten()
 
-ocean_mask = np.isfinite(age_flat) & (age_flat > 0)
+ocean_mask = np.isfinite(age_flat) & (age_flat >= 0)
 age_valid = age_flat[ocean_mask]
 litho_valid = litho_flat[ocean_mask]
 

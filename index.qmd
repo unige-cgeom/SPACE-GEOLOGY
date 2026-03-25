@@ -63,9 +63,11 @@ This course enables students to learn new ways to explore, process, analyze, and
 
 ::: {.callout-note icon=false}
 ### Wednesday March 25 - Rue des Maraîchers Building - Room 606 (all day)
-**9:00 - 10:00** Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)
+**9:15 - 9:30** Feedback from Day 1
 
-**10:00 - 12:30** Exercise 1.3: Palaeogeography Meets Palaeoclimatology
+**9:30 - 10:30** Palaeoclimate Modelling: the Role of Palaeogeography (N. Werner)
+
+**10:30 - 12:30** Exercise 1.3: Palaeogeography Meets Palaeoclimatology
 
 **12:30 - 13:30** Lunch
 

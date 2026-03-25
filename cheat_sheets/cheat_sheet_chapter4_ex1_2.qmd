@@ -1,0 +1,440 @@
+---
+title: "Cheat Sheet – Chapter IV, Exercise 1.2"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
+execute:
+  eval: false
+---
+
+> This document summarises the key concepts and coding patterns from Exercise 1.2. Code snippets are shown for
+illustration only, so they are **not executed**.
+
+---
+
+## 1. Default Parameters in Functions
+
+In Part 1, we built the WCS URL by setting every parameter explicitly each time. As soon as we need to call the same
+function many times (e.g. once per layer) this becomes tedious and repetitive. Python allows you to assign default
+values to function parameters so that you only need to specify the ones that actually change between calls.
+
+```{python}
+# Without default parameters, every call must spell out all arguments
+def construct_wcs_url(layer_name, time, base_url, workspace, crs, bbox, resx, resy, format):
+    ...
+
+# With default parameters, only the varying ones need to be passed
+def construct_wcs_url(
+        layer_name,                  # no default: must always be provided
+        time,                        # no default: must always be provided
+        base_url    = "https://geoserver.panalesis.org/geoserver/",
+        workspace   = "panalesis_atlas",
+        service_type= "WCS",
+        service_version = "1.0.0",
+        request_type= "GetCoverage",
+        crs         = "EPSG:54034",
+        bbox        = "-20037508.34,-6363885.33,20037508.34,6363885.33",
+        resx        = "10000",
+        resy        = "10000",
+        format      = "GEOTIFF"):
+    url = (
+        rf"{base_url}{workspace}/{service_type.lower()}?"
+        rf"service={service_type}&version={service_version}&"
+        rf"request={request_type}&coverage={workspace}:{layer_name}&"
+        rf"crs={crs}&bbox={bbox}&resx={resx}&resy={resy}&"
+        rf"time={time}&format={format}"
+    )
+    return url
+```
+
+### Calling the function: minimal vs. explicit
+
+```{python}
+# Minimal call, only the two required arguments
+url = construct_wcs_url(layer_name="seafloor_ages", time="2100-01-01T00:00:00.000Z")
+
+# Override one default without touching the rest
+url = construct_wcs_url(layer_name="seafloor_ages", time="2100-01-01T00:00:00.000Z",
+                        resx="50000", resy="50000")  # lower resolution
+```
+
+::: {.callout-tip}
+## Rules for parameter order
+Place parameters without defaults first (they are mandatory), then parameters **with** defaults (they are optional). Python enforces this: a parameter with no default cannot follow one that has a default.
+:::
+
+---
+
+## 2. Histograms: What They Are and Where the Code Comes From
+
+A histogram groups continuous values into fixed intervals (bins) and counts how many pixels fall into each bin. It lets
+you see the distribution of values across a raster at a glance (e.g. whether most of the seafloor is young or old,
+whether crust thickness is broadly uniform or bimodal).
+
+### Using `show_hist` from rasterio
+
+`rasterio` ships with a convenience function `show_hist` that handles the binning and plotting for you:
+
+```{python}
+import rasterio
+from rasterio.plot import show_hist
+
+show_hist(
+    raster,          # a masked numpy array (output of dataset.read())
+    bins=30,         # number of bins
+    masked=True,     # ignore masked/nodata pixels
+    title="Seafloor Age Distribution – 100 Ma",
+    label="Seafloor age (Myr)"
+)
+```
+
+::: {.callout-note}
+## Where does `show_hist` actually come from?
+`show_hist` is a regular Python function, no different in principle from the ones you write yourself. Its source code
+is publicly available on the rasterio GitHub repository:
+
+[`rasterio/plot.py` line 259](https://github.com/rasterio/rasterio/blob/main/rasterio/plot.py#L259)
+
+Opening that link and reading the function is a great way to understand exactly what it does under the hood, and a good
+habit more generally: every library you use is open source and readable.
+:::
+
+---
+
+## 3. Computing a Quick Statistic: `.mean()`
+
+Once you have a raster loaded as a NumPy (masked) array, basic descriptive statistics are a single method call away:
+
+```{python}
+mean_age = raster.mean()   # mean of all valid (non-masked) pixels
+print(f"Mean seafloor age: {mean_age:.1f} Myr")
+```
+
+The same pattern works for other statistics:
+
+```{python}
+raster.std()    # standard deviation
+raster.min()    # minimum value
+raster.max()    # maximum value
+raster.median() # median (not always available on masked arrays; use np.ma.median)
+```
+
+::: {.callout-tip}
+When working with `xr.DataArray` objects (see below), the same methods exist but return another DataArray.
+Wrap with `float()` to get a plain Python number: `float(da.mean())`.
+:::
+
+---
+
+## 4. From a Raster to a DataArray: Why and How
+
+### What `rasterio` gives you
+
+When you open a GeoTIFF with `rasterio`, you get a dataset object whose pixel values you read as a plain NumPy array:
+
+```{python}
+from rasterio.io import MemoryFile
+import numpy as np
+
+with MemoryFile(data) as memfile:
+    with memfile.open() as dataset:
+        raster = dataset.read(1).astype(float) # shape: (rows, cols)
+```
+
+This NumPy array is efficient for numerical operations, but it carries no labels: the axes are anonymous integers
+(row 0, column 0 …), and there is nothing in the array itself that says "these are metres" or "this is elevation".
+Spatial context lives only in `dataset.transform` and `dataset.crs`, separately from the data.
+
+### What an `xr.DataArray` adds
+
+`xarray` wraps the same pixel values in a richer object that keeps the data and its context together:
+
+```{python}
+import xarray as xr
+
+da = xr.DataArray(
+    raster, # the numpy array
+    dims=["y", "x"], # named axes
+    name="seafloor_age"
+)
+```
+
+::: {.callout-note}
+## Geospatial → Data Science
+`rasterio` is purpose-built for geospatial workflows. `xarray` is used across all data science fields: climate science,
+oceanography, astronomy, engineering, basically wherever multidimensional labelled arrays appear. Moving from one to the
+other is the step that takes your analysis from "geospatial-only" tooling to the broader scientific Python ecosystem.
+:::
+
+### Full helper function
+
+```{python}
+import xarray as xr
+import rioxarray  # extends xarray with geospatial awareness
+
+def load_raster_as_dataarray(layer_name, time, name):
+    url = construct_wcs_url(layer_name=layer_name, time=time)
+    data = requests.get(url).content
+    with MemoryFile(data) as memfile:
+        with memfile.open() as dataset:
+            raster = dataset.read(1).astype(float)
+            nodata = dataset.nodata
+            if nodata is not None:
+                raster[raster == nodata] = np.nan
+            raster[~np.isfinite(raster)] = np.nan
+            da = xr.DataArray(raster, dims=["y", "x"], name=name)
+    return da
+```
+
+---
+
+## 5. Combining DataArrays into an `xr.Dataset`
+
+When multiple layers share the same spatial grid (same resolution, same extent, same CRS), they can be packed into a
+single `xr.Dataset`. A Dataset is simply a dictionary of DataArrays that share coordinates.
+
+```{python}
+time = "2100-01-01T00:00:00.000Z"
+
+sf_age  = load_raster_as_dataarray("seafloor_ages", time, "seafloor_age")
+crustal = load_raster_as_dataarray("crustal_thickness", time, "crustal_thickness")
+litho   = load_raster_as_dataarray("lithospheric_thickness", time, "lithospheric_thickness")
+
+ds = xr.Dataset({
+    "seafloor_age": sf_age,
+    "crustal_thickness": crustal,
+    "lithospheric_thickness": litho
+})
+```
+
+The resulting structure looks like:
+
+```
+xr.Dataset
+├── seafloor_age           (y: 1273, x: 4008)
+├── crustal_thickness      (y: 1273, x: 4008)
+└── lithospheric_thickness (y: 1273, x: 4008)
+shared coordinates: x, y
+```
+
+Iterating over all variables in one shot:
+
+```{python}
+for var in ds.data_vars:
+    print(f"\n{var}:")
+    print(f"mean = {float(ds[var].mean()):.2f}")
+    print(f"std = {float(ds[var].std()):.2f}")
+    print(f"min = {float(ds[var].min()):.2f}")
+    print(f"max = {float(ds[var].max()):.2f}")
+```
+
+
+## 6. Seafloor Age vs. Lithospheric Thickness
+
+Before plotting the scatter plot, it is worth formulating a hypothesis. Theory predicts that as oceanic lithosphere
+moves away from a mid-ocean ridge, it cools and thickens, so older seafloor should be underlain by thicker lithosphere.
+The nature of this relationship (linear? square-root? something else?) is described quantitatively in the methodology paper
+discussed in class. Consult it to identify the functional form you should expect and the physical reasoning behind it.
+
+### Flattening a 2-D Array
+
+When working with rasters, data is stored as a 2-D array (rows × columns: one value per pixel). However, some operations,
+in particular applying a mask to select a subset of pixels, require a 1-D array (a flat list of values). `.flatten()`
+ collapses all rows into a single sequence:
+
+```{python}
+import numpy as np
+
+# A small 2-D array, think of it as a 3×4 raster (3 rows, 4 columns)
+arr_2d = np.array([
+    [1,  2,  3,  4],
+    [5,  6,  7,  8],
+    [9, 10, 11, 12]
+])
+
+print(arr_2d.shape) # (3, 4): two dimensions
+
+# Flatten: collapse all rows into a single 1-D sequence
+arr_1d = arr_2d.flatten()
+
+print(arr_1d.shape) # (12,):one dimension
+print(arr_1d) # [ 1  2  3  4  5  6  7  8  9 10 11 12]
+```
+
+`.flatten()` reads the array row by row and lays all values end-to-end. A 3×4 raster becomes a 12-element vector. This
+is necessary because a mask is itself a 1-D array of `True`/`False` values — you cannot use a 1-D mask to index a 2-D
+array directly:
+
+```{python}
+# Boolean mask — only keep even values
+mask = arr_1d % 2 == 0
+
+print(mask) # [False  True False  True False  True ...]
+print(arr_1d[mask]) # [ 2  4  6  8 10 12] only the selected values
+```
+
+```{python}
+# Flatten 2-D arrays to 1-D
+age_flat = ds["seafloor_age"].values.flatten()
+litho_flat = ds["lithospheric_thickness"].values.flatten()
+
+# Keep only oceanic pixels with valid values in both variables
+ocean_mask = np.isfinite(age_flat) & (age_flat >= 0)
+age_valid = age_flat[ocean_mask]
+litho_valid = litho_flat[ocean_mask]
+
+both_valid = np.isfinite(age_valid) & np.isfinite(litho_valid)
+age_valid = age_valid[both_valid]
+litho_valid = litho_valid[both_valid]
+```
+
+### Scatter plot
+
+```{python}
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(5, 5))
+plt.scatter(age_valid, litho_valid, s=0.5, alpha=0.3, color="steelblue")
+plt.xlabel("Seafloor Age (Myr)")
+plt.ylabel("Lithospheric Thickness (km)")
+plt.title("Oceanic lithosphere thickening with age – 100 Ma")
+plt.show()
+```
+
+### Fitting a curve with `numpy.polyfit`
+
+`numpy.polyfit` fits a **polynomial** of a given degree to a set of (x, y) points and returns the coefficients of the best-fit polynomial.
+
+```{python}
+# Generic pattern — adapt the degree to your hypothesis
+degree = ... # choose based on the expected relationship (consult the methodology paper)
+
+
+coefficients = np.polyfit(x_data, y_data, deg=degree)
+
+
+# Evaluate the fitted polynomial on a smooth x-axis for plotting
+x_smooth = np.linspace(x_data.min(), x_data.max(), 300)
+y_fit    = np.polyval(coefficients, x_smooth)
+
+plt.figure(figsize=(5, 5))
+plt.scatter(x_data, y_data, s=0.5, alpha=0.2, color="steelblue", label="Data")
+plt.plot(x_smooth, y_fit, color="red", linewidth=2, label=f"Degree-{degree} fit")
+plt.xlabel("x label")
+plt.ylabel("y label")
+plt.legend()
+plt.show()
+```
+
+::: {.callout-note}
+`np.polyfit(x, y, deg)` returns an array of `deg + 1` coefficients ordered from highest to lowest power. `np.polyval(coefficients, x)` evaluates the polynomial at every point in `x`. The choice of `deg` should be motivated by your physical hypothesis — not by trial and error.
+:::
+
+---
+
+## 7. Storing Loop Results in a `pandas` DataFrame
+
+For the Phanerozoic time series we need to store multiple statistics per time step. In Part 1 we used a plain dictionary.
+Here we use a list of dictionaries that is converted into a `pd.DataFrame` after the loop: a pattern that is very common
+in data science.
+
+```{python}
+import pandas as pd
+
+results = [] # empty list: will collect one dict per time step
+
+for time in times:
+    geological_age = int(time[:4]) - 2000
+
+    # ... load data, compute stats ...
+
+    results.append({
+        "age": geological_age,
+        "mean_seafloor_age": float(np.nanmean(age_vals[ocean_mask])),
+        "mean_crustal_ocean": float(np.nanmean(crustal_vals[ocean_mask])),
+        "mean_crustal_continental": float(np.nanmean(crustal_vals[continental_mask])),
+        "mean_litho_ocean": float(np.nanmean(litho_vals[ocean_mask])),
+        "mean_litho_continental": float(np.nanmean(litho_vals[continental_mask]))
+    })
+
+# Convert to DataFrame after the loop
+df = pd.DataFrame(results).sort_values("age").reset_index(drop=True)
+```
+
+Accessing columns is straightforward:
+
+```{python}
+df["age"] # a Series (one column)
+df["mean_seafloor_age"] # another column
+df[["age", "mean_litho_ocean"]] # a subset of columns as a new DataFrame
+```
+
+And plotting from a DataFrame is concise:
+
+```{python}
+plt.plot(df["age"], df["mean_seafloor_age"], color="steelblue", marker="o", markersize=3)
+```
+
+---
+
+## 8. Creating an Animated GIF
+
+An animated GIF is simply a sequence of images displayed one after another. The workflow has three steps:
+
+1. Render each time step as a figure and capture it in memory (no file saved to disk).
+2. Read the in-memory image with `imageio`.
+3. Write all frames into a single `.gif` file.
+
+```{python}
+import io
+import imageio
+
+def render_frame(wcs_url, colormap, title, geological_age):
+    """Render one map and return it as a NumPy image array."""
+    # ... (load raster, set up cmap/norm, call imshow) ...
+    ax.set_title(f"{geological_age} Ma")   # context shown in each frame
+
+    buf = io.BytesIO() # in-memory file buffer
+    plt.savefig(buf, format="png", dpi=100)
+    plt.close(fig)
+    buf.seek(0) # rewind buffer to the start
+    return imageio.imread(buf) # read as NumPy array
+
+# Collect frames
+frames = []
+for time in times:
+    geological_age = int(time[:4]) - 2000
+    wcs_url = construct_wcs_url(layer_name="seafloor_ages", time=time)
+    frame = render_frame(wcs_url, sf_colormap_entries, "Seafloor Age (Myr)", geological_age)
+    frames.append(frame)
+
+# Write the GIF
+imageio.mimsave("seafloor_ages_phanerozoic.gif", frames, fps=4, loop=0)
+```
+
+Key parameters of `imageio.mimsave`:
+
+| Parameter | Effect |
+|-----------|--------|
+| `fps` | Frames per second — higher = faster animation |
+| `loop=0` | Loop forever (`loop=1` plays once, then stops) |
+| frame order | Reverse `times` if you want oldest→youngest |
+
+---
+
+## Summary Cheat Sheet
+
+| Concept | Key idea | Code pattern |
+|---------|----------|--------------|
+| Default parameters | Specify only what changes | `def f(x, option="default"): ...` |
+| Histogram | Distribution of pixel values | `show_hist(raster, bins=30, masked=True)` |
+| Quick stats | One-liner on a masked array | `raster.mean()`, `.std()`, `.min()`, `.max()` |
+| `xr.DataArray` | Named-axis wrapper around a NumPy array | `xr.DataArray(arr, dims=["y","x"], name="...")` |
+| `xr.Dataset` | Several DataArrays on the same grid | `xr.Dataset({"a": da1, "b": da2})` |
+| Rasterio → xarray | Move from geospatial to general data science | `da = xr.DataArray(dataset.read(1), ...)` |
+| Scatter + fit | Visualise and quantify a relationship | `np.polyfit(x, y, deg=?)` + `np.polyval(...)` |
+| DataFrame | Tabular results across many time steps | `results.append({...})` → `pd.DataFrame(results)` |
+| Animated GIF | Sequence of rendered frames | `io.BytesIO` → `imageio.imread` → `imageio.mimsave` |
