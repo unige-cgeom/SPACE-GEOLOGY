@@ -120,9 +120,9 @@ import matplotlib.pyplot as plt
 ```{python}
 #| echo: false
 
-import pathlib
-source_dir = pathlib.Path("/Users/seb/Documents/WORK/Teaching/UNIGE/Certificates/Space geol/SPACE-GEOLOGY/course/data")
-output_dir = pathlib.Path("/Users/seb/Documents/WORK/Teaching/UNIGE/Certificates/Space geol/SPACE-GEOLOGY/course/output")
+# import pathlib
+# source_dir = pathlib.Path("/Users/seb/Documents/WORK/Teaching/UNIGE/Certificates/Space geol/SPACE-GEOLOGY/course/data")
+# output_dir = pathlib.Path("/Users/seb/Documents/WORK/Teaching/UNIGE/Certificates/Space geol/SPACE-GEOLOGY/course/output")
 
 
 ```
@@ -171,8 +171,8 @@ Inspect all variables
 #| lst-label: lst-load_raster
 #| lst-cap: Load raster with rasterio.
 
-# with rasterio.open("data/DEM/Sion_MNT25.tif") as src:
-with rasterio.open(source_dir / "DEM" / "Sion_MNT25.tif") as src:
+with rasterio.open("data/DEM/Sion_MNT25.tif") as src:
+# with rasterio.open(source_dir / "DEM" / "Sion_MNT25.tif") as src:
     dem = src.read(1) # The data
     profile = src.profile # Raster metadata (contains all the variables below)
     shape = src.shape
@@ -199,8 +199,8 @@ Specifying the `encoding` argument to `utf-8` is critical to preserve French acc
 #| lst-label: lst-read-shp
 #| lst-cap: Read a shapefile with geopandas
 
-# bedrock_plg = gpd.read_file( r"data/shapefiles/Bedrok_PLG.shp", encoding="utf-8")
-bedrock_plg = gpd.read_file(source_dir / "shapefiles" / "Bedrok_PLG.shp", encoding="utf-8")
+bedrock_plg = gpd.read_file( r"data/shapefiles/Bedrok_PLG.shp", encoding="utf-8")
+# bedrock_plg = gpd.read_file(source_dir / "shapefiles" / "Bedrok_PLG.shp", encoding="utf-8")
 
 ```
 
@@ -446,8 +446,8 @@ You can display all *unique values* in one column using `df['col_name'].unique()
 
 ```{python}
 #| echo: false
-# instabilities_plg = gpd.read_file(r"data/shapefiles/Instability_Structures_PLG.shp",encoding="utf-8")
-instabilities_plg = gpd.read_file(source_dir / "shapefiles" / "Instability_Structures_PLG.shp", encoding="utf-8")
+instabilities_plg = gpd.read_file(r"data/shapefiles/Instability_Structures_PLG.shp",encoding="utf-8")
+# instabilities_plg = gpd.read_file(source_dir / "shapefiles" / "Instability_Structures_PLG.shp", encoding="utf-8")
 
 ```
 
@@ -588,8 +588,8 @@ with rasterio.open("data/outputs/slope.tif", "w", **profile) as dst:
 ```{python}
 #| echo: false
 
-# subequil_PLG = gpd.read_file("data/shapefiles/subequil_PLG_r.shp")
-subequil_PLG = gpd.read_file(source_dir / "shapefiles" / "subequil_PLG_r.shp")
+subequil_PLG = gpd.read_file("data/shapefiles/subequil_PLG_r.shp")
+# subequil_PLG = gpd.read_file(source_dir / "shapefiles" / "subequil_PLG_r.shp")
 ```
 
 
