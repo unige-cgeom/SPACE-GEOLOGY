@@ -115,6 +115,7 @@ import rasterio
 from rasterio.features import rasterize, geometry_mask
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 ```
 
 ```{python}
@@ -131,7 +132,7 @@ import matplotlib.pyplot as plt
 
 ### Step A: Data preparation
 
-You are provided with the following input data:
+You are provided with the following input data, which you can [download here](https://kdrive.infomaniak.com/app/share/250506/ee49c3ff-acfb-493a-b918-4651241d9af6):
 
 | Name | Format | Description |
 | ---- | ---- | --------- |
@@ -172,7 +173,6 @@ Inspect all variables
 #| lst-cap: Load raster with rasterio.
 
 with rasterio.open("data/DEM/Sion_MNT25.tif") as src:
-# with rasterio.open(source_dir / "DEM" / "Sion_MNT25.tif") as src:
     dem = src.read(1) # The data
     profile = src.profile # Raster metadata (contains all the variables below)
     shape = src.shape
@@ -200,7 +200,6 @@ Specifying the `encoding` argument to `utf-8` is critical to preserve French acc
 #| lst-cap: Read a shapefile with geopandas
 
 bedrock_plg = gpd.read_file( r"data/shapefiles/Bedrok_PLG.shp", encoding="utf-8")
-# bedrock_plg = gpd.read_file(source_dir / "shapefiles" / "Bedrok_PLG.shp", encoding="utf-8")
 
 ```
 
@@ -319,9 +318,7 @@ For each polygon in the favorable lithologies, the created pixels will have a va
 ```{python}
 #| lst-label: lst-plot_raster
 #| lst-cap: Plotting a raster using matplotlib.
-
-import matplotlib.pyplot as plt
-
+#| 
 plt.imshow(lithologiesR)
 
 ```
@@ -344,7 +341,6 @@ The objective here is to create a raster with the exact **extent** and **resolut
 #| lst-label: lst-save_raster
 #| lst-cap: Saving a raster and ensuring alignment.
 
-import os
 os.makedirs(
     "data/outputs",
     exist_ok=True
@@ -447,7 +443,6 @@ You can display all *unique values* in one column using `df['col_name'].unique()
 ```{python}
 #| echo: false
 instabilities_plg = gpd.read_file(r"data/shapefiles/Instability_Structures_PLG.shp",encoding="utf-8")
-# instabilities_plg = gpd.read_file(source_dir / "shapefiles" / "Instability_Structures_PLG.shp", encoding="utf-8")
 
 ```
 
@@ -589,7 +584,7 @@ with rasterio.open("data/outputs/slope.tif", "w", **profile) as dst:
 #| echo: false
 
 subequil_PLG = gpd.read_file("data/shapefiles/subequil_PLG_r.shp")
-# subequil_PLG = gpd.read_file(source_dir / "shapefiles" / "subequil_PLG_r.shp")
+
 ```
 
 
