@@ -1,0 +1,291 @@
+---
+title: "Cheat Sheet – Chapter V, Exercise 1.3"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page:"
+    toc-expand: true
+execute:
+  eval: false
+---
+
+> This document summarises the key concepts and coding patterns from Exercise 1, Part 3. Code snippets are shown for
+illustration only, so they are **not executed**.
+
+---
+
+## 1. CF Conventions and Variable Metadata
+
+NetCDF files follow the CF Conventions [(Climate and Forecast Conventions)](https://cfconventions.org/), a standard that requires every variable to carry self-describing metadata. This means that instead of relying on external documentation to know what a variable contains, you can read it directly from the file itself.
+
+Each variable in a NetCDF file has an `.attrs` dictionary that typically includes:
+
+| Attribute | Description | Example |
+|-----------|-------------------|---------|
+| `long_name` | Human-readable description | `"Surface air temperature"` |
+| `units` | Physical units of the values | `"K"`, `"m s-1"` |
+| `standard_name` | CF-standardised variable name | `"air_temperature"` |
+| `missing_value` | Values for missing data | `-9999.0` |
+
+```{python}
+import xarray as xr
+
+ds = xr.open_dataset("path/to/file.nc", engine="netcdf4")
+
+# Inspect metadata for one variable
+print(ds["my_variable"].attrs)
+
+# Example output:
+# {'long_name': 'Surface air temperature', 'units': 'K', 'standard_name': 'air_temperature'}
+```
+
+::: {.callout-tip}
+Always read the variable attributes before doing any analysis. They tell you the units (critical for conversions), the
+meaning of missing values, and the origin of the data.
+:::
+
+---
+
+## 2. Inspecting an `xr.Dataset`: Dimensions, Coordinates, and Variables
+
+When you open a NetCDF file with `xarray`, you get an `xr.Dataset`. Understanding its structure is the first thing to do.
+
+```{python}
+ds = xr.open_dataset("path/to/file.nc", engine="netcdf4")
+
+# Full overview (dimensions, coordinates, variables, global attributes)
+print(ds)
+
+# Only the dimension names and sizes
+print(ds.dims)
+# e.g. {'latitude': 32, 'longitude': 64, 'month': 12}
+
+# Coordinate arrays (the labels along each axis)
+print(ds.coords)
+# latitude values, longitude values, month values ...
+
+# Variable names (the actual data fields)
+print(list(ds.data_vars))
+# e.g. ['temperature', 'precipitation']
+
+# Global file-level attributes
+print(ds.attrs)
+# e.g. {'title': '...', 'age': 100, 'institution': '...'}
+```
+
+### Structure of an `xr.Dataset`
+
+```
+xr.Dataset
+├── Dimensions:  latitude (32), longitude (64), month (12)
+├── Coordinates: latitude, longitude, month
+└── Data variables:
+    ├── variable_1   (month, latitude, longitude)
+    └── variable_2   (month, latitude, longitude)
+Global attributes: title, age, source, ...
+```
+
+### Accessing a single variable as a `DataArray`
+
+```{python}
+da = ds["variable_1"] # returns an xr.DataArray
+print(da)  # shows its own dimensions, coords, and attributes
+print(da.attrs) # units, long_name, etc.
+print(da.values) # underlying numpy array: only use on small subsets to avoid being overflooded with information!
+```
+
+::: {.callout-warning}
+Calling `.values` on a large DataArray prints the entire array. Only do this on small subsets (see `.sel()` below).
+:::
+
+---
+
+## 3. Selecting Data with `.sel()`
+
+`xarray` provides `.sel()` to select data by coordinate label, as opposed to `.isel()` which selects by integer index.
+This is much more intuitive for labelled axes like latitude, longitude, or month.
+
+```{python}
+# Select a single value along one dimension
+slice_month = da.sel(month=1) # January only
+
+# Select a single point: nearest grid cell centroid to given coordinates
+point = da.sel(latitude=46.2, longitude=6.1, method="nearest")
+
+# Select a range along one dimension
+subset = da.sel(month=slice(6, 9)) # months 6 to 9 (June–September)
+
+# Select along multiple dimensions at once
+point_jan = da.sel(month=1, latitude=46.2, longitude=6.1, method="nearest")
+```
+
+### `.sel()` vs `.isel()`: when to use which
+
+| Method | Selects by | Use when |
+|--------|-----------|----------|
+| `.sel(dim=value)` | Coordinate label | You know the real-world value (e.g. month=7, lat=46.2) |
+| `.isel(dim=index)` | Integer position | You know the array index (e.g. the 3rd row) |
+
+```{python}
+# These two lines return the same result if month=1 is the first element
+da.sel(month=1) # by label
+da.isel(month=0) # by index (0-based)
+```
+
+::: {.callout-tip}
+## `method="nearest"`
+When your target coordinate (e.g. a specific latitude) does not exactly match any grid cell centre, `method="nearest"`
+finds the closest available value. Always check which grid cell was actually selected: the model resolution may be
+coarser than you expect.
+:::
+
+---
+
+## 4. Writing a Rule-Based Classification Function
+
+A rule-based classification assigns a category to each observation by testing a series of conditions in a fixed order.
+The key design principle is hierarchy: once a condition is met, the function returns immediately and the remaining rules
+are never tested.
+
+### Generic pattern
+
+```{python}
+def classify(value_1, value_2, threshold_a, threshold_b):
+    """
+    Assign a category label based on input values and thresholds.
+
+    Arguments
+    ---------
+    value_1: float, primary indicator
+    value_2: float, secondary indicator
+    threshold_a: float, first decision boundary
+    threshold_b: float, second decision boundary
+
+    Returns
+    -------
+    str: category label
+    """
+    # Test conditions from most restrictive to least restrictive
+    if value_1 < threshold_a:
+        return "Category A"
+
+    if value_1 < threshold_b:
+        if value_2 > 0:
+            return "Category B1"
+        return "Category B2"
+
+    return "Category C"   # default, and reached only if no rule above are met
+```
+
+### Key design rules
+
+- Order matters: test the most exclusive conditions first (e.g. polar before tropical).
+- Return early: as soon as a condition is satisfied, return the label, stop executing.
+- One default: the final `return` at the bottom catches everything that didn't match any earlier rule.
+
+::: {.callout-note}
+A function that returns a string label (like a climate code) can be called inside a loop to classify every element of an
+array one by one. See the next section for more information.
+:::
+
+---
+
+## 5. Nested Loops over a 2-D Grid
+
+When a classification or computation must be applied independently to each pixel of a 2-D array, the standard approach
+is a nested `for` loop: one loop over rows, one loop over columns.
+
+```{python}
+import numpy as np
+
+n_rows = arr_2d.shape[0]
+n_cols = arr_2d.shape[1]
+
+# Pre-allocate an output array of the same shape
+result = np.full((n_rows, n_cols), "", dtype=object) # for string labels
+# or:
+result = np.zeros((n_rows, n_cols)) # for numeric output
+
+for i in range(n_rows):
+    for j in range(n_cols):
+        result[i, j] = classify(
+            value_1    = float(arr_2d[i, j]),
+            value_2    = float(arr_2d_b[i, j]),
+            threshold_a = threshold_a,
+            threshold_b = threshold_b
+        )
+```
+
+::: {.callout-tip}
+## Pre-allocate before the loop
+Create the output array before entering the loop with `np.full()` or `np.zeros()`. Appending inside a loop is much
+slower and harder to read.
+:::
+
+
+---
+
+## 6. Resampling with `scipy.ndimage.zoom`
+
+When two datasets cover the same spatial domain but at different resolutions, you need to resample one to match the
+other before combining them. `scipy.ndimage.zoom` rescales a 2-D array by a given factor along each axis.
+
+```{python}
+from scipy.ndimage import zoom
+
+# Two arrays covering the same domain at different resolutions
+high_res = ... # shape (1800, 3600): 0.1° pixels
+low_res  = ... # shape (  32,   64): ~5.6° pixels
+
+# Compute zoom factors: target_shape / source_shape
+zoom_factors = (
+    low_res.shape[0] / high_res.shape[0], # row factor
+    low_res.shape[1] / high_res.shape[1]  # column factor
+)
+
+# order=0: nearest-neighbour (preserves discrete values, e.g. a land mask)
+# order=1: bilinear interpolation (smoother, for continuous fields)
+resampled = zoom(high_res.astype(float), zoom_factors, order=0)
+
+print(resampled.shape)   # should now match low_res.shape
+```
+
+`resampled` has the same shape as low_res. The high-resolution array has been downsampled (shrunk) to match the coarser
+grid. This is controlled by the the value inside `zoom_factors`, both < 1, meaning we going from fine to coarse.
+
+### Choosing the interpolation order
+
+| `order` | Method | Use for |
+|---------|--------|---------|
+| `0` | Nearest neighbour | Binary masks, categorical data |
+| `1` | Bilinear | Continuous fields (temperature, elevation) |
+| `3` | Bicubic | Smooth continuous fields where accuracy matters |
+
+::: {.callout-warning}
+## This is an approximation
+Resampling a high-resolution mask to a coarse grid inevitably loses information. An approximation is to keep a coarse
+pixel as land if more than 50 % of the underlying high-resolution pixels are land:
+
+```{python}
+land_mask_coarse = zoom(land_mask_hires.astype(float), zoom_factors, order=0) > 0.5
+```
+
+Always check that the resampled mask shape matches your target array before applying it.
+:::
+
+---
+
+## Summary Cheat Sheet
+
+| Concept | Key idea | Code pattern |
+|---------|----------|--------------|
+| CF Conventions | Metadata lives inside the file | `ds["var"].attrs` |
+| Inspect Dataset | Dims, coords, variables, global attrs | `ds.dims`, `ds.coords`, `list(ds.data_vars)`, `ds.attrs` |
+| Select by label | `.sel()` with coordinate value | `da.sel(dim=value, method="nearest")` |
+| Select by index | `.isel()` with integer position | `da.isel(dim=0)` |
+| Rule-based function | Hierarchical `if/return` chain | `def classify(v1, v2, ...): if ...: return "A"` |
+| Nested loop | Apply function pixel by pixel | `for i in range(n_rows): for j in range(n_cols):` |
+| Pre-allocate output | Create array before the loop | `np.full((n_rows, n_cols), "", dtype=object)` |
+| Resample | Match resolutions with zoom | `zoom(arr.astype(float), factors, order=0)` |
+| 50 % rule | Coarse land mask from fine mask | `zoom(...) > 0.5` |
