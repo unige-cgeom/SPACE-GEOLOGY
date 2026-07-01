@@ -283,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div id="df8874c6" class="cell" data-execution_count="1">
+<div id="b3ac4e7f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.open_dataset(<span class="st">"path/to/file.nc"</span>, engine<span class="op">=</span><span class="st">"netcdf4"</span>)</span>
@@ -312,7 +312,7 @@ Tip
 <section id="inspecting-an-xr.dataset-dimensions-coordinates-and-variables" class="level2">
 <h2 class="anchored" data-anchor-id="inspecting-an-xr.dataset-dimensions-coordinates-and-variables">2. Inspecting an <code>xr.Dataset</code>: Dimensions, Coordinates, and Variables</h2>
 <p>When you open a NetCDF file with <code>xarray</code>, you get an <code>xr.Dataset</code>. Understanding its structure is the first thing to do.</p>
-<div id="ce6aba4a" class="cell" data-execution_count="2">
+<div id="f91d1b0f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> xr.open_dataset(<span class="st">"path/to/file.nc"</span>, engine<span class="op">=</span><span class="st">"netcdf4"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Full overview (dimensions, coordinates, variables, global attributes)</span></span>
@@ -346,7 +346,7 @@ Global attributes: title, age, source, ...</code></pre>
 </section>
 <section id="accessing-a-single-variable-as-a-dataarray" class="level3">
 <h3 class="anchored" data-anchor-id="accessing-a-single-variable-as-a-dataarray">Accessing a single variable as a <code>DataArray</code></h3>
-<div id="3db4be36" class="cell" data-execution_count="3">
+<div id="31f89517" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>da <span class="op">=</span> ds[<span class="st">"variable_1"</span>] <span class="co"># returns an xr.DataArray</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(da)  <span class="co"># shows its own dimensions, coords, and attributes</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(da.attrs) <span class="co"># units, long_name, etc.</span></span>
@@ -371,7 +371,7 @@ Warning
 <section id="selecting-data-with-.sel" class="level2">
 <h2 class="anchored" data-anchor-id="selecting-data-with-.sel">3. Selecting Data with <code>.sel()</code></h2>
 <p><code>xarray</code> provides <code>.sel()</code> to select data by coordinate label, as opposed to <code>.isel()</code> which selects by integer index. This is much more intuitive for labelled axes like latitude, longitude, or month.</p>
-<div id="028afe64" class="cell" data-execution_count="4">
+<div id="598ae620" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a single value along one dimension</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>slice_month <span class="op">=</span> da.sel(month<span class="op">=</span><span class="dv">1</span>) <span class="co"># January only</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -412,7 +412,7 @@ Warning
 </tr>
 </tbody>
 </table>
-<div id="c44b08b6" class="cell" data-execution_count="5">
+<div id="60a42db1" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These two lines return the same result if month=1 is the first element</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>da.sel(month<span class="op">=</span><span class="dv">1</span>) <span class="co"># by label</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>da.isel(month<span class="op">=</span><span class="dv">0</span>) <span class="co"># by index (0-based)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -438,7 +438,7 @@ Warning
 <p>A rule-based classification assigns a category to each observation by testing a series of conditions in a fixed order. The key design principle is hierarchy: once a condition is met, the function returns immediately and the remaining rules are never tested.</p>
 <section id="generic-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="generic-pattern">Generic pattern</h3>
-<div id="c54fa15d" class="cell" data-execution_count="6">
+<div id="ea4e153c" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify(value_1, value_2, threshold_a, threshold_b):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Assign a category label based on input values and thresholds.</span></span>
@@ -492,7 +492,7 @@ Note
 <section id="nested-loops-over-a-2-d-grid" class="level2">
 <h2 class="anchored" data-anchor-id="nested-loops-over-a-2-d-grid">5. Nested Loops over a 2-D Grid</h2>
 <p>When a classification or computation must be applied independently to each pixel of a 2-D array, the standard approach is a nested <code>for</code> loop: one loop over rows, one loop over columns.</p>
-<div id="6abdbfb9" class="cell" data-execution_count="7">
+<div id="286aa968" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n_rows <span class="op">=</span> arr_2d.shape[<span class="dv">0</span>]</span>
@@ -530,7 +530,7 @@ Note
 <section id="resampling-with-scipy.ndimage.zoom" class="level2">
 <h2 class="anchored" data-anchor-id="resampling-with-scipy.ndimage.zoom">6. Resampling with <code>scipy.ndimage.zoom</code></h2>
 <p>When two datasets cover the same spatial domain but at different resolutions, you need to resample one to match the other before combining them. <code>scipy.ndimage.zoom</code> rescales a 2-D array by a given factor along each axis.</p>
-<div id="1fa849c8" class="cell" data-execution_count="8">
+<div id="78435c66" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.ndimage <span class="im">import</span> zoom</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Two arrays covering the same domain at different resolutions</span></span>
@@ -589,7 +589,7 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>Resampling a high-resolution mask to a coarse grid inevitably loses information. An approximation is to keep a coarse pixel as land if more than 50 % of the underlying high-resolution pixels are land:</p>
-<div id="1d1b5159" class="cell" data-execution_count="9">
+<div id="a1759e0f" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>land_mask_coarse <span class="op">=</span> zoom(land_mask_hires.astype(<span class="bu">float</span>), zoom_factors, order<span class="op">=</span><span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Always check that the resampled mask shape matches your target array before applying it.</p>
